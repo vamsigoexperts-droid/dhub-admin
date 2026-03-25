@@ -1,0 +1,20 @@
+.MuiDataGrid-columnHeader {
+  background-color: #ecf2ff !important;
+  color: #007367 !important;
+  font-size: 0.875rem !important;  
+  font-weight: 700 !important;       
+  text-transform: capitalize;  
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+.MuiTiptap-FieldContainer-root{
+  min-height: 250px;
+ }
+
+
+ .ck-editor__editable {
+  min-height: 300px;
+}

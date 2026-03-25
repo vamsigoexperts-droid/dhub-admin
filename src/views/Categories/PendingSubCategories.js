@@ -1,0 +1,352 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import PageContainer from 'src/components/container/PageContainer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Button } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { DataGrid } from '@mui/x-data-grid';
+import { URLS } from '../../Url';
+import axios from 'axios';
+import {
+  TextField,
+  Avatar,
+  Paper,
+  Box,
+  Typography,
+  Divider,
+  CardContent,
+  Chip,
+} from '@mui/material';
+
+// Breadcrumb configuration
+const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Pending SubCategories' }];
+
+// Main PendingSubCategories Component
+const PendingSubCategories = () => {
+  const theme = useTheme();
+  const [data, setData] = useState([]);
+  const [serviceTypes, setServiceTypes] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getToken = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      return user?.token || '';
+    } catch (error) {
+      console.error('Error parsing user token:', error);
+      return '';
+    }
+  };
+
+  const token = getToken();
+
+  const handleApprove = async (data) => {
+    if (!token) {
+      toast.error('Authentication token missing. Please log in.');
+      return;
+    }
+    if (window.confirm(`Are you sure you want to approve "${data.name}" subcategory?`)) {
+      setLoading(true);
+      try {
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('categoryId', data.categoryId);
+        formData.append('status', 'active');
+        
+        const res = await axios.put(
+          `${URLS.ApproveSubCategorie}/${data._id}`,
+          formData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        if (res.status === 200) {
+          toast.success(res.data.message || 'SubCategory approved successfully!');
+          getData();
+        }
+      } catch (error) {
+        const message = error.response?.data?.message || 'Failed to approve subcategory';
+        toast.error(message);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleReject = async (data) => {
+    if (!token) {
+      toast.error('Authentication token missing. Please log in.');
+      return;
+    }
+    if (window.confirm(`Are you sure you want to reject "${data.name}" subcategory? This will delete it permanently.`)) {
+      setLoading(true);
+      try {
+        const res = await axios.delete(`${URLS.DeleteSubCategories}/${data._id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.status === 200) {
+          toast.success(res.data.message || 'SubCategory rejected and deleted successfully!');
+          getData();
+        }
+      } catch (error) {
+        const message = error.response?.data?.message || 'Failed to reject subcategory';
+        toast.error(message);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const getData = async () => {
+    if (!token) {
+      toast.error('Authentication token missing. Please log in.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        URLS.GetSubCategories,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      // Filter only inactive subcategories
+      const inactiveSubCategories = res.data.subcategory?.filter(
+        (item) => item.status === 'inactive'
+      ) || [];
+      setData(inactiveSubCategories);
+    } catch (error) {
+      toast.error('Failed to fetch Pending SubCategories.');
+      console.error('Failed to fetch Pending SubCategories:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!token) {
+        toast.error('Authentication token missing. Please log in.');
+        return;
+      }
+      setLoading(true);
+      try {
+        const serviceRes = await axios.post(
+          URLS.GetCategories,
+          {},
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        setServiceTypes(serviceRes.data.category || []);
+
+        await getData();
+      } catch (error) {
+        toast.error('Failed to fetch data.');
+        console.error('Failed to fetch data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+  useEffect(() => {
+    if (search === '') {
+      setFilteredData(data);
+    } else {
+      const filtered = data.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase()),
+      );
+      setFilteredData(filtered);
+    }
+  }, [data, search]);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const columns = useMemo(
+    () => [
+      {
+        field: 'sno',
+        headerName: 'S. No',
+        sortable: false,
+        filterable: false,
+        renderCell: (params) => {
+          const sortedRows = params.api.getSortedRowIds();
+          return sortedRows.indexOf(params.id) + 1;
+        },
+      },
+      {
+        field: 'categoryinfo',
+        headerName: 'SubCategory Info',
+        flex: 1,
+        renderCell: (params) => (
+          <Box display="flex" alignItems="center" gap={2}>
+            <Avatar
+              src={URLS.FileBase + params.row.image}
+              alt={params.row.name}
+              sx={{ width: 40, height: 40 }}
+            />
+            <Typography variant="body2">{params.row.name}</Typography>
+          </Box>
+        ),
+      },
+      {
+        field: 'categoryName',
+        headerName: 'Category Name',
+        flex: 1,
+        renderCell: (params) => (
+          <Typography variant="body2">{params.row.categoryName}</Typography>
+        ),
+      },
+      {
+        field: 'storeName',
+        headerName: 'Store Name',
+        flex: 1,
+        renderCell: (params) => (
+          <Typography variant="body2">{params.row.storeName || 'N/A'}</Typography>
+        ),
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        flex: 1,
+        renderCell: (params) => (
+          <Chip
+            label="Pending"
+            size="small"
+            color="warning"
+            variant="outlined"
+          />
+        ),
+      },
+      {
+        field: 'createdAt',
+        headerName: 'Created Date',
+        flex: 1,
+        renderCell: (params) => {
+          const date = new Date(params.row.logCreatedDate);
+          return (
+            <Typography variant="body2">
+              {date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </Typography>
+          );
+        },
+      },
+      {
+        field: 'action',
+        headerName: 'Action',
+        flex: 1,
+        sortable: false,
+        filterable: false,
+        renderCell: (params) => (
+          <Box display="flex" gap={1}>
+            <Button
+              size="small"
+              color="success"
+              variant="contained"
+              onClick={() => handleApprove(params.row)}
+              disabled={loading}
+              sx={{ minWidth: '32px', padding: '4px 6px' }}
+              aria-label={`Approve ${params.row.name}`}
+            >
+              <IconCheck stroke={1.5} size={18} />
+            </Button>
+            <Button
+              size="small"
+              color="error"
+              variant="contained"
+              onClick={() => handleReject(params.row)}
+              disabled={loading}
+              sx={{ minWidth: '32px', padding: '4px 6px' }}
+              aria-label={`Reject ${params.row.name}`}
+            >
+              <IconX stroke={1.5} size={18} />
+            </Button>
+          </Box>
+        ),
+      },
+    ],
+    [loading],
+  );
+
+  const rows = useMemo(
+    () =>
+      filteredData?.map((item, index) => ({
+        id: index,
+        ...item,
+      })) || [],
+    [filteredData],
+  );
+
+  return (
+    <PageContainer
+      title="Pending Sub Categories"
+      description="Review and manage pending Sub Categories for your e-commerce platform"
+    >
+      <Breadcrumb title="Pending Sub Categories" items={BCrumb} />
+      <ToastContainer position="top-right" autoClose={3000} />
+      
+      <Paper
+        variant="outlined"
+        sx={{
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: '8px',
+          boxShadow: theme.shadows[2],
+        }}
+      >
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          p={2}
+          flexWrap="wrap"
+          gap={2}
+        >
+          <Typography variant="h6">Pending Sub Categories List</Typography>
+          <Box display="flex" gap={2} alignItems="center">
+            <TextField
+              size="small"
+              placeholder="Search by name"
+              value={search}
+              onChange={handleSearch}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              aria-label="Search Pending Sub Categories"
+            />
+          </Box>
+        </Box>
+        <Divider />
+        <CardContent>
+          <Box sx={{ height: 'auto', width: '100%' }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              loading={loading}
+              pageSize={5}
+              rowsPerPageOptions={[5, 10, 20]}
+              disableRowSelectionOnClick
+              autoHeight
+              sx={{
+                '& .MuiDataGrid-row': {
+                  '&:hover': {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                },
+              }}
+            />
+          </Box>
+        </CardContent>
+      </Paper>
+    </PageContainer>
+  );
+};
+
+export default PendingSubCategories;
