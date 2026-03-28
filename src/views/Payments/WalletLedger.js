@@ -2,8 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import {
   Box,
+  Button,
   Chip,
   Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   MenuItem,
   Paper,
   Select,
@@ -20,6 +25,17 @@ import { formatCurrency, formatDateTime, getAuthHeaders } from './financeUtils';
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Wallet' }];
 
+const DetailRow = ({ label, value }) => (
+  <Box sx={{ py: 1 }}>
+    <Typography variant="caption" color="text.secondary">
+      {label}
+    </Typography>
+    <Typography variant="body2" fontWeight={600}>
+      {value || '-'}
+    </Typography>
+  </Box>
+);
+
 const WalletLedger = () => {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -28,6 +44,7 @@ const WalletLedger = () => {
   const [role, setRole] = useState('');
   const [event, setEvent] = useState('');
   const [status, setStatus] = useState('');
+  const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
     const fetchLedger = async () => {
@@ -61,7 +78,7 @@ const WalletLedger = () => {
       {
         field: 'sno',
         headerName: 'S. No',
-        width: 80,
+        width: 70,
         sortable: false,
         filterable: false,
         renderCell: (params) => {
@@ -72,14 +89,13 @@ const WalletLedger = () => {
       {
         field: 'createdAt',
         headerName: 'Created',
-        minWidth: 170,
+        width: 170,
         renderCell: (params) => formatDateTime(params.value),
       },
       {
         field: 'ownerName',
         headerName: 'Wallet Owner',
-        minWidth: 200,
-        flex: 1,
+        width: 360,
         renderCell: (params) => (
           <Box>
             <Typography variant="body2" fontWeight={700}>
@@ -94,7 +110,7 @@ const WalletLedger = () => {
       {
         field: 'walletRole',
         headerName: 'Role',
-        minWidth: 110,
+        width: 110,
         renderCell: (params) => (
           <Chip
             size="small"
@@ -104,27 +120,9 @@ const WalletLedger = () => {
         ),
       },
       {
-        field: 'event',
-        headerName: 'Event',
-        minWidth: 170,
-      },
-      {
-        field: 'transactionType',
-        headerName: 'Type',
-        minWidth: 110,
-        renderCell: (params) => (
-          <Chip
-            size="small"
-            label={params.value}
-            color={params.value === 'credit' ? 'success' : 'error'}
-            variant="outlined"
-          />
-        ),
-      },
-      {
         field: 'amount',
         headerName: 'Amount',
-        minWidth: 140,
+        width: 140,
         renderCell: (params) => (
           <Typography
             variant="body2"
@@ -136,21 +134,9 @@ const WalletLedger = () => {
         ),
       },
       {
-        field: 'balanceBefore',
-        headerName: 'Before',
-        minWidth: 130,
-        renderCell: (params) => formatCurrency(params.value),
-      },
-      {
-        field: 'balanceAfter',
-        headerName: 'After',
-        minWidth: 130,
-        renderCell: (params) => formatCurrency(params.value),
-      },
-      {
         field: 'status',
         headerName: 'Status',
-        minWidth: 120,
+        width: 120,
         renderCell: (params) => (
           <Chip
             size="small"
@@ -158,7 +144,7 @@ const WalletLedger = () => {
             color={
               params.value === 'success'
                 ? 'success'
-                : params.value === 'pending'
+              : params.value === 'pending'
                   ? 'warning'
                   : 'error'
             }
@@ -166,16 +152,16 @@ const WalletLedger = () => {
         ),
       },
       {
-        field: 'referenceId',
-        headerName: 'Reference',
-        minWidth: 180,
-        flex: 1,
-      },
-      {
-        field: 'remark',
-        headerName: 'Remark',
-        minWidth: 220,
-        flex: 1,
+        field: 'actions',
+        headerName: 'Actions',
+        width: 110,
+        sortable: false,
+        filterable: false,
+        renderCell: (params) => (
+          <Button size="small" variant="outlined" onClick={() => setSelectedRow(params.row)}>
+            View
+          </Button>
+        ),
       },
     ],
     [],
@@ -264,6 +250,33 @@ const WalletLedger = () => {
           />
         </Box>
       </Paper>
+      <Dialog open={Boolean(selectedRow)} onClose={() => setSelectedRow(null)} maxWidth="sm" fullWidth>
+        <DialogTitle>Wallet Transaction Details</DialogTitle>
+        <DialogContent dividers>
+          {selectedRow ? (
+            <Stack spacing={1}>
+              <DetailRow label="Created" value={formatDateTime(selectedRow.createdAt)} />
+              <DetailRow label="Wallet Owner" value={selectedRow.ownerName} />
+              <DetailRow
+                label="Owner Contact"
+                value={selectedRow.ownerEmail || selectedRow.ownerPhone || selectedRow.wallet?.walletId}
+              />
+              <DetailRow label="Role" value={selectedRow.wallet?.userRole || 'N/A'} />
+              <DetailRow label="Event" value={selectedRow.event} />
+              <DetailRow label="Type" value={selectedRow.transactionType} />
+              <DetailRow label="Amount" value={formatCurrency(selectedRow.amount)} />
+              <DetailRow label="Balance Before" value={formatCurrency(selectedRow.balanceBefore)} />
+              <DetailRow label="Balance After" value={formatCurrency(selectedRow.balanceAfter)} />
+              <DetailRow label="Status" value={selectedRow.status} />
+              <DetailRow label="Reference ID" value={selectedRow.referenceId} />
+              <DetailRow label="Remark" value={selectedRow.remark} />
+            </Stack>
+          ) : null}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSelectedRow(null)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </PageContainer>
   );
 };

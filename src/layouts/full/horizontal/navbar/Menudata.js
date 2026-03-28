@@ -228,6 +228,12 @@ const Menuitems = [
         icon: IconPoint,
         href: '/blocked-service-provider',
       },
+      {
+        id: uniqueId(),
+        title: 'Deleted Service Provider',
+        icon: IconPoint,
+        href: '/deleted-service-provider',
+      },
     ],
   },
   {

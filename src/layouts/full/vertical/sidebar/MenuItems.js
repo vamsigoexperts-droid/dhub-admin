@@ -411,6 +411,13 @@ const Menuitems = [
         href: '/blocked-service-provider',
         permission: 'blocked_providers_view',
       },
+      {
+        id: uniqueId(),
+        title: 'Deleted Service Provider',
+        icon: IconPoint,
+        href: '/deleted-service-provider',
+        permission: 'blocked_providers_view',
+      },
     ],
   },
 

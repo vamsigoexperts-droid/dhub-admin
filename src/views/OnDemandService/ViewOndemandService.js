@@ -33,6 +33,7 @@ const ViewOndemandService = () => {
   const DemandServicesId = localStorage.getItem('DemandServicesId');
 
   const [isFeatured, setIsFeatured] = useState(false);
+  const [isRecommended, setIsRecommended] = useState(false);
   const [featureLoading, setFeatureLoading] = useState(false);
 
 
@@ -60,6 +61,7 @@ const ViewOndemandService = () => {
       const service = response.data?.ondemandservice || {};
       setServiceData(service);
       setIsFeatured(service?.isFeatured === 'active');
+      setIsRecommended(service?.isRecommended === 'active');
 
 
       setRateCards(service.rateCards || []);
@@ -89,6 +91,26 @@ const ViewOndemandService = () => {
       setIsFeatured(checked);
     } catch (error) {
       toast.error('Failed to update featured status');
+    } finally {
+      setFeatureLoading(false);
+    }
+  };
+
+  const handleRecommendedToggle = async (event) => {
+    const checked = event.target.checked;
+    const status = checked ? 'active' : 'inactive';
+    const token = getToken();
+
+    try {
+      setFeatureLoading(true);
+      await axios.put(
+        `${URLS.AddRecommended}/${DemandServicesId}`,
+        { isRecommended: status },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setIsRecommended(checked);
+    } catch (error) {
+      toast.error('Failed to update recommended status');
     } finally {
       setFeatureLoading(false);
     }
@@ -221,18 +243,32 @@ const ViewOndemandService = () => {
               >
                 <Typography variant="h6">Main Image</Typography>
 
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={isFeatured}
-                      onChange={handleFeaturedToggle}
-                      disabled={featureLoading || loading}
-                      size="small"
-                    />
-                  }
-                  label="Featured"
-                  sx={{ mr: 0 }}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isFeatured}
+                        onChange={handleFeaturedToggle}
+                        disabled={featureLoading || loading}
+                        size="small"
+                      />
+                    }
+                    label="Featured"
+                    sx={{ mr: 0 }}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isRecommended}
+                        onChange={handleRecommendedToggle}
+                        disabled={featureLoading || loading}
+                        size="small"
+                      />
+                    }
+                    label="Recommended"
+                    sx={{ mr: 0 }}
+                  />
+                </Box>
               </Box>
             }
           >

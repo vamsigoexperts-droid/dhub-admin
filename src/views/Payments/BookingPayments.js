@@ -2,7 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import {
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   MenuItem,
   Paper,
@@ -41,6 +46,8 @@ const BookingPayments = () => {
   const [search, setSearch] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('');
   const [flowType, setFlowType] = useState('');
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [detailRow, setDetailRow] = useState(null);
 
   useEffect(() => {
     const fetchRows = async () => {
@@ -143,12 +150,6 @@ const BookingPayments = () => {
       renderCell: (params) => <Chip size="small" label={params.value} variant="outlined" />,
     },
     {
-      field: 'serviceName',
-      headerName: 'Service',
-      minWidth: 170,
-      flex: 1,
-    },
-    {
       field: 'customerName',
       headerName: 'Customer',
       minWidth: 160,
@@ -188,28 +189,23 @@ const BookingPayments = () => {
       minWidth: 120,
     },
     {
-      field: 'bookingStatus',
-      headerName: 'Booking Status',
-      minWidth: 170,
+      field: 'actions',
+      headerName: 'Actions',
+      minWidth: 120,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => (
-        <Chip
+        <Button
           size="small"
-          label={params.value || 'N/A'}
-          color={statusChipColor[params.value] || 'default'}
           variant="outlined"
-        />
+          onClick={() => {
+            setDetailRow(params.row);
+            setDetailOpen(true);
+          }}
+        >
+          View
+        </Button>
       ),
-    },
-    {
-      field: 'sourceOfLead',
-      headerName: 'Source',
-      minWidth: 130,
-    },
-    {
-      field: 'createdAt',
-      headerName: 'Created',
-      minWidth: 170,
-      renderCell: (params) => formatDateTime(params.value),
     },
   ];
 
@@ -272,6 +268,63 @@ const BookingPayments = () => {
           />
         </Box>
       </Paper>
+
+      <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle>Booking Payment Details</DialogTitle>
+        <DialogContent dividers>
+          {detailRow && (
+            <Stack spacing={1.2}>
+              <Typography variant="body2">
+                <strong>Booking ID:</strong> {detailRow.orderId || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Flow:</strong> {detailRow.flowType || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Service:</strong> {detailRow.serviceName || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Customer:</strong> {detailRow.customerName || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Provider:</strong> {detailRow.providerName || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Amount:</strong> {formatCurrency(detailRow.amount)}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Payment:</strong>{' '}
+                <Chip
+                  size="small"
+                  label={detailRow.paymentStatus || 'pending'}
+                  color={paymentChipColor[detailRow.paymentStatus] || 'default'}
+                />
+              </Typography>
+              <Typography variant="body2">
+                <strong>Method:</strong> {detailRow.paymentMethod || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Booking Status:</strong>{' '}
+                <Chip
+                  size="small"
+                  label={detailRow.bookingStatus || 'N/A'}
+                  color={statusChipColor[detailRow.bookingStatus] || 'default'}
+                  variant="outlined"
+                />
+              </Typography>
+              <Typography variant="body2">
+                <strong>Source:</strong> {detailRow.sourceOfLead || 'N/A'}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Created:</strong> {formatDateTime(detailRow.createdAt)}
+              </Typography>
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDetailOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </PageContainer>
   );
 };

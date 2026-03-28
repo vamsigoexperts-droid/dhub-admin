@@ -1,5 +1,4 @@
 const Url = 'http://192.168.0.5:5013/';
-//const Url = 'http://192.168.0.5:5013/';
 const FileBase = 'http://192.168.0.5:5013/';
 
 export const URLS = {
@@ -69,6 +68,8 @@ export const URLS = {
   GetOneProvider: Url + 'v1/dhubApi/admin/provider/get-single-provider',
   UpdateProvider: Url + 'v1/dhubApi/admin/provider/editprovider',
   DeleteProvider: Url + 'v1/dhubApi/admin/provider/deleteprovider',
+  GetDeletedProviders: Url + 'v1/dhubApi/admin/provider/getdeletedproviders',
+  RestoreProvider: Url + 'v1/dhubApi/admin/provider/restoreprovider',
   GetProviderStatus: Url + 'v1/dhubApi/admin/provider/getproviders',
   ProviderUserSendMail: Url + 'v1/dhubApi/admin/provider/getproviders',
   UpdateProviderStatus: Url + 'v1/dhubApi/admin/provider/update-status/',
@@ -487,6 +488,9 @@ export const URLS = {
   GetFinanceOverview: Url + 'v1/dhubApi/admin/finance/overview',
   GetFinanceWalletLedger: Url + 'v1/dhubApi/admin/finance/wallet-ledger',
   GetFinanceWithdrawals: Url + 'v1/dhubApi/admin/finance/withdrawals',
+  UpdateFinanceWithdrawal: Url + 'v1/dhubApi/admin/finance/withdrawals/action',
+  FinanceWalletAdjustment: Url + 'v1/dhubApi/admin/finance/wallet-adjustment',
+  GetLegacyProviderWithdrawals: Url + 'v1/dhubApi/admin/provider-withdraw-requests',
   GetFinanceSubscriptions: Url + 'v1/dhubApi/admin/finance/subscriptions',
   GetProviderSubscriptions: Url + 'v1/dhubApi/admin/get-provider-subscriptions',
 
@@ -609,6 +613,7 @@ export const URLS = {
   ///isfeatured
 
   AddFeatured: Url + 'v1/dhubApi/admin/ondemandservice/toggleondemandservicefeatured',
+  AddRecommended: Url + 'v1/dhubApi/admin/ondemandservice/toggleondemandservicerecommended',
 
   //OnDemandSeviceRates
   AddOnDemandSeviceRates: Url + 'v1/dhubApi/admin/ondemandservice/addondemandserviceratecard',

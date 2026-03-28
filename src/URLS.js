@@ -1,5 +1,4 @@
 const API_BASE = 'http://192.168.0.5:5013/v1/dhubApi/admin';
-//const API_BASE = 'http://192.168.0.5:5013/v1/dhubApi/admin';
 
 // Unified Bookings APIs
 const URLS = {

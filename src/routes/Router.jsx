@@ -139,6 +139,7 @@ const RejectServiceProvider = Loadable(
   lazy(() => import('../views/Providers/RejectServiceProvider')),
 );
 const AllProviders = Loadable(lazy(() => import('../views/Providers/AllProviders')));
+const DeletedServiceProvider = Loadable(lazy(() => import('../views/Providers/DeletedServiceProvider')));
 
 //ECommerce / Multivendor
 //Stores
@@ -858,6 +859,7 @@ const Router = [
       { path: '/blocked-service-provider', element: <BlockedServiceProvider /> },
       { path: '/reject-service-provider', element: <RejectServiceProvider /> },
       { path: '/all-providers', element: <AllProviders /> },
+      { path: '/deleted-service-provider', element: <DeletedServiceProvider /> },
 
       //Careers
       { path: '/careers/roles', element: <CareersRoles /> },
