@@ -47,18 +47,18 @@ const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Service Rates' }];
 const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
   const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
-  return `http://192.168.0.5:5013/${cleanPath}`;
+  return `https://api.doorstephub.com/${cleanPath}`;
 };
 
 // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ API CONFIGURATION
 const API_URLS = {
-  CREATE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/create',
-  GET_ALL: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/all',
-  GET_SINGLE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests',
-  UPDATE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/update',
-  DELETE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/delete',
-  GET_CATEGORIES: 'http://192.168.0.5:5013/v1/dhubApi/admin/provider/get-provider-categories',
-  GET_SUBCATEGORIES: 'http://192.168.0.5:5013/v1/dhubApi/admin/provider/get-provider-subcategories',
+  CREATE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/create',
+  GET_ALL: 'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/all',
+  GET_SINGLE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-requests',
+  UPDATE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/update',
+  DELETE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/delete',
+  GET_CATEGORIES: 'https://api.doorstephub.com/v1/dhubApi/admin/provider/get-provider-categories',
+  GET_SUBCATEGORIES: 'https://api.doorstephub.com/v1/dhubApi/admin/provider/get-provider-subcategories',
 };
 
 const StyledMenu = styled(Menu)(({ theme }) => ({

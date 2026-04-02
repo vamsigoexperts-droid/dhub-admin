@@ -227,7 +227,7 @@ const ViewProfessionalProvider = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-featured/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-featured/${id}`,
         { isFeatured: checked ? 'active' : 'inactive' },
         {
           headers: {
@@ -258,7 +258,7 @@ const ViewProfessionalProvider = () => {
 
     try {
       const res = await axios.get(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/get-professional-provider/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/get-professional-provider/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -291,7 +291,7 @@ const ViewProfessionalProvider = () => {
   const renderDocumentPreview = (fileUrl, altText) => {
     if (!fileUrl) return null;
 
-    const fullUrl = fileUrl.startsWith('http') ? fileUrl : `http://192.168.0.5:5013/${fileUrl}`;
+    const fullUrl = fileUrl.startsWith('http') ? fileUrl : `https://api.doorstephub.com/${fileUrl}`;
 
     if (isPdfFile(fileUrl)) {
       return (
@@ -340,7 +340,7 @@ const ViewProfessionalProvider = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-kyc/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-kyc/${id}`,
         { kyc_status: 'approved' },
         {
           headers: {
@@ -367,7 +367,7 @@ const ViewProfessionalProvider = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${id}`,
         { status: 'active' },
         {
           headers: {
@@ -402,10 +402,10 @@ const ViewProfessionalProvider = () => {
       let payload = { reason: rejectReason };
 
       if (rejectDialog.type === 'bank') {
-        endpoint = `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-kyc/${id}`;
+        endpoint = `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-kyc/${id}`;
         payload = { status: 'rejected', reason: rejectReason };
       } else if (rejectDialog.type === 'provider') {
-        endpoint = `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${id}`;
+        endpoint = `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${id}`;
         payload = { status: 'inactive', reason: rejectReason };
       }
 
@@ -496,7 +496,7 @@ const ViewProfessionalProvider = () => {
                   {provider.image ? (
                     <Box
                       component="img"
-                      src={`http://192.168.0.5:5013/${provider.image}`}
+                      src={`https://api.doorstephub.com/${provider.image}`}
                       alt={`${provider.firstName} ${provider.lastName}`}
                       sx={{
                         width: '100%',

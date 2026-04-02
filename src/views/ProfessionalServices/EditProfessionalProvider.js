@@ -308,7 +308,7 @@ const EditProfessionalProvider = () => {
       try {
         setFetchLoading(true);
         const res = await axios.get(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/get-professional-provider/${id}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/get-professional-provider/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -410,25 +410,25 @@ const EditProfessionalProvider = () => {
         const documents = res.data.documents;
 
         const existingFilesData = {
-          image: data.image ? `http://192.168.0.5:5013/${data.image}` : null,
-          logo: data.logo ? `http://192.168.0.5:5013/${data.logo}` : null,
+          image: data.image ? `https://api.doorstephub.com/${data.image}` : null,
+          logo: data.logo ? `https://api.doorstephub.com/${data.logo}` : null,
           banner_image: documents?.banner_image
-            ? `http://192.168.0.5:5013/${documents.banner_image}`
+            ? `https://api.doorstephub.com/${documents.banner_image}`
             : data.banner_image
-              ? `http://192.168.0.5:5013/${data.banner_image}`
+              ? `https://api.doorstephub.com/${data.banner_image}`
               : null,
-          pan_card_front: documents?.pan_card_front ? `http://192.168.0.5:5013/${documents.pan_card_front}` : null,
-          pan_card_back: documents?.pan_card_back ? `http://192.168.0.5:5013/${documents.pan_card_back}` : null,
-          aadhar_card_front: documents?.aadhar_card_front ? `http://192.168.0.5:5013/${documents.aadhar_card_front}` : null,
-          aadhar_card_back: documents?.aadhar_card_back ? `http://192.168.0.5:5013/${documents.aadhar_card_back}` : null,
-          gst_bill: Array.isArray(documents?.gst_bill) && documents.gst_bill.length > 0 ? `http://192.168.0.5:5013/${documents.gst_bill[0]}` : null,
-          business_proof: documents?.business_proof ? `http://192.168.0.5:5013/${documents.business_proof}` : null,
-          gas_bill: documents?.gas_bill ? `http://192.168.0.5:5013/${documents.gas_bill}` : null,
-          business_card: documents?.business_card ? `http://192.168.0.5:5013/${documents.business_card}` : null,
-          bill_sample: documents?.bill_sample ? `http://192.168.0.5:5013/${documents.bill_sample}` : null,
-          passport_front: documents?.passport_front ? `http://192.168.0.5:5013/${documents.passport_front}` : null,
-          passport_back: documents?.passport_back ? `http://192.168.0.5:5013/${documents.passport_back}` : null,
-          business_images: Array.isArray(documents?.business_images) ? documents.business_images.map((img) => `http://192.168.0.5:5013/${img}`) : [],
+          pan_card_front: documents?.pan_card_front ? `https://api.doorstephub.com/${documents.pan_card_front}` : null,
+          pan_card_back: documents?.pan_card_back ? `https://api.doorstephub.com/${documents.pan_card_back}` : null,
+          aadhar_card_front: documents?.aadhar_card_front ? `https://api.doorstephub.com/${documents.aadhar_card_front}` : null,
+          aadhar_card_back: documents?.aadhar_card_back ? `https://api.doorstephub.com/${documents.aadhar_card_back}` : null,
+          gst_bill: Array.isArray(documents?.gst_bill) && documents.gst_bill.length > 0 ? `https://api.doorstephub.com/${documents.gst_bill[0]}` : null,
+          business_proof: documents?.business_proof ? `https://api.doorstephub.com/${documents.business_proof}` : null,
+          gas_bill: documents?.gas_bill ? `https://api.doorstephub.com/${documents.gas_bill}` : null,
+          business_card: documents?.business_card ? `https://api.doorstephub.com/${documents.business_card}` : null,
+          bill_sample: documents?.bill_sample ? `https://api.doorstephub.com/${documents.bill_sample}` : null,
+          passport_front: documents?.passport_front ? `https://api.doorstephub.com/${documents.passport_front}` : null,
+          passport_back: documents?.passport_back ? `https://api.doorstephub.com/${documents.passport_back}` : null,
+          business_images: Array.isArray(documents?.business_images) ? documents.business_images.map((img) => `https://api.doorstephub.com/${img}`) : [],
         };
 
         setExistingFiles(existingFilesData);
@@ -489,7 +489,7 @@ const EditProfessionalProvider = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-category/categoryForDropdown',
+          'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-category/categoryForDropdown',
           { serviceId: form.serviceId },
           {
             headers: {
@@ -528,7 +528,7 @@ const EditProfessionalProvider = () => {
         // Fetch amenities for each selected subcategory
         for (const subcategoryId of form.professionalServiceSubcategoryId) {
           const res = await axios.post(
-            'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-amenities/dropdown',
+            'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-amenities/dropdown',
             { subcategoryId },
             {
               headers: {
@@ -583,7 +583,7 @@ const EditProfessionalProvider = () => {
         // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Loop works for both single and multiple categories
         for (const categoryId of form.professionalServiceCategoryId) {
           const res = await axios.post(
-            'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-subcategory/subcategories-for-dropdown',
+            'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-subcategory/subcategories-for-dropdown',
             { categoryId },
             {
               headers: {
@@ -652,7 +652,7 @@ const EditProfessionalProvider = () => {
     const fetchStates = async () => {
       try {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/state/getstatesbycountryid',
+          'https://api.doorstephub.com/v1/dhubApi/admin/state/getstatesbycountryid',
           { country_id: selectedCountry },
           {
             headers: {
@@ -693,7 +693,7 @@ const EditProfessionalProvider = () => {
     const fetchCities = async () => {
       try {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/city/get-cities',
+          'https://api.doorstephub.com/v1/dhubApi/admin/city/get-cities',
           { state_id: selectedState },
           {
             headers: {
@@ -1021,7 +1021,7 @@ const EditProfessionalProvider = () => {
       };
 
       const res = await axios.put(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider/${id}`,
         formData,
         config
       );

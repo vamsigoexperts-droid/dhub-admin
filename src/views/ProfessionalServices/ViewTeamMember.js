@@ -178,7 +178,7 @@ const ViewTeamMember = () => {
                     <Avatar
                         src={
                             teamMember.profile_image
-                                ? `http://192.168.0.5:5013/${teamMember.profile_image}`
+                                ? `https://api.doorstephub.com/${teamMember.profile_image}`
                                 : undefined
                         }
                         sx={{ width: 120, height: 120 }}

@@ -23,7 +23,7 @@ const BCrumb = [
     { title: 'Manage Website Screens' },
 ];
 
-const BASE_URL = 'http://192.168.0.5:5013';
+const BASE_URL = 'https://api.doorstephub.com';
 const API_URL = `${BASE_URL}/v1/dhubApi/admin/manage-website-screens`;
 
 const getToken = () => {

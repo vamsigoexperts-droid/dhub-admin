@@ -44,7 +44,7 @@ const getAuthToken = () => {
     return user?.token || '';
 };
 
-const DHUB_BASE_URL = 'http://192.168.0.5:5013/v1/dhubApi/admin/dhub-management';
+const DHUB_BASE_URL = 'https://api.doorstephub.com/v1/dhubApi/admin/dhub-management';
 
 const ApplicationsManagement = () => {
     const [applications, setApplications] = useState([]);

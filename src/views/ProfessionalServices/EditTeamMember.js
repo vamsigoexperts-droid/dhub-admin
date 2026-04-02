@@ -151,7 +151,7 @@ const EditTeamMember = () => {
 
                     // Set image preview if exists
                     if (member.profile_image) {
-                        setImagePreview(`http://192.168.0.5:5013/${member.profile_image}`);
+                        setImagePreview(`https://api.doorstephub.com/${member.profile_image}`);
                     }
                 } else {
                     toast.error(response.message || 'Failed to fetch team member details');

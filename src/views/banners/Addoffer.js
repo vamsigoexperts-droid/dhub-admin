@@ -335,7 +335,7 @@ const handleImageChange = (e) => {
       }
 
       const res = await axios.post(
-        'http://192.168.0.5:5013/v1/dhubApi/admin/offers/addoffer',
+        'https://api.doorstephub.com/v1/dhubApi/admin/offers/addoffer',
         submitData,
         {
           headers: {

@@ -32,11 +32,11 @@ const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Spare Parts' }];
 
 // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ ADDON API URLs
 const ADDON_API_URLS = {
-  GET_ADDONS: 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-service-addons/get-addons',
-  GET_ADDON: 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-service-addons/get-addon',
-  CREATE_ADDON: 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-service-addons/create-addon',
-  UPDATE_ADDON: 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-service-addons/update-addon',
-  DELETE_ADDON: 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-service-addons/delete-addon',
+  GET_ADDONS: 'https://api.doorstephub.com/v1/dhubApi/admin/professional-service-addons/get-addons',
+  GET_ADDON: 'https://api.doorstephub.com/v1/dhubApi/admin/professional-service-addons/get-addon',
+  CREATE_ADDON: 'https://api.doorstephub.com/v1/dhubApi/admin/professional-service-addons/create-addon',
+  UPDATE_ADDON: 'https://api.doorstephub.com/v1/dhubApi/admin/professional-service-addons/update-addon',
+  DELETE_ADDON: 'https://api.doorstephub.com/v1/dhubApi/admin/professional-service-addons/delete-addon',
 };
 
 // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ UTILITY FUNCTIONS
@@ -87,7 +87,7 @@ const AddonForm = ({
     purchasePriceBillDocument: null
   });
   const [singlePreviews, setSinglePreviews] = useState({
-    purchasePriceBillDocument: initialData?.purchaseBillDocument ? `http://192.168.0.5:5013/${initialData.purchaseBillDocument}` : null
+    purchasePriceBillDocument: initialData?.purchaseBillDocument ? `https://api.doorstephub.com/${initialData.purchaseBillDocument}` : null
   });
 
 

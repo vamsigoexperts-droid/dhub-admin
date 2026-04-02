@@ -37,7 +37,7 @@ import PageContainer from "src/components/container/PageContainer";
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Category Banner' }];
 
-const API_BASE = "http://192.168.0.5:5013/v1/dhubApi/admin";
+const API_BASE = "https://api.doorstephub.com/v1/dhubApi/admin";
 const URLS = {
   GetServices: `${API_BASE}/service/getallserives`,
   GetCountry: `${API_BASE}/country/getallcountrys`,
@@ -227,7 +227,7 @@ const fetchCategoriesByServiceId = useCallback(async (index, serviceId) => {
 
   try {
     const res = await axios.post(
-      "http://192.168.0.5:5013/v1/dhubApi/admin/category/getallcategorysById",
+      "https://api.doorstephub.com/v1/dhubApi/admin/category/getallcategorysById",
       { serviceId },
       { headers: { Authorization: `Bearer ${token}` } }
     );

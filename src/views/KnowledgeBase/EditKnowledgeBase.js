@@ -156,7 +156,7 @@ const EditKnowledgeBase = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` },
             };
-            // Endpoint: http://192.168.0.5:5013/v1/dhubApi/admin/services/getall?status=true
+            // Endpoint: https://api.doorstephub.com/v1/dhubApi/admin/services/getall?status=true
             const response = await axios.get(`${URLS.GetKnowledgeBaseServices}?status=true`, config);
 
             if (response.data.success || response.data.data) {

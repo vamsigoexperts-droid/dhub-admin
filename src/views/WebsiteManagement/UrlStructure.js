@@ -41,7 +41,7 @@ const BCrumb = [
 ];
 
 // API Configuration
-const BASE_URL = 'http://192.168.0.5:5013';
+const BASE_URL = 'https://api.doorstephub.com';
 const API_URLS = {
     GET_SERVICES: `${BASE_URL}/v1/dhubApi/admin/service/getactiveservices`,
     ADD_SLUG: `${BASE_URL}/v1/dhubApi/admin/slugs/add`,

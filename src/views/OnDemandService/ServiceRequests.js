@@ -339,7 +339,7 @@ const PendingServiceProvider = () => {
 
     setServiceRequestLoading(true);
     try {
-      const url = `http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/all?status=pending${
+      const url = `https://api.doorstephub.com/v1/dhubApi/admin/service-requests/all?status=pending${
         searchQuery ? `&searchQuery=${encodeURIComponent(searchQuery)}` : ''
       }`;
       const res = await axios.get(url, {
@@ -406,14 +406,14 @@ const PendingServiceProvider = () => {
     try {
       if (serviceRequestFormEdit.status === 'approved') {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/bulk-approve',
+          'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/bulk-approve',
           { requestIds: [serviceRequestFormEdit._id] },
           { headers: { Authorization: `Bearer ${token}` } },
         );
         toast.success(res.data.message || 'Service request approved successfully');
       } else if (serviceRequestFormEdit.status === 'rejected') {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/bulk-reject',
+          'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/bulk-reject',
           {
             requestIds: [serviceRequestFormEdit._id],
             rejectionReason: serviceRequestFormEdit.rejectionReason,
@@ -439,7 +439,7 @@ const PendingServiceProvider = () => {
       setServiceRequestLoading(true);
       try {
         const res = await axios.delete(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/${data._id}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/service-requests/${data._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -486,7 +486,7 @@ const PendingServiceProvider = () => {
       for (const request of selectedRequests) {
         try {
           await axios.delete(
-            `http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/${request._id}`,
+            `https://api.doorstephub.com/v1/dhubApi/admin/service-requests/${request._id}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             },
@@ -540,7 +540,7 @@ const PendingServiceProvider = () => {
     setServiceRequestLoading(true);
     try {
       const res = await axios.post(
-        'http://192.168.0.5:5013/v1/dhubApi/admin/service-requests/bulk-approve',
+        'https://api.doorstephub.com/v1/dhubApi/admin/service-requests/bulk-approve',
         { requestIds },
         {
           headers: {
@@ -791,7 +791,7 @@ const PendingServiceProvider = () => {
         renderCell: (params) => (
           <Box display="flex" alignItems="center" gap={2}>
             <Avatar
-              src={`http://192.168.0.5:5013/${params.row.image}`}
+              src={`https://api.doorstephub.com/${params.row.image}`}
               alt={params.row.name}
               variant="rounded"
               sx={{ width: 50, height: 50 }}
@@ -1376,7 +1376,7 @@ const PendingServiceProvider = () => {
               <Grid item xs={12} md={4}>
                 <Box
                   component="img"
-                  src={`http://192.168.0.5:5013/${selectedServiceRequest.image}`}
+                  src={`https://api.doorstephub.com/${selectedServiceRequest.image}`}
                   alt={selectedServiceRequest.name}
                   sx={{
                     width: '100%',
@@ -1487,7 +1487,7 @@ const PendingServiceProvider = () => {
                       {selectedServiceRequest.banner_images.map((img, index) => (
                         <ImageListItem key={index}>
                           <img
-                            src={`http://192.168.0.5:5013/${img}`}
+                            src={`https://api.doorstephub.com/${img}`}
                             alt={`Banner ${index + 1}`}
                             loading="lazy"
                             style={{ borderRadius: 8 }}

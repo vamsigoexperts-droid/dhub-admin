@@ -240,7 +240,7 @@ const NotificationHistory = () => {
                                             {notification.image ? (
                                                 <Box
                                                     component="img"
-                                                    src={`http://192.168.0.5:5013${notification.image}`}
+                                                    src={`https://api.doorstephub.com${notification.image}`}
                                                     alt="Notification"
                                                     sx={{
                                                         width: 50,
@@ -250,7 +250,7 @@ const NotificationHistory = () => {
                                                         cursor: 'pointer',
                                                         border: '1px solid #eee'
                                                     }}
-                                                    onClick={() => window.open(`http://192.168.0.5:5013${notification.image}`, '_blank')}
+                                                    onClick={() => window.open(`https://api.doorstephub.com${notification.image}`, '_blank')}
                                                 />
                                             ) : (
                                                 <Typography variant="caption" color="textSecondary">No Image</Typography>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.0.5:5013/v1/dhubApi/admin/team';
+const BASE_URL = 'https://api.doorstephub.com/v1/dhubApi/admin/team';
 
 // Helper function to get auth token
 const getAuthToken = () => {

@@ -1100,7 +1100,7 @@ const ViewOrder = () => {
     // Remove leading slash if present, then construct URL
     const cleanPath = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
     
-    // URLS.FileBase should be "http://192.168.0.5:5013/"
+    // URLS.FileBase should be "https://api.doorstephub.com/"
     // cleanPath should be "uploads/ondemandservice/..."
     return `${URLS.FileBase}${cleanPath}`;
   };

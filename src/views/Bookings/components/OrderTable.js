@@ -18,6 +18,17 @@ import { IconEye, IconUserPlus, IconBrandWhatsapp } from '@tabler/icons-react';
 import StatusBadge from './StatusBadge';
 import { format } from 'date-fns';
 
+/** Same “attention required” treatment as SLA / Order Accepted By Admin (red row + ATTENTION filter). */
+const isAttentionRequiredRow = (order, orderType) => {
+    const raw = orderType === 'professional' ? order.orderStatus : order.status;
+    const s = (raw || '').toString().toLowerCase();
+    return (
+        order.slaFlag === true ||
+        s === 'orderacceptedbyadmin' ||
+        s === 'cancelledbyprovider'
+    );
+};
+
 const OrderTable = ({
     orders = [],
     loading = false,
@@ -77,7 +88,9 @@ const OrderTable = ({
                             <TableCell sx={{ fontWeight: 700 }}>Customer</TableCell>
                             <TableCell sx={{ fontWeight: 700 }}>Lead Source / Date</TableCell>
                             <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }}>Amount</TableCell>
+                            {orderType !== 'verified' && (
+                                <TableCell sx={{ fontWeight: 700 }}>Amount</TableCell>
+                            )}
                             <TableCell sx={{ fontWeight: 700 }} align="center">
                                 Actions
                             </TableCell>
@@ -90,8 +103,8 @@ const OrderTable = ({
                                 hover
                                 sx={{
                                     '&:last-child td, &:last-child th': { border: 0 },
-                                    borderLeft: (order.slaFlag || order.orderStatus === 'orderAcceptedByAdmin' || order.status === 'orderAcceptedByAdmin') ? '8px solid #f44336' : 'inherit',
-                                    backgroundColor: (order.slaFlag || order.orderStatus === 'orderAcceptedByAdmin' || order.status === 'orderAcceptedByAdmin') ? 'rgba(244, 67, 54, 0.08)' : 'inherit',
+                                    borderLeft: isAttentionRequiredRow(order, orderType) ? '8px solid #f44336' : 'inherit',
+                                    backgroundColor: isAttentionRequiredRow(order, orderType) ? 'rgba(244, 67, 54, 0.08)' : 'inherit',
                                 }}
                             >
                                 <TableCell>
@@ -159,11 +172,13 @@ const OrderTable = ({
                                     />
                                 </TableCell>
 
-                                <TableCell>
-                                    <Typography variant="body2" fontWeight={700} color="success.main">
-                                        {formatCurrency(order.totalAmount || order.amount)}
-                                    </Typography>
-                                </TableCell>
+                                {orderType !== 'verified' && (
+                                    <TableCell>
+                                        <Typography variant="body2" fontWeight={700} color="success.main">
+                                            {formatCurrency(order.totalAmount || order.amount)}
+                                        </Typography>
+                                    </TableCell>
+                                )}
 
                                 <TableCell align="center">
                                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>

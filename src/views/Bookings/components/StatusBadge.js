@@ -50,6 +50,7 @@ const StatusBadge = ({ status, variant = 'verified' }) => {
             assigntoprovider: { label: 'Assigned', color: 'info' },
             acceptedbyprovider: { label: 'Ongoing', color: 'primary' },
             orderacceptedbyadmin: { label: 'Order Accepted By Admin', color: 'warning' },
+            cancelledbyprovider: { label: 'Cancelled By Provider', color: 'error' },
         };
 
         // Professional-specific statuses

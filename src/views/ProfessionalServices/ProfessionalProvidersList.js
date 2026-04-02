@@ -161,7 +161,7 @@ const ProfessionalProviders = () => {
         for (const provider of providers) {
           try {
             await axios.put(
-              `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/delete-professional-provider/${provider._id}`,
+              `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/delete-professional-provider/${provider._id}`,
               { reason: deleteDialog.reason },
               {
                 headers: { Authorization: `Bearer ${token}` },
@@ -182,7 +182,7 @@ const ProfessionalProviders = () => {
       } else {
         // Single Delete Logic
         await axios.put(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/delete-professional-provider/${deleteDialog.itemToDelete}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/delete-professional-provider/${deleteDialog.itemToDelete}`,
           { reason: deleteDialog.reason },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -240,7 +240,7 @@ const ProfessionalProviders = () => {
           };
 
           await axios.put(
-            `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${provider._id}`,
+            `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${provider._id}`,
             payload,
             {
               headers: {
@@ -287,7 +287,7 @@ const ProfessionalProviders = () => {
       formData.append('type', 'active');
 
       const res = await axios.post(
-        'http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/get-all-professional-providers',
+        'https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/get-all-professional-providers',
         formData,
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -362,7 +362,7 @@ const ProfessionalProviders = () => {
 
       // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ CORRECT ENDPOINT from your curl example
       const res = await axios.put(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${formEdit._id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${formEdit._id}`,
         payload, // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Matches your curl payload structure
         {
           headers: {
@@ -403,7 +403,7 @@ const ProfessionalProviders = () => {
         renderCell: (params) => (
           <Box display="flex" alignItems="center" gap={2}>
             <Avatar
-              src={params.row.image ? `http://192.168.0.5:5013/${params.row.image}` : undefined}
+              src={params.row.image ? `https://api.doorstephub.com/${params.row.image}` : undefined}
               alt={`${params.row.firstName} ${params.row.lastName}`}
               sx={{ width: 40, height: 40 }}
             >

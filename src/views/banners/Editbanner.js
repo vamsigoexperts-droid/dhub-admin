@@ -22,7 +22,7 @@ import CustomFormLabel from "../../components/forms/theme-elements/CustomFormLab
 import ParentCard from "../../components/shared/ParentCard";
 import PageContainer from "src/components/container/PageContainer";
 
-const API_BASE = "http://192.168.0.5:5013/v1/dhubApi/admin";
+const API_BASE = "https://api.doorstephub.com/v1/dhubApi/admin";
 const URLS = {
   GetServices: `${API_BASE}/service/getallserives`,
   GetCountry: `${API_BASE}/country/getallcountrys`,

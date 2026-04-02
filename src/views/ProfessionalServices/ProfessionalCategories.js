@@ -36,8 +36,8 @@ import { URLS } from '../../Url';
 import axios from 'axios';
 
 // API Base URL for Professional Categories
-const API_BASE_URL = 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-category';
-const IMAGE_BASE_URL = 'http://192.168.0.5:5013';
+const API_BASE_URL = 'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-category';
+const IMAGE_BASE_URL = 'https://api.doorstephub.com';
 
 // Breadcrumb configuration
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Professional Categories' }];

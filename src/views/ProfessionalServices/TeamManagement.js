@@ -219,7 +219,7 @@ const TeamManagement = () => {
                         <Avatar
                             src={
                                 params.row.profile_image
-                                    ? `http://192.168.0.5:5013/${params.row.profile_image}`
+                                    ? `https://api.doorstephub.com/${params.row.profile_image}`
                                     : undefined
                             }
                             alt={params.row.name}

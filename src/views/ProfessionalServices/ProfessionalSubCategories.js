@@ -38,9 +38,9 @@ import { URLS } from '../../Url';
 import axios from 'axios';
 
 // API Base URL for Professional Sub Categories
-const API_BASE_URL = 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-subcategory';
-const IMAGE_BASE_URL = 'http://192.168.0.5:5013';
-const CATEGORY_DROPDOWN = 'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-category/getall-categories-grouped-by-service';
+const API_BASE_URL = 'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-subcategory';
+const IMAGE_BASE_URL = 'https://api.doorstephub.com';
+const CATEGORY_DROPDOWN = 'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-category/getall-categories-grouped-by-service';
 
 // Breadcrumb configuration
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Professional Sub Categories' }];

@@ -343,7 +343,7 @@ const AddProfessionalProvider = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-category/categoryForDropdown',
+          'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-category/categoryForDropdown',
           {
             serviceId: form.serviceId, // Ã¢Å“â€¦ PASS SELECTED SERVICE ID
           },
@@ -380,7 +380,7 @@ const AddProfessionalProvider = () => {
         // Ã¢Å“â€¦ Loop works for both single and multiple categories
         for (const categoryId of form.professionalServiceCategoryId) {
           const res = await axios.post(
-            'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-subcategory/subcategories-for-dropdown',
+            'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-subcategory/subcategories-for-dropdown',
             { categoryId },
             {
               headers: {
@@ -426,7 +426,7 @@ const AddProfessionalProvider = () => {
         // Fetch amenities for each selected subcategory
         for (const subcategoryId of form.professionalServiceSubcategoryId) {
           const res = await axios.post(
-            'http://192.168.0.5:5013/v1/dhubApi/admin/professional-services-amenities/dropdown',
+            'https://api.doorstephub.com/v1/dhubApi/admin/professional-services-amenities/dropdown',
             { subcategoryId },
             {
               headers: {
@@ -505,7 +505,7 @@ const AddProfessionalProvider = () => {
     const fetchStates = async () => {
       try {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/state/getstatesbycountryid',
+          'https://api.doorstephub.com/v1/dhubApi/admin/state/getstatesbycountryid',
           { country_id: selectedCountry },
           {
             headers: {
@@ -545,7 +545,7 @@ const AddProfessionalProvider = () => {
     const fetchCities = async () => {
       try {
         const res = await axios.post(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/city/get-cities',
+          'https://api.doorstephub.com/v1/dhubApi/admin/city/get-cities',
           { state_id: selectedState },
           {
             headers: {
@@ -834,7 +834,7 @@ const AddProfessionalProvider = () => {
       };
 
       const res = await axios.post(
-        'http://192.168.0.5:5013/v1/dhubApi/admin/professional-providers/add-professional-provider',
+        'https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/add-professional-provider',
         formData,
         config,
       );

@@ -155,7 +155,7 @@ const EditOffer = () => {
     setPageLoading(true);
     try {
       const res = await axios.get(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/offers/getoffer/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/offers/getoffer/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -406,7 +406,7 @@ const EditOffer = () => {
         formDataToSend.append('image', formData.image);
 
         const res = await axios.put(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/offers/updateoffer/${id}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/offers/updateoffer/${id}`,
           formDataToSend,
           {
             headers: {
@@ -425,7 +425,7 @@ const EditOffer = () => {
       } else {
         // If no new image, send JSON data
         const res = await axios.put(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/offers/updateoffer/${id}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/offers/updateoffer/${id}`,
           updateData,
           {
             headers: {

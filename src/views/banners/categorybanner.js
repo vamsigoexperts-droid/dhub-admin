@@ -23,7 +23,7 @@ import { IconSearch } from '@tabler/icons-react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const API_URL = 'http://192.168.0.5:5013/v1/dhubApi/admin/category-banner/get';
+const API_URL = 'https://api.doorstephub.com/v1/dhubApi/admin/category-banner/get';
 
 const getAuthToken = () => {
   try {

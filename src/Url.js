@@ -1,5 +1,7 @@
-const Url = 'http://192.168.0.5:5013/';
-const FileBase = 'http://192.168.0.5:5013/';
+import { getAdminApiBaseUrl, getMediaBaseUrl } from './config/apiEnv';
+
+const Url = getAdminApiBaseUrl();
+const FileBase = getMediaBaseUrl();
 
 export const URLS = {
   Base: Url,

@@ -1381,7 +1381,7 @@ import {
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Add CRM Booking' }];
 
-const API_BASE = 'http://192.168.0.5:5013/v1/dhubApi/admin';
+const API_BASE = 'https://api.doorstephub.com/v1/dhubApi/admin';
 
 const CustomSelect = styled(Select)({
   '& .MuiOutlinedInput-root': {
@@ -1543,7 +1543,7 @@ const AddCrmBooking = () => {
 
       try {
         const response = await axios.get(
-          'http://192.168.0.5:5013/v1/dhubApi/admin/service-booking-charges',
+          'https://api.doorstephub.com/v1/dhubApi/admin/service-booking-charges',
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -2606,7 +2606,7 @@ const AddCrmBooking = () => {
       }
 
       const response = await axios.post(
-        'http://192.168.0.5:5013/v1/dhubApi/admin/ondemandservice/addondemandserviceratecard',
+        'https://api.doorstephub.com/v1/dhubApi/admin/ondemandservice/addondemandserviceratecard',
         formData,
         {
           headers: {

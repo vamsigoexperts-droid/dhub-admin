@@ -25,7 +25,7 @@ const AddTestimonialsForm = ({ onClose, onSubmit }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get('http://192.168.0.5:5013/v1/dhubApi/website/services');
+        const res = await axios.get('https://api.doorstephub.com/v1/dhubApi/website/services');
         setServices(res.data.data || []);
       } catch (error) {
         console.error('Failed to fetch services:', error);
@@ -236,7 +236,7 @@ const EditTestimonialsForm = ({ onClose, onSubmit, initialData }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get('http://192.168.0.5:5013/v1/dhubApi/website/services');
+        const res = await axios.get('https://api.doorstephub.com/v1/dhubApi/website/services');
         setServices(res.data.data || []);
       } catch (error) {
         console.error('Failed to fetch services:', error);

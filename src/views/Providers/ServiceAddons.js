@@ -46,16 +46,16 @@ const BCrumb = [
 const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
   const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
-  return `http://192.168.0.5:5013/${cleanPath}`;
+  return `https://api.doorstephub.com/${cleanPath}`;
 };
 
 // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ API CONFIGURATION
 const API_URLS = {
-  CREATE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-addons/create',
-  GET_ALL: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-addons/getall',
-  GET_SINGLE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-addons',
-  UPDATE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-addons/update',
-  DELETE: 'http://192.168.0.5:5013/v1/dhubApi/admin/service-addons/delete',
+  CREATE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-addons/create',
+  GET_ALL: 'https://api.doorstephub.com/v1/dhubApi/admin/service-addons/getall',
+  GET_SINGLE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-addons',
+  UPDATE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-addons/update',
+  DELETE: 'https://api.doorstephub.com/v1/dhubApi/admin/service-addons/delete',
 };
 
 // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ GET IDS FROM STORAGE

@@ -334,6 +334,28 @@ const OrderDetails = () => {
     const initialCollectedAmount = Number(orderData.amount || 0);
     const advancePaidAmount = Number(orderData.partialAmountPaid || 0);
     const rawFullAmountPaid = Number(orderData.fullAmountPaid || 0);
+    const getQuotationGrandTotal = (quotation) => {
+        const qBase = Number(quotation?.baseAmount ?? quotation?.totalAmount ?? 0) || 0;
+        const qGst = Number(
+            quotation?.gstAmount ??
+            (
+                Number(quotation?.grandTotal ?? 0) > qBase
+                    ? Number(quotation?.grandTotal ?? 0) - qBase
+                    : qBase * 0.18
+            ) ??
+            0
+        ) || 0;
+        return Number(quotation?.grandTotal ?? 0) || Number((qBase + qGst).toFixed(2));
+    };
+    const allEstimations = [...(orderData.estimations || [])];
+    if (orderData.latestEstimation && !allEstimations.find(e => e._id === orderData.latestEstimation._id)) {
+        allEstimations.push(orderData.latestEstimation);
+    }
+    if (orderData.estimation && !allEstimations.find(e => e._id === orderData.estimation._id)) {
+        allEstimations.push(orderData.estimation);
+    }
+    const sortedEstimations = allEstimations.sort((a, b) => new Date(b.logCreatedDate) - new Date(a.logCreatedDate));
+    const hasMultipleQuotations = sortedEstimations.length > 1;
     const isInitialServiceCenterPaymentFlow =
         isServiceCenter &&
         !hasMultipleQuotations &&
@@ -362,49 +384,6 @@ const OrderDetails = () => {
             0
         )
         : 0;
-    const pendingQuotationAmount = Math.max(Number((estimationGrandTotal - advancePaidAmount).toFixed(2)), 0);
-    const rawDisplayFullPaidAmount =
-        isFullQuotationPayment && estimationGrandTotal > 0
-            ? estimationGrandTotal
-            : isPartialQuotationPayment
-                ? pendingQuotationAmount
-                : rawFullAmountPaid;
-    const rawDisplayTotalPaidAmount =
-        isFullQuotationPayment && estimationGrandTotal > 0
-            ? (initialCollectedAmount + estimationGrandTotal)
-            : isPartialQuotationPayment
-                ? (initialCollectedAmount + advancePaidAmount)
-            : isInitialServiceCenterPaymentFlow
-                ? (serviceCenterAdvancePaidAmount + serviceCenterFullPaidAmount || serviceCenterCurrentPaidAmount)
-            : Number(orderData.amount || 0);
-    const displayPaymentRequestAmount =
-        isFullQuotationPayment && estimationGrandTotal > 0
-            ? estimationGrandTotal
-            : isPartialQuotationPayment
-                ? advancePaidAmount
-            : Number(orderData.paymentRequest?.amount || 0);
-    const getQuotationGrandTotal = (quotation) => {
-        const qBase = Number(quotation?.baseAmount ?? quotation?.totalAmount ?? 0) || 0;
-        const qGst = Number(
-            quotation?.gstAmount ??
-            (
-                Number(quotation?.grandTotal ?? 0) > qBase
-                    ? Number(quotation?.grandTotal ?? 0) - qBase
-                    : qBase * 0.18
-            ) ??
-            0
-        ) || 0;
-        return Number(quotation?.grandTotal ?? 0) || Number((qBase + qGst).toFixed(2));
-    };
-    const allEstimations = [...(orderData.estimations || [])];
-    if (orderData.latestEstimation && !allEstimations.find(e => e._id === orderData.latestEstimation._id)) {
-        allEstimations.push(orderData.latestEstimation);
-    }
-    if (orderData.estimation && !allEstimations.find(e => e._id === orderData.estimation._id)) {
-        allEstimations.push(orderData.estimation);
-    }
-    const sortedEstimations = allEstimations.sort((a, b) => new Date(b.logCreatedDate) - new Date(a.logCreatedDate));
-    const hasMultipleQuotations = sortedEstimations.length > 1;
     const earliestQuotation = hasMultipleQuotations ? sortedEstimations[sortedEstimations.length - 1] : null;
     const latestQuotation = sortedEstimations[0] || null;
     const earliestQuotationGrandTotal = getQuotationGrandTotal(earliestQuotation);
@@ -436,6 +415,40 @@ const OrderDetails = () => {
     const revisedQuotationPendingAfterAdvance = hasRevisedAdvanceSettlement
         ? Math.max(Number((latestQuotationGrandTotal - revisedAdvanceOnlyPaid).toFixed(2)), 0)
         : 0;
+    const pendingQuotationAmount = Math.max(Number((estimationGrandTotal - advancePaidAmount).toFixed(2)), 0);
+    const singleQuotationRemainingAfterAdvance =
+        !hasMultipleQuotations &&
+        isFullQuotationPayment &&
+        advancePaidAmount > 0 &&
+        estimationGrandTotal > 0
+            ? pendingQuotationAmount
+            : 0;
+    const effectiveFullQuotationPaidAmount =
+        singleQuotationRemainingAfterAdvance > 0
+            ? singleQuotationRemainingAfterAdvance
+            : (
+                isFullQuotationPayment && estimationGrandTotal > 0
+                    ? estimationGrandTotal
+                    : rawFullAmountPaid
+            );
+    const rawDisplayFullPaidAmount =
+        isPartialQuotationPayment
+            ? pendingQuotationAmount
+            : effectiveFullQuotationPaidAmount;
+    const rawDisplayTotalPaidAmount =
+        isFullQuotationPayment && estimationGrandTotal > 0
+            ? (initialCollectedAmount + advancePaidAmount + effectiveFullQuotationPaidAmount)
+            : isPartialQuotationPayment
+                ? (initialCollectedAmount + advancePaidAmount)
+                : isInitialServiceCenterPaymentFlow
+                    ? (serviceCenterAdvancePaidAmount + serviceCenterFullPaidAmount || serviceCenterCurrentPaidAmount)
+                    : Number(orderData.amount || 0);
+    const displayPaymentRequestAmount =
+        isFullQuotationPayment && estimationGrandTotal > 0
+            ? effectiveFullQuotationPaidAmount
+            : isPartialQuotationPayment
+                ? advancePaidAmount
+                : Number(orderData.paymentRequest?.amount || 0);
 
     const paymentFlowRows = [];
     if (initialCollectedAmount > 0 && !isInitialServiceCenterPaymentFlow) {
@@ -448,11 +461,11 @@ const OrderDetails = () => {
         if ((hasRevisedAdvanceSettlement || isFullQuotationPayment) && earliestQuotationOriginalPending > 0) {
             paymentFlowRows.push({ label: 'First Quotation Remaining Paid', amount: earliestQuotationOriginalPending });
         }
-        if ((hasRevisedAdvanceSettlement || isFullQuotationPayment) && latestQuotationOriginalAdvance > 0) {
+        if (isFullQuotationPayment && latestQuotationOriginalAdvance > 0) {
             paymentFlowRows.push({ label: 'Revised Quotation Advance Paid', amount: latestQuotationOriginalAdvance });
         }
         if (isFullQuotationPayment && latestQuotationOriginalPending > 0) {
-            paymentFlowRows.push({ label: 'Revised Quotation Full / Remaining Paid', amount: latestQuotationOriginalPending });
+            paymentFlowRows.push({ label: 'Amount received (revised quotation balance)', amount: latestQuotationOriginalPending });
         } else if (hasRevisedAdvanceSettlement && revisedAdvanceOnlyPaid > 0) {
             paymentFlowRows.push({ label: 'Revised Quotation Advance Paid', amount: revisedAdvanceOnlyPaid });
         }
@@ -462,7 +475,10 @@ const OrderDetails = () => {
         }
         if (serviceCenterFullPaidAmount > 0) {
             paymentFlowRows.push({
-                label: serviceCenterAdvancePaidAmount > 0 ? 'Initial Booking Remaining / Full Paid' : 'Initial Booking Full Paid',
+                label:
+                    serviceCenterAdvancePaidAmount > 0
+                        ? 'Amount received (remaining booking payment)'
+                        : 'Amount received (full booking payment)',
                 amount: serviceCenterFullPaidAmount
             });
         } else if (serviceCenterCurrentPaidAmount > 0 && serviceCenterAdvancePaidAmount <= 0) {
@@ -473,25 +489,31 @@ const OrderDetails = () => {
             paymentFlowRows.push({ label: 'Quotation Advance Paid', amount: advancePaidAmount });
         }
         if (isFullQuotationPayment && rawDisplayFullPaidAmount > 0) {
-            paymentFlowRows.push({ label: 'Quotation Full / Remaining Paid', amount: rawDisplayFullPaidAmount });
+            paymentFlowRows.push({ label: 'Amount received (quotation balance)', amount: rawDisplayFullPaidAmount });
         } else if (!isPartialQuotationPayment && rawFullAmountPaid > 0) {
-            paymentFlowRows.push({ label: 'Additional Payment Collected', amount: rawFullAmountPaid });
+            paymentFlowRows.push({ label: 'Amount received (additional payment)', amount: rawFullAmountPaid });
         }
     }
-    const paymentFlowTotal = Number(paymentFlowRows.reduce((sum, item) => sum + Number(item.amount || 0), 0).toFixed(2));
+    const uniquePaymentFlowRows = paymentFlowRows.filter((item, index, rows) =>
+        rows.findIndex((row) =>
+            row.label === item.label &&
+            Number(row.amount || 0) === Number(item.amount || 0)
+        ) === index
+    );
+    const paymentFlowTotal = Number(uniquePaymentFlowRows.reduce((sum, item) => sum + Number(item.amount || 0), 0).toFixed(2));
     const displayTotalPaidAmount = paymentFlowTotal > 0 ? paymentFlowTotal : rawDisplayTotalPaidAmount;
     const summaryPrimaryLabel =
         isInitialServiceCenterPaymentFlow && serviceCenterAdvancePaidAmount > 0
-            ? 'Initial Booking Advance Paid'
+            ? 'Advance paid (initial booking)'
             : isInitialServiceCenterPaymentFlow && serviceCenterFullPaidAmount > 0
-                ? 'Initial Booking Full Paid'
+                ? 'Amount received (full booking payment)'
         : hasMultipleQuotations && isFullQuotationPayment
-            ? 'Revised Full / Remaining Paid'
+            ? 'Amount received (revised balance)'
             : hasMultipleQuotations && hasRevisedAdvanceSettlement
-                ? 'Revised Advance Paid'
+                ? 'Advance paid (revised quotation)'
                 : Number(orderData.partialAmountPaid) > 0
-                    ? 'Advance Paid'
-                    : 'Amount Paid';
+                    ? 'Advance paid'
+                    : 'Amount paid';
     const summaryPrimaryAmount =
         isInitialServiceCenterPaymentFlow && serviceCenterAdvancePaidAmount > 0
             ? serviceCenterAdvancePaidAmount
@@ -504,12 +526,12 @@ const OrderDetails = () => {
                 : Number(orderData.partialAmountPaid || 0);
     const summarySecondaryLabel =
         isInitialServiceCenterPaymentFlow
-            ? 'Initial Booking Pending Amount'
+            ? 'Remaining balance on booking'
         : hasMultipleQuotations && isFullQuotationPayment
-            ? 'Revised Quotation Advance'
+            ? 'Advance on revised quotation'
             : isPartialQuotationPayment
-                ? 'Pending Amount'
-                : 'Remainder / Full Paid';
+                ? 'Balance still due'
+                : 'Amount received recently';
     const summarySecondaryAmount =
         isInitialServiceCenterPaymentFlow
             ? serviceCenterPendingAmount
@@ -540,7 +562,7 @@ const OrderDetails = () => {
                         <>
                             <Button
                                 startIcon={<IconReceipt2 />}
-                                onClick={() => window.open(`http://192.168.0.5:5013/uploads/invoices/invoice-${orderData.serviceBookingId || orderData._id}.pdf`, '_blank')}
+                                onClick={() => window.open(`https://api.doorstephub.com/uploads/invoices/invoice-${orderData.serviceBookingId || orderData._id}.pdf`, '_blank')}
                                 variant="contained"
                                 color="success"
                                 sx={{ borderRadius: '8px', fontWeight: 'bold' }}
@@ -549,7 +571,7 @@ const OrderDetails = () => {
                             </Button>
                             <Button
                                 startIcon={<IconReceipt2 />}
-                                onClick={() => window.open(`http://192.168.0.5:5013/uploads/provider-invoices/provider-invoice-${orderData.serviceBookingId || orderData._id}.pdf`, '_blank')}
+                                onClick={() => window.open(`https://api.doorstephub.com/uploads/provider-invoices/provider-invoice-${orderData.serviceBookingId || orderData._id}.pdf`, '_blank')}
                                 variant="contained"
                                 color="secondary"
                                 sx={{ borderRadius: '8px', fontWeight: 'bold' }}
@@ -681,7 +703,7 @@ const OrderDetails = () => {
                                             {providerDisplayName ? (
                                                 <Stack direction="row" spacing={2} alignItems="center">
                                                     <Avatar
-                                                        src={provider.image ? (provider.image.startsWith('http') ? provider.image : `http://192.168.0.5:5013/${provider.image}`) : undefined}
+                                                        src={provider.image ? (provider.image.startsWith('http') ? provider.image : `https://api.doorstephub.com/${provider.image}`) : undefined}
                                                         sx={{ width: 50, height: 50 }}
                                                     >
                                                         {providerDisplayName.charAt(0)}
@@ -841,17 +863,17 @@ const OrderDetails = () => {
                                                         </Grid>
                                                     )}
                                                     <Grid item xs={12} sm={4}>
-                                                        <Typography variant="caption" color="primary.main" fontWeight="600" gutterBottom display="block">Total Amount Paid</Typography>
+                                                        <Typography variant="caption" color="primary.main" fontWeight="600" gutterBottom display="block">Total paid so far</Typography>
                                                         <Typography variant="h5" fontWeight="800" color="primary.main">&#8377;{displayTotalPaidAmount}</Typography>
                                                     </Grid>
                                                 </Grid>
-                                                {paymentFlowRows.length > 0 && (
+                                                {uniquePaymentFlowRows.length > 0 && (
                                                     <Box mt={3} p={1.5} sx={{ bgcolor: 'grey.50', borderRadius: '8px', border: '1px dashed', borderColor: 'divider' }}>
                                                         <Typography variant="subtitle2" fontWeight="700" mb={1.25}>
-                                                            Payment Flow Breakdown
+                                                            How payments add up
                                                         </Typography>
                                                         <Stack spacing={0.75}>
-                                                            {paymentFlowRows.map((item, index) => (
+                                                            {uniquePaymentFlowRows.map((item, index) => (
                                                                 <Stack key={`${item.label}-${index}`} direction="row" justifyContent="space-between" alignItems="center">
                                                                     <Typography variant="body2" color="textSecondary">{item.label}</Typography>
                                                                     <Typography variant="body2" fontWeight="700">&#8377;{Number(item.amount || 0).toFixed(2)}</Typography>
@@ -859,7 +881,7 @@ const OrderDetails = () => {
                                                             ))}
                                                             <Divider sx={{ my: 0.5 }} />
                                                             <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                                                <Typography variant="subtitle2" fontWeight="700">Overall Collected</Typography>
+                                                                <Typography variant="subtitle2" fontWeight="700">Total collected</Typography>
                                                                 <Typography variant="subtitle2" fontWeight="800" color="primary.main">&#8377;{displayTotalPaidAmount.toFixed(2)}</Typography>
                                                             </Stack>
                                                         </Stack>
@@ -869,9 +891,17 @@ const OrderDetails = () => {
                                                     <Box mt={3} p={1.5} sx={{ bgcolor: '#FFF8E6', borderRadius: '8px', border: '1px solid #FFD54F' }}>
                                                         <Stack direction="row" justifyContent="space-between" alignItems="center">
                                                             <Box>
-                                                                <Typography variant="subtitle2" color="#B28900" fontWeight="700">Active Payment Request</Typography>
+                                                                <Typography variant="subtitle2" color="#B28900" fontWeight="700">
+                                                                    {['paid', 'completed'].includes(normalizedPaymentRequestStatus)
+                                                                        ? 'Latest payment from customer'
+                                                                        : 'Payment request (awaiting customer)'}
+                                                                </Typography>
                                                                 <Typography variant="caption" color="#B28900">
-                                                                    {orderData.paymentRequest.type === 'partial' ? 'Advance Payment requested' : 'Final Remainder requested'}
+                                                                    {['paid', 'completed'].includes(normalizedPaymentRequestStatus)
+                                                                        ? 'Amount received recently'
+                                                                        : orderData.paymentRequest.type === 'partial'
+                                                                            ? 'Advance requested from customer'
+                                                                            : 'Balance / remainder requested from customer'}
                                                                 </Typography>
                                                             </Box>
                                                             <Box textAlign="right">

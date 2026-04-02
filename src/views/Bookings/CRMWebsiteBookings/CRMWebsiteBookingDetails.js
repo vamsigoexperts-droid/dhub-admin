@@ -268,7 +268,7 @@ const CRMWebsiteBookingDetails = () => {
                                         <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px' }}>
                                             {booking.providerId ? (
                                                 <Stack direction="row" spacing={2} alignItems="center">
-                                                    <Avatar src={booking.providerId.image ? `http://192.168.0.5:5013/${booking.providerId.image}` : ''} sx={{ width: 56, height: 56 }}>
+                                                    <Avatar src={booking.providerId.image ? `https://api.doorstephub.com/${booking.providerId.image}` : ''} sx={{ width: 56, height: 56 }}>
                                                         {booking.providerId.firstName?.charAt(0)}
                                                     </Avatar>
                                                     <Box>

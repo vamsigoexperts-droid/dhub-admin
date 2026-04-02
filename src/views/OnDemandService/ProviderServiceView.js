@@ -73,7 +73,7 @@ const SingleViewServiceRequest = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/ondemandservice/providerService/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/ondemandservice/providerService/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ const SingleViewServiceRequest = () => {
       setActionLoading(true);
       try {
         const res = await axios.put(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/ondemandservice/approve-reject-provider-service/${id}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/ondemandservice/approve-reject-provider-service/${id}`,
           { action: 'approve' },
           {
             headers: {
@@ -171,7 +171,7 @@ const SingleViewServiceRequest = () => {
     setActionLoading(true);
     try {
       const res = await axios.put(
-        `http://192.168.0.5:5013/v1/dhubApi/admin/ondemandservice/approve-reject-provider-service/${id}`,
+        `https://api.doorstephub.com/v1/dhubApi/admin/ondemandservice/approve-reject-provider-service/${id}`,
         {
           action: 'reject',
           rejectionReason: rejectionReason,

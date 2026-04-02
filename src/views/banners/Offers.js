@@ -63,7 +63,7 @@ const OffersManagement = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://192.168.0.5:5013/v1/dhubApi/admin/offers/getalloffers',
+        'https://api.doorstephub.com/v1/dhubApi/admin/offers/getalloffers',
         {
           page: page,
           limit: limit,
@@ -157,7 +157,7 @@ const OffersManagement = () => {
       setLoading(true);
       try {
         const res = await axios.delete(
-          `http://192.168.0.5:5013/v1/dhubApi/admin/offers/deleteoffer/${offerData._id}`,
+          `https://api.doorstephub.com/v1/dhubApi/admin/offers/deleteoffer/${offerData._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
