@@ -45,6 +45,7 @@ import {
   IconUsers,
   IconBuilding,
   IconCheck,
+  IconShield,
   IconX as IconXMark,
 } from '@tabler/icons-react';
 
@@ -53,6 +54,17 @@ const BCrumb = [
   { to: '/AllprofessionalProviders', title: 'Professional Providers' },
   { title: 'View Professional Provider' },
 ];
+
+const generateSlug = (text) => {
+  if (text == null || text === '') return '';
+  return String(text)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
 
 const DocumentCard = styled(Card)(({ theme }) => ({
   width: 120,
@@ -160,12 +172,10 @@ const ViewProfessionalProvider = () => {
 
   // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ UPDATED HELPER FUNCTIONS - Display NAMES not IDs
   const getServiceName = (providerData) => {
-    // Priority 1: serviceName (populated by API)
     if (providerData.serviceName) return providerData.serviceName;
-    // Priority 2: serviceId object with name
-    if (providerData.serviceId?.name) return providerData.serviceId.name;
-    // Priority 3: serviceId string
-    if (providerData.serviceId) return providerData.serviceId;
+    if (providerData.serviceId && typeof providerData.serviceId === 'object' && providerData.serviceId.name) {
+      return providerData.serviceId.name;
+    }
     return 'N/A';
   };
 
@@ -332,8 +342,8 @@ const ViewProfessionalProvider = () => {
     }
   };
 
-  // Approve Bank Details (KYC Update)
-  const handleBankdetailsApprove = async () => {
+  /** Identity / document KYC (PAN, Aadhaar, proofs) — same API as list flow */
+  const handleIdentityDocumentsApprove = async () => {
     const token = getToken();
     if (!token || !id) return;
 
@@ -349,7 +359,40 @@ const ViewProfessionalProvider = () => {
           },
         }
       );
+      toast.success(res.data?.message || 'Documents approved successfully');
+      fetchProvider();
+    } catch (error) {
+      console.error('Approve documents failed:', error);
+      toast.error(error.response?.data?.message || 'Failed to approve documents');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /** Bank details only — dedicated JSON route so status persists (multipart update often skipped req.body fields). */
+  const handleBankdetailsApprove = async () => {
+    const token = getToken();
+    if (!token || !id) return;
+
+    setLoading(true);
+    try {
+      const res = await axios.put(
+        `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-bank-status/${id}`,
+        { bankDetailsStatus: 'approved' },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       toast.success(res.data?.message || 'Bank details approved successfully!');
+      if (res.data?.data?.bankDetailsStatus) {
+        setProviderData((prev) => ({
+          ...prev,
+          bankDetailsStatus: res.data.data.bankDetailsStatus,
+        }));
+      }
       fetchProvider();
     } catch (error) {
       console.error('Approve bank details failed:', error);
@@ -399,11 +442,34 @@ const ViewProfessionalProvider = () => {
     setLoading(true);
     try {
       let endpoint = '';
-      let payload = { reason: rejectReason };
+      let payload = {};
 
-      if (rejectDialog.type === 'bank') {
+      if (rejectDialog.type === 'kyc') {
         endpoint = `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-kyc/${id}`;
-        payload = { status: 'rejected', reason: rejectReason };
+        payload = { kyc_status: 'rejected' };
+      } else if (rejectDialog.type === 'bank') {
+        const res = await axios.put(
+          `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-bank-status/${id}`,
+          { bankDetailsStatus: 'rejected' },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        toast.success(res.data?.message || 'Rejected successfully');
+        if (res.data?.data?.bankDetailsStatus) {
+          setProviderData((prev) => ({
+            ...prev,
+            bankDetailsStatus: res.data.data.bankDetailsStatus,
+          }));
+        }
+        setRejectDialog({ open: false, type: null, title: '' });
+        setRejectReason('');
+        fetchProvider();
+        setLoading(false);
+        return;
       } else if (rejectDialog.type === 'provider') {
         endpoint = `https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/update-professional-provider-status/${id}`;
         payload = { status: 'inactive', reason: rejectReason };
@@ -430,9 +496,11 @@ const ViewProfessionalProvider = () => {
 
   const documentsData = documents;
 
-  // Check if KYC is approved (status should be 'active' or 'approved')
-  const isKycApproved = documents.kyc_status === 'active' || documents.kyc_status === 'approved';
+  const docKycStatus = documents.kyc_status || provider.kyc_status;
+  const isKycApproved = docKycStatus === 'active' || docKycStatus === 'approved';
   const isProviderActive = provider.status === 'active';
+  const bankStatus = provider.bankDetailsStatus || 'not_applied';
+  const isBankApproved = bankStatus === 'approved';
 
   return (
     <PageContainer title="View Professional Provider" description="View professional provider details">
@@ -528,7 +596,7 @@ const ViewProfessionalProvider = () => {
                 />
                 <InfoItem icon={IconMail} label="Email" value={provider.email} />
                 <InfoItem icon={IconPhone} label="Phone" value={provider.phone} />
-                <InfoItem icon={IconPhone} label="Alt Phone" value={provider.altphone || 'N/A'} />
+                {/* <InfoItem icon={IconPhone} label="Alt Phone" value={provider.altphone || 'N/A'} /> */}
                 <InfoItem icon={IconPhone} label="WhatsApp" value={provider.whatsappNumber} />
                 <InfoItem
                   icon={IconCalendar}
@@ -578,7 +646,12 @@ const ViewProfessionalProvider = () => {
         <Grid item xs={12} lg={6}>
           <InfoCard icon={IconBuildingStore} title="Business Information">
             <InfoItem icon={IconBuilding} label="Business Name" value={provider.business_name} />
-            <InfoItem icon={IconId} label="Slug" value={provider.slug} color="primary.main" />
+            <InfoItem
+              icon={IconId}
+              label="Slug"
+              value={provider.slug?.trim() || generateSlug(provider.business_name) || undefined}
+              color="primary.main"
+            />
 
             {/* ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ Service Name - FIXED */}
             <InfoItem
@@ -673,10 +746,28 @@ const ViewProfessionalProvider = () => {
           </InfoCard>
         </Grid>
 
-        {/* Identity Documents - Same order as Edit form */}
+        {/* Identity & verification — same approval pattern as View Provider (on-demand) */}
         <Grid item xs={12}>
-          <InfoCard icon={IconId} title="Identity Documents">
+          <InfoCard icon={IconShield} title="Identity & Verification Documents">
             <Grid container spacing={3}>
+              <Grid item xs={12} md={4}>
+                <InfoItem icon={IconPhone} label="Whatsapp Number" value={provider.whatsappNumber} />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <InfoItem
+                  icon={IconId}
+                  label="Address Proof Type"
+                  value={documents.address_proof_type || 'N/A'}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <InfoItem
+                  icon={IconReceipt}
+                  label="Address Proof Number"
+                  value={documents.address_proof_number || 'N/A'}
+                />
+              </Grid>
+
               {/* PAN Card Section - Row 1 */}
               <Grid item xs={12} md={3}>
                 <InfoItem icon={IconId} label="PAN Number" value={documents.pan_number} />
@@ -873,6 +964,63 @@ const ViewProfessionalProvider = () => {
                   )}
                 </Box>
               </Grid>
+
+              <Grid item xs={12}>
+                <Divider sx={{ my: 1 }} />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 2,
+                    mt: 1,
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    Document KYC:{' '}
+                    <Box
+                      component="span"
+                      sx={{
+                        fontWeight: 700,
+                        color: isKycApproved
+                          ? 'success.main'
+                          : docKycStatus === 'rejected'
+                            ? 'error.main'
+                            : 'warning.main',
+                      }}
+                    >
+                      {(docKycStatus || 'not_applied').toUpperCase()}
+                    </Box>
+                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleIdentityDocumentsApprove}
+                      disabled={loading || isKycApproved}
+                      size="small"
+                    >
+                      Approve Documents
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ backgroundColor: '#d32f2f', '&:hover': { backgroundColor: '#b71c1c' } }}
+                      onClick={() =>
+                        setRejectDialog({
+                          open: true,
+                          type: 'kyc',
+                          title: 'Reject Verification Documents',
+                        })
+                      }
+                      disabled={loading || docKycStatus === 'rejected'}
+                      size="small"
+                    >
+                      Reject Documents
+                    </Button>
+                  </Box>
+                </Box>
+              </Grid>
             </Grid>
           </InfoCard>
         </Grid>
@@ -943,12 +1091,12 @@ const ViewProfessionalProvider = () => {
             <InfoItem icon={IconCreditCard} label="UPI ID" value={provider.upi} />
             <InfoItem
               icon={IconId}
-              label="KYC Status"
-              value={documents.kyc_status?.toUpperCase() || 'PENDING'}
+              label="Bank verification status"
+              value={bankStatus.replace(/_/g, ' ').toUpperCase()}
               color={
-                isKycApproved
+                isBankApproved
                   ? 'success.main'
-                  : documents.kyc_status === 'rejected' || documents.kyc_status === 'inactive'
+                  : bankStatus === 'rejected'
                     ? 'error.main'
                     : 'warning.main'
               }
@@ -960,7 +1108,7 @@ const ViewProfessionalProvider = () => {
                 color="success"
                 startIcon={<IconCheck />}
                 onClick={handleBankdetailsApprove}
-                disabled={loading || isKycApproved}
+                disabled={loading || isBankApproved}
                 size="small"
               >
                 Approve Bank
@@ -972,7 +1120,7 @@ const ViewProfessionalProvider = () => {
                 onClick={() =>
                   setRejectDialog({ open: true, type: 'bank', title: 'Reject Bank Details' })
                 }
-                disabled={loading || documents.kyc_status === 'rejected'}
+                disabled={loading || bankStatus === 'rejected'}
                 size="small"
               >
                 Reject Bank

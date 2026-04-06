@@ -1,6 +1,6 @@
 /**
  * Vite exposes env vars on import.meta.env (must be prefixed with VITE_).
- * Default API is production; set VITE_API_BASE_URL for local backend (e.g. http://127.0.0.1:5013/).
+ * Default API is production; override VITE_API_BASE_URL only when you intentionally want a different backend.
  */
 export function getAdminApiBaseUrl() {
   const raw = String(import.meta.env?.VITE_API_BASE_URL || 'https://api.doorstephub.com').trim();

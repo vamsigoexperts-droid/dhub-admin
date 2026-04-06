@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
@@ -23,6 +23,17 @@ const BCrumb = [
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyBNVn5j-M6F4VHkaOluoOcVY3K5r2-NlPk';
 const GOOGLE_MAPS_LIBRARIES = ['places'];
+
+const generateSlug = (text) => {
+  if (text == null || text === '') return '';
+  return String(text)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
 
 const CustomSelect = styled(Select)({
   '& .MuiOutlinedInput-root': {
@@ -106,6 +117,7 @@ const EditProfessionalProvider = () => {
 
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const slugManualRef = useRef(false);
   const [autocomplete, setAutocomplete] = useState(null);
   const [mapCenter, setMapCenter] = useState({ lat: 12.9716, lng: 77.5946 });
   const [detectingLocation, setDetectingLocation] = useState(false);
@@ -392,8 +404,9 @@ const EditProfessionalProvider = () => {
           business_number: documentnumber.business_number || '',
           gst_number: documentnumber.gst_number || '',
           passport_number: documentnumber.passport_number || '',
-          slug: data.slug || '',
+          slug: data.slug || generateSlug(data.business_name || ''),
         });
+        slugManualRef.current = false;
 
         if (data.countryId?._id || data.countryId) {
           setSelectedCountry(data.countryId?._id || data.countryId);
@@ -716,6 +729,20 @@ const EditProfessionalProvider = () => {
     setForm({ ...form, [name]: value });
   };
 
+  const handleBusinessNameChange = (e) => {
+    const v = e.target.value;
+    setForm((prev) => ({
+      ...prev,
+      business_name: v,
+      ...(!slugManualRef.current ? { slug: generateSlug(v) } : {}),
+    }));
+  };
+
+  const handleSlugChange = (e) => {
+    slugManualRef.current = true;
+    setForm((prev) => ({ ...prev, slug: generateSlug(e.target.value) }));
+  };
+
   // Keep the existing handleMultiSelectChange for subcategories
   const handleMultiSelectChange = (e) => {
     const { name, value } = e.target;
@@ -941,9 +968,13 @@ const EditProfessionalProvider = () => {
 
     const formData = new FormData();
 
+    const slugFinal = (form.slug && String(form.slug).trim()) || generateSlug(form.business_name || '');
+    formData.append('slug', slugFinal);
+
     // Add form fields
     Object.entries(form).forEach(([key, value]) => {
       if (key === 'serviceName') return;
+      if (key === 'slug') return;
 
       // Use validated IDs for categories and subcategories
       if (key === 'professionalServiceCategoryId') {
@@ -1117,14 +1148,14 @@ const EditProfessionalProvider = () => {
                   <CustomFormLabel htmlFor="business_name" required>
                     Business Name
                   </CustomFormLabel>
-                  <CustomTextField id="business_name" variant="outlined" fullWidth placeholder="Enter Business Name" name="business_name" value={form.business_name} required onChange={handleChange} />
+                  <CustomTextField id="business_name" variant="outlined" fullWidth placeholder="Enter Business Name" name="business_name" value={form.business_name} required onChange={handleBusinessNameChange} />
                 </Grid>
 
                 <Grid item xs={12} sm={4} md={3}>
                   <CustomFormLabel htmlFor="slug">
                     Slug
                   </CustomFormLabel>
-                  <CustomTextField id="slug" variant="outlined" fullWidth placeholder="Enter Slug" name="slug" value={form.slug} onChange={handleChange} />
+                  <CustomTextField id="slug" variant="outlined" fullWidth placeholder="e.g. mess" name="slug" value={form.slug} onChange={handleSlugChange} helperText="Auto-filled from business name; edit to customize." />
                 </Grid>
 
                 <Grid item xs={12} sm={4} md={3}>

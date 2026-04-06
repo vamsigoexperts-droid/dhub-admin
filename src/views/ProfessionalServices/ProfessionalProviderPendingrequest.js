@@ -74,7 +74,7 @@ const ProfessionalProviderPendingRequest = () => {
 
     setLoading(true);
     try {
-      const url = `${URLS.Base}/v1/dhubApi/admin/professional-providers/get-all-professional-providers`;
+      const url = `${URLS.Base}v1/dhubApi/admin/professional-providers/get-all-professional-providers`;
       const payload = {
         searchQuery: searchQuery.trim(),
         type: ['inactive', 'applied'], // Filter for pending requests

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import CustomCheckbox from '../../components/forms/theme-elements/CustomCheckbox';
@@ -58,6 +58,17 @@ const getImageUrl = (imagePath) => {
   return `${IMAGE_BASE_URL}/${normalizedPath}`;
 };
 
+const generateSlug = (text) => {
+  if (text == null || text === '') return '';
+  return String(text)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
 // Styled Select component
 const CustomSelect = styled(Select)({
   '& .MuiOutlinedInput-root': {
@@ -89,9 +100,11 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 
 const AddProfessionalSubCategoryForm = ({ onClose, onSubmit, loading }) => {
   const theme = useTheme();
+  const slugManualRef = useRef(false);
 
   const [form, setForm] = useState({
     name: '',
+    slug: '',
     categoryId: '',
     serviceId: '',
     description: '',
@@ -159,6 +172,20 @@ const AddProfessionalSubCategoryForm = ({ onClose, onSubmit, loading }) => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleNameChange = (e) => {
+    const v = e.target.value;
+    setForm((prev) => ({
+      ...prev,
+      name: v,
+      ...(!slugManualRef.current ? { slug: generateSlug(v) } : {}),
+    }));
+  };
+
+  const handleSlugChange = (e) => {
+    slugManualRef.current = true;
+    setForm((prev) => ({ ...prev, slug: generateSlug(e.target.value) }));
+  };
+
   // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ FIXED CATEGORY CHANGE (important)
   const handleCategoryChange = (e) => {
     const selectedId = e?.target?.value ?? e;
@@ -219,6 +246,10 @@ const AddProfessionalSubCategoryForm = ({ onClose, onSubmit, loading }) => {
 
     const formData = new FormData();
     formData.append('name', form.name.trim());
+    formData.append(
+      'slug',
+      (form.slug && form.slug.trim()) || generateSlug(form.name.trim())
+    );
     formData.append('serviceId', form.serviceId);
     formData.append('categoryId', form.categoryId);
     formData.append('description', form.description.trim());
@@ -245,8 +276,20 @@ const AddProfessionalSubCategoryForm = ({ onClose, onSubmit, loading }) => {
               <CustomTextField
                 name="name"
                 value={form.name}
-                onChange={handleChange}
+                onChange={handleNameChange}
                 fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <CustomFormLabel>Slug</CustomFormLabel>
+              <CustomTextField
+                name="slug"
+                value={form.slug}
+                onChange={handleSlugChange}
+                fullWidth
+                placeholder="e.g. ac-dormitory"
+                helperText="Auto-filled from name; edit to customize."
               />
             </Grid>
 
@@ -405,9 +448,11 @@ const EditProfessionalSubCategoryForm = ({
   loading,
 }) => {
   const theme = useTheme();
+  const slugManualRef = useRef(false);
 
   const [form, setForm] = useState({
     name: initialData?.name || '',
+    slug: initialData?.slug || generateSlug(initialData?.name || ''),
     categoryId: initialData?.categoryId || '',
     serviceId: initialData?.serviceId || '', // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ FIX
     description: initialData?.description || '',
@@ -415,6 +460,21 @@ const EditProfessionalSubCategoryForm = ({
     metaTitle: initialData?.metaTitle || '',
     metaDescription: initialData?.metaDescription || '',
   });
+
+  useEffect(() => {
+    if (!initialData?._id) return;
+    slugManualRef.current = false;
+    setForm({
+      name: initialData.name || '',
+      slug: initialData.slug || generateSlug(initialData.name || ''),
+      categoryId: initialData.categoryId || '',
+      serviceId: initialData.serviceId || '',
+      description: initialData.description || '',
+      status: initialData.status || 'active',
+      metaTitle: initialData.metaTitle || '',
+      metaDescription: initialData.metaDescription || '',
+    });
+  }, [initialData?._id]);
 
   const [imageFile, setImageFile] = useState(null);
   const [iconFile, setIconFile] = useState(null);
@@ -505,6 +565,20 @@ const EditProfessionalSubCategoryForm = ({
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleNameChange = (e) => {
+    const v = e.target.value;
+    setForm((prev) => ({
+      ...prev,
+      name: v,
+      ...(!slugManualRef.current ? { slug: generateSlug(v) } : {}),
+    }));
+  };
+
+  const handleSlugChange = (e) => {
+    slugManualRef.current = true;
+    setForm((prev) => ({ ...prev, slug: generateSlug(e.target.value) }));
+  };
+
   // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ FIXED CATEGORY HANDLER
   const handleCategoryChange = (e) => {
     const selectedId = e?.target?.value ?? e;
@@ -569,6 +643,10 @@ const EditProfessionalSubCategoryForm = ({
 
     const formData = new FormData();
     formData.append('name', form.name.trim());
+    formData.append(
+      'slug',
+      (form.slug && form.slug.trim()) || generateSlug(form.name.trim())
+    );
     formData.append('serviceId', form.serviceId); // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ FIX
     formData.append('categoryId', form.categoryId);
     formData.append('description', form.description.trim());
@@ -605,8 +683,23 @@ const EditProfessionalSubCategoryForm = ({
                 name="name"
                 value={form.name}
                 required
-                onChange={handleChange}
+                onChange={handleNameChange}
                 aria-label="Enter sub category name"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+              <CustomFormLabel htmlFor="edit-sub-slug">Slug</CustomFormLabel>
+              <CustomTextField
+                id="edit-sub-slug"
+                variant="outlined"
+                fullWidth
+                placeholder="e.g. ac-dormitory"
+                name="slug"
+                value={form.slug}
+                onChange={handleSlugChange}
+                helperText="Auto-filled from name; edit to customize."
+                aria-label="URL slug for this subcategory"
               />
             </Grid>
 
@@ -946,6 +1039,15 @@ const ViewSubCategoryDialog = ({ open, onClose, subcategoryId, token }) => {
               </Typography>
               <Typography variant="body1" fontWeight={500}>
                 {subcategory.name}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Slug
+              </Typography>
+              <Typography variant="body1" fontWeight={500} sx={{ fontFamily: 'monospace' }}>
+                {subcategory.slug || '—'}
               </Typography>
             </Grid>
 
@@ -1291,8 +1393,10 @@ const ProfessionalSubCategory = () => {
     if (search === '') {
       return currentSubCategories;
     }
+    const q = search.toLowerCase();
     return currentSubCategories.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
+      item.name.toLowerCase().includes(q) ||
+      (item.slug && String(item.slug).toLowerCase().includes(q))
     );
   }, [currentSubCategories, search]);
 
@@ -1326,6 +1430,16 @@ const ProfessionalSubCategory = () => {
             />
             <Typography variant="body2">{params.row.name}</Typography>
           </Box>
+        ),
+      },
+      {
+        field: 'slug',
+        headerName: 'Slug',
+        width: 180,
+        renderCell: (params) => (
+          <Typography variant="body2" noWrap title={params.row.slug || ''}>
+            {params.row.slug || '—'}
+          </Typography>
         ),
       },
       {

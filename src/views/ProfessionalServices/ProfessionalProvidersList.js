@@ -287,7 +287,7 @@ const ProfessionalProviders = () => {
       formData.append('type', 'active');
 
       const res = await axios.post(
-        'https://api.doorstephub.com/v1/dhubApi/admin/professional-providers/get-all-professional-providers',
+        `${URLS.Base}v1/dhubApi/admin/professional-providers/get-all-professional-providers`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -451,11 +451,15 @@ const ProfessionalProviders = () => {
         headerName: 'Category',
         flex: 1,
         minWidth: 120,
-        renderCell: (params) => (
-          <Typography variant="body2">
-            {params.row.professionalCategoryName?.join(', ') || 'N/A'}
-          </Typography>
-        ),
+        renderCell: (params) => {
+          const fromLookup = params.row.professionalCategoryName?.filter(Boolean)?.join(', ');
+          const fromDoc = params.row.professionalServiceCategoryName?.filter(Boolean)?.join(', ');
+          return (
+            <Typography variant="body2">
+              {fromLookup || fromDoc || 'N/A'}
+            </Typography>
+          );
+        },
       },
       {
         field: 'location',

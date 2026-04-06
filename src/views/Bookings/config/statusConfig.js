@@ -71,18 +71,6 @@ export const professionalOrderStatuses = [
         route: '/bookings/professional/all',
     },
     {
-        key: 'missed',
-        label: 'Missed',
-        color: 'error',
-        route: '/bookings/professional/missed',
-    },
-    {
-        key: 'payment_pending',
-        label: 'Booking Pending',
-        color: 'secondary',
-        route: '/bookings/professional/payment-pending',
-    },
-    {
         key: 'pending',
         label: 'Pending',
         color: 'warning',
@@ -106,6 +94,12 @@ export const professionalOrderStatuses = [
         label: 'Cancelled',
         color: 'error',
         route: '/bookings/professional/cancelled',
+    },
+    {
+        key: 'missed',
+        label: 'Missed',
+        color: 'secondary',
+        route: '/bookings/professional/missed',
     },
 ];
 

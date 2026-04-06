@@ -27,11 +27,11 @@ const AllOrders = () => {
     const getInitialStatus = () => {
         const path = location.pathname;
         if (path.includes('payment-pending')) return 'payment_pending';
+        if (path.includes('missed')) return 'missed';
         if (path.includes('pending')) return 'pending';
         if (path.includes('in-progress')) return 'in-progress';
         if (path.includes('completed')) return 'completed';
         if (path.includes('cancelled')) return 'cancelled';
-        if (path.includes('missed')) return 'missed';
         return 'all';
     };
 
@@ -185,8 +185,8 @@ const AllOrders = () => {
                     if (s === 'all' || s === 'total') counts.all = count;
                     else if (s === 'payment_pending' || s.includes('payment_pending')) counts.payment_pending = count;
                     else if (s.includes('pending')) counts.pending += count;
-                    else if (s.includes('progress') || s.includes('accepted') || s.includes('assign')) counts['in-progress'] += count;
-                    else if (s.includes('complet')) counts.completed += count;
+                    else if (s.includes('progress') || s.includes('accepted') || s.includes('assign') || s.includes('way') || s.includes('reached')) counts['in-progress'] += count;
+                    else if (s.includes('complet') || s === 'paymentreceived') counts.completed += count;
                     else if (s.includes('cancel')) counts.cancelled += count;
                     else if (s.includes('missed')) counts.missed += count;
                 };

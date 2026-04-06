@@ -197,8 +197,9 @@ const ServiceViewDialog = ({ open, onClose, serviceData }) => {
           </Grid>
           <Grid item xs={12} md={4}>
             <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.50', borderRadius: 2 }}>
+              <Typography variant="caption" color="text.secondary" fontWeight={600}>MRP</Typography>
               <Typography variant="h5" fontWeight={700}>
-                ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{serviceData.defaultPrice || serviceData.purchasePrice || 0}
+                ₹{serviceData.mrp || serviceData.defaultPrice || serviceData.purchasePrice || 0}
               </Typography>
             </Paper>
           </Grid>
