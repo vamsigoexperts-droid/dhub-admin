@@ -166,12 +166,6 @@ export const AuthProvider = ({ children }) => {
 
 
   const connectSocket = (userData) => {
-    // Don't connect if already connected
-    if (window.adminSocket && window.adminSocket.connected) {
-      console.log('âœ… Socket already connected');
-      return window.adminSocket;
-    }
-
     const adminId = userData?.user?._id || userData?._id;
 
     if (!adminId) {
@@ -179,17 +173,29 @@ export const AuthProvider = ({ children }) => {
       return null;
     }
 
+    // Reuse the single client. When disconnected/reconnecting, never call io() again or you stack
+    // many Socket.IO clients (storms nginx with polling + 502s when the API restarts).
+    if (window.adminSocket) {
+      if (window.adminSocket.connected) {
+        window.adminSocket.emit('registerAdmin', { adminId });
+        window.adminSocket.emit('joinRoom', 'adminRoom');
+      }
+      return window.adminSocket;
+    }
+
     console.log('ðŸ”Œ Connecting socket for admin:', adminId);
 
     try {
-      // âœ… MATCH YOUR BACKEND: WebSocket only
       const socket = io(URLS.FileBase, {
-        transports: ['websocket'], // âœ… WebSocket ONLY (like your backend)
+        // Production nginx/Passenger often blocks WS upgrade; polling is stable.
+        transports: ['polling'],
+        upgrade: false,
         reconnection: true,
-        reconnectionAttempts: 5,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax: 5000,
-        timeout: 10000,
+        reconnectionAttempts: 10,
+        reconnectionDelay: 2000,
+        reconnectionDelayMax: 15000,
+        randomizationFactor: 0.5,
+        timeout: 20000,
         autoConnect: true,
         forceNew: false
       });

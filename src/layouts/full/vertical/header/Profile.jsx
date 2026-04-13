@@ -11,6 +11,7 @@ import useAuth from '../../../../guards/UseAuth';
 import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../../../Url';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
   const { signout } = useAuth();
@@ -35,14 +36,20 @@ const Profile = () => {
     getData();
   }, []);
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   const getData = () => {
     axios
       .post(URLS.GetProfile, {}, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => setData(res.data.profile || []))
+      .then((res) => setData(res.data.profile || null))
       .catch((err) => toast('Failed to fetch services'));
   };
+
+  // Avoid `${base}${undefined}` → ".../undefined" which triggers GET /undefined on the API host
+  const profileImageSrc =
+    data?.image && String(data.image).trim() !== ''
+      ? `${URLS.FileBase}${String(data.image).replace(/^\//, '')}`
+      : undefined;
 
   return (
     <Box>
@@ -60,8 +67,8 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={`${URLS.FileBase}${data.image}`}
-          alt={`${URLS.FileBase}${data.image}`}
+          src={profileImageSrc}
+          alt={data?.name || 'Admin'}
           sx={{
             width: 35,
             height: 35,
@@ -88,15 +95,13 @@ const Profile = () => {
       >
         <Typography variant="h5">User Profile</Typography>
         <Stack direction="row" py={3} spacing={2} alignItems="center">
-          <Avatar  src={`${URLS.FileBase}${data.image}`}
-            alt={`${URLS.FileBase}${data.image}`}
-            sx={{ width: 55, height: 55 }} />
+          <Avatar src={profileImageSrc} alt={data?.name || 'Admin'} sx={{ width: 55, height: 55 }} />
           <Box>
             <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-            {data.name}
+              {data?.name ?? '—'}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-            {data.phone}
+              {data?.phone ?? '—'}
             </Typography>
             <Typography
               variant="subtitle2"
@@ -106,7 +111,7 @@ const Profile = () => {
               gap={1}
             >
               <IconMail width={15} height={15} />
-              {data.email}
+              {data?.email ?? '—'}
             </Typography>
           </Box>
         </Stack>

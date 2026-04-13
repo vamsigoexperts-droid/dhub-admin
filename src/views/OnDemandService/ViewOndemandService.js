@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import DOMPurify from 'dompurify';
 import {
   Avatar,
   Box,
@@ -425,7 +426,7 @@ const ViewOndemandService = () => {
                   borderRadius: 2,
                   minHeight: 100,
                 }}
-                dangerouslySetInnerHTML={{ __html: serviceData.description }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(serviceData.description) }}
               />
             ) : (
               <Typography variant="body1" color="textSecondary" textAlign="center" py={6}>

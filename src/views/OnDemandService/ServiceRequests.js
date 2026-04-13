@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import { IconEye, IconAnalyze, IconTrash, IconCheck, IconX } from '@tabler/icons-react';
+import { IconEye, IconAnalyze, IconTrash, IconCheck, IconX, IconStar } from '@tabler/icons-react';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import PageContainer from 'src/components/container/PageContainer';
@@ -97,6 +97,11 @@ const PendingServiceProvider = () => {
     rejectionReason: '',
   });
   const [bulkRejectReason, setBulkRejectReason] = useState('');
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewModalTitle, setReviewModalTitle] = useState('');
+  const [serviceReviews, setServiceReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewSummary, setReviewSummary] = useState({ totalReviews: 0, averageRating: 0 });
 
   // ==================== PROVIDER FUNCTIONS ====================
 
@@ -376,6 +381,28 @@ const PendingServiceProvider = () => {
   const handleViewServiceRequest = (data) => {
     setSelectedServiceRequest(data);
     setOpenViewServiceRequestModal(true);
+  };
+
+  const handleServiceReviews = async (row) => {
+    if (!token) return;
+    setReviewModalTitle(row?.name || 'Service');
+    setReviewModalOpen(true);
+    setReviewsLoading(true);
+    try {
+      const res = await axios.get(URLS.GetServiceReviews, {
+        params: { serviceId: row?._id, channel: 'service-center' },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const payload = res?.data?.data || {};
+      setServiceReviews(Array.isArray(payload.reviews) ? payload.reviews : []);
+      setReviewSummary(payload.summary || { totalReviews: 0, averageRating: 0 });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to fetch service reviews');
+      setServiceReviews([]);
+      setReviewSummary({ totalReviews: 0, averageRating: 0 });
+    } finally {
+      setReviewsLoading(false);
+    }
   };
 
   const handleEditServiceRequest = (data) => {
@@ -743,6 +770,18 @@ const PendingServiceProvider = () => {
               }}
             >
               View
+            </Button>
+
+            <Button
+              variant="text"
+              color="warning"
+              size="small"
+              startIcon={<IconStar size={16} />}
+              onClick={() => handleServiceReviews(params.row)}
+              disabled={serviceRequestLoading}
+              sx={{ whiteSpace: 'nowrap', minWidth: 'auto' }}
+            >
+              Reviews
             </Button>
 
             {(rolesAndPermission.new_providers_delete || rolesAndPermission.accessAll) && (
@@ -1504,6 +1543,36 @@ const PendingServiceProvider = () => {
           <Button onClick={handleCloseViewServiceRequestModal} variant="contained">
             Close
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={reviewModalOpen} onClose={() => setReviewModalOpen(false)} fullWidth maxWidth="md">
+        <DialogTitle>{`Service Center Reviews - ${reviewModalTitle}`}</DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            Total Reviews: <strong>{reviewSummary.totalReviews || 0}</strong> | Average Rating:{' '}
+            <strong>{Number(reviewSummary.averageRating || 0).toFixed(2)}</strong>
+          </Typography>
+          {reviewsLoading ? (
+            <Typography variant="body2">Loading reviews...</Typography>
+          ) : serviceReviews.length === 0 ? (
+            <Typography variant="body2">No reviews found for this service.</Typography>
+          ) : (
+            <Box sx={{ maxHeight: 420, overflowY: 'auto' }}>
+              {serviceReviews.map((item) => (
+                <Paper key={item._id} variant="outlined" sx={{ p: 1.5, mb: 1 }}>
+                  <Typography variant="subtitle2">{item.customerName || 'Customer'}</Typography>
+                  <Typography variant="caption">Rating: {Number(item.rating || 0).toFixed(1)} / 5</Typography>
+                  <Typography variant="body2" sx={{ mt: 0.5 }}>
+                    {item.description || 'No comment'}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setReviewModalOpen(false)}>Close</Button>
         </DialogActions>
       </Dialog>
     </PageContainer>

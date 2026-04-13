@@ -13,7 +13,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { URLS } from '../../Url';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Blog' }];
 
@@ -191,12 +191,9 @@ const BlogForm = ({ onClose, onSubmit, initialData, services = [] }) => {
               <CustomFormLabel htmlFor="fullcontent" required>Full Content</CustomFormLabel>
               <Box sx={{ border: '1px solid #ccc', borderRadius: 1, minHeight: 220, '& .ck-editor__editable': { minHeight: 180 } }}>
                 <CKEditor
-                  editor={ClassicEditor}
+                  editor={CustomCKEditor}
                   data={form.fullcontent}
                   onChange={handleCKEditorChange}
-                  config={{
-                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'undo', 'redo']
-                  }}
                 />
               </Box>
             </Grid>

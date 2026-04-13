@@ -49,7 +49,7 @@ import {
   IconTrash,
 } from '@tabler/icons-react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Users' }];
 
@@ -345,35 +345,6 @@ const Users = () => {
     }
   };
 
-  const editorConfiguration = {
-    toolbar: {
-      items: [
-        'heading',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'strikethrough',
-        '|',
-        'fontColor',
-        'fontBackgroundColor',
-        '|',
-        'bulletedList',
-        'numberedList',
-        '|',
-        'alignment',
-        '|',
-        'link',
-        'blockQuote',
-        'insertTable',
-        '|',
-        'undo',
-        'redo',
-      ],
-    },
-    language: 'en',
-    placeholder: 'Type your email message here...',
-  };
 
   const columns = useMemo(
     () => [
@@ -764,8 +735,8 @@ const Users = () => {
                   }}
                 >
                   <CKEditor
-                    editor={ClassicEditor}
-                    config={editorConfiguration}
+                    editor={CustomCKEditor}
+                    config={{ placeholder: 'Type your email message here...' }}
                     data={mailForm.messageHtml}
                     onChange={handleEditorChange}
                     onReady={(editor) => {

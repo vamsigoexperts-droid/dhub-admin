@@ -5,11 +5,6 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from '../guards/ProtectedRoute';
 import NotProtectedRoute from '../guards/NotProtectedRoute';
-import ExploreApps from '../views/websitelatest/ExploreApps';
-import InstaGallery from '../views/websitelatest/InstaGallery';
-import Services from '../views/websitelatest/Services';
-import LatestBlogs from '../views/websitelatest/Latestblog'
-import AboutUslatest from '../views/websitelatest/AboutUslatest'
 import HomeScreenManagement from '../views/OnDemandService/websiteMangement/homeScreenManagement';
 import AddHomeScreen from '../views/OnDemandService/websiteMangement/AddHomeScreen';
 import EditHomeScreenManagement from '../views/OnDemandService/websiteMangement/EditHomeScreenMangement';
@@ -53,6 +48,11 @@ import ViewTeamMember from '../views/ProfessionalServices/ViewTeamMember';
 // Unified Bookings
 const BookingsDashboard = Loadable(lazy(() => import('../views/Bookings')));
 const BookingsOverview = Loadable(lazy(() => import('../views/Bookings/BookingsDashboard')));
+const ExploreApps = Loadable(lazy(() => import('../views/websitelatest/ExploreApps')));
+const InstaGallery = Loadable(lazy(() => import('../views/websitelatest/InstaGallery')));
+const Services = Loadable(lazy(() => import('../views/websitelatest/Services')));
+const LatestBlogs = Loadable(lazy(() => import('../views/websitelatest/Latestblog')));
+const AboutUslatest = Loadable(lazy(() => import('../views/websitelatest/AboutUslatest')));
 
 // Verified Partner Orders (New Unified Bookings)
 const VerifiedPartnerOrders = Loadable(lazy(() => import('../views/Bookings/VerifiedPartnerOrders')));

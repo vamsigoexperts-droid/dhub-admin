@@ -274,6 +274,7 @@ export const URLS = {
   GetProfessionalStats: Url + 'v1/dhubApi/admin/orders/professional/stats',
   GetBookingsAnalytics: Url + 'v1/dhubApi/admin/orders/analytics',
   GetOrderById: (orderId) => Url + `v1/dhubApi/admin/orders/${orderId}`,
+  GetServiceReviews: Url + 'v1/dhubApi/admin/orders/service-reviews',
 
   //CRM Website Bookings
   GetCRMWebsiteBookings: Url + 'v1/dhubApi/admin/crm-website-bookings/get-all-crm-bookings',

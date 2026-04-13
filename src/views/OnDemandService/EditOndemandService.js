@@ -4,10 +4,10 @@ import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLab
 import { IconArrowBackUp, IconMinus, IconPlus, IconX } from '@tabler/icons-react';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ParentCard from '../../components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { styled } from '@mui/material/styles';
@@ -104,8 +104,10 @@ const EditOndemandService = () => {
   const navigate = useNavigate();
   const DemandServicesId = localStorage.getItem('DemandServicesId');
   const [loading, setLoading] = useState(false);
+  const [slugSaving, setSlugSaving] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [isEditingSlug, setIsEditingSlug] = useState(false);
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
   const [form, setForm] = useState({
     _id: '',
@@ -197,6 +199,9 @@ const EditOndemandService = () => {
         defaultPrice: data.defaultPrice || '',
         defaultQuantity: data.defaultQuantity || '',
       });
+      const existingSlug = String(data.slug || data.parmalinks || '').trim();
+      const generatedSlug = toSlug(data.name || '').slice(0, 65);
+      setSlugManuallyEdited(Boolean(existingSlug) && existingSlug !== generatedSlug);
 
       // âœ… Load HTML description from backend (description_html field)
       setDescriptionHtml(data.description_html || data.description || '');
@@ -260,7 +265,7 @@ const EditOndemandService = () => {
 
   // âœ… ONLY Auto-generate slug from service name
   useEffect(() => {
-    if (isEditingSlug) return;
+    if (isEditingSlug || slugManuallyEdited) return;
 
     const serviceName = form.name || '';
     let slug = toSlug(serviceName);
@@ -270,7 +275,7 @@ const EditOndemandService = () => {
     }
 
     setForm((prev) => ({ ...prev, slug }));
-  }, [form.name, isEditingSlug]);
+  }, [form.name, isEditingSlug, slugManuallyEdited]);
 
   // âœ… REMOVED: Auto-sync tags to SEO Title
   // âœ… REMOVED: Auto-sync description to SEO Description
@@ -311,6 +316,75 @@ const EditOndemandService = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const buildFormData = ({ formValues, includeFiles = true }) => {
+    const formData = new FormData();
+
+    Object.keys(formValues).forEach((key) => {
+      if (key === 'childcategoryId') {
+        formData.append('childcategoryId', '683dbbfbb62d2a241de0f7e3');
+      } else if (Array.isArray(formValues[key])) {
+        formData.append(key, JSON.stringify(formValues[key]));
+      } else {
+        formData.append(key, formValues[key] ?? '');
+      }
+    });
+
+    formData.append('description', description);
+    formData.append('description_html', descriptionHtml);
+    formData.append('seoTags', tags.join(','));
+    formData.append('benefitsOfTheService', JSON.stringify(benefitsOfTheService));
+    formData.append('existingWorkingImages', JSON.stringify(existingWorkingImages));
+
+    if (includeFiles) {
+      if (mainImage) formData.append('mainImage', mainImage);
+      galleryFiles.forEach((file) => {
+        formData.append('workingImages', file);
+      });
+    }
+
+    return formData;
+  };
+
+  const handleSlugEditToggle = async () => {
+    if (isEditingSlug) {
+      const generatedSlug = toSlug(form.name || '').slice(0, 65);
+      const normalizedSlug = toSlug(form.slug || '').slice(0, 90);
+      const finalSlug = normalizedSlug || generatedSlug;
+      const nextForm = { ...form, slug: finalSlug };
+
+      setForm(nextForm);
+      setSlugManuallyEdited(Boolean(finalSlug) && finalSlug !== generatedSlug);
+
+      // Persist slug immediately when user clicks the check icon.
+      const token = getToken();
+      if (form._id && token) {
+        setSlugSaving(true);
+        try {
+          const formData = buildFormData({ formValues: nextForm, includeFiles: false });
+          await axios.put(`${URLS.EditOnDemandSevice}/${form._id}`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          toast.success('Slug saved');
+        } catch (error) {
+          const message =
+            error.response?.data?.message || 'Failed to save slug. Please try again.';
+          toast.error(message);
+          return;
+        } finally {
+          setSlugSaving(false);
+        }
+      }
+
+      setIsEditingSlug(false);
+      return;
+    }
+
+    setIsEditingSlug(true);
   };
 
   const handleBenefitChange = (index, e) => {
@@ -421,34 +495,7 @@ const EditOndemandService = () => {
     if (!validateForm()) return;
 
     const token = getToken();
-    const formData = new FormData();
-
-    // Append all form fields
-    Object.keys(form).forEach((key) => {
-      if (key === 'childcategoryId') {
-        formData.append('childcategoryId', '683dbbfbb62d2a241de0f7e3');
-      } else if (Array.isArray(form[key])) {
-        formData.append(key, JSON.stringify(form[key]));
-      } else {
-        formData.append(key, form[key]);
-      }
-    });
-
-    // âœ… Send BOTH plain text and HTML description
-    formData.append('description', description);
-    formData.append('description_html', descriptionHtml);
-
-    formData.append('seoTags', tags.join(','));
-    formData.append('benefitsOfTheService', JSON.stringify(benefitsOfTheService));
-
-    if (mainImage) formData.append('mainImage', mainImage);
-
-    // Send existing images to keep
-    formData.append('existingWorkingImages', JSON.stringify(existingWorkingImages));
-
-    galleryFiles.forEach((file) => {
-      formData.append('workingImages', file);
-    });
+    const formData = buildFormData({ formValues: form, includeFiles: true });
 
     setLoading(true);
     try {
@@ -588,7 +635,8 @@ const EditOndemandService = () => {
                     name="slug"
                     value={form.slug || ''}
                     onChange={(e) => {
-                      setForm((prev) => ({ ...prev, slug: e.target.value }));
+                      setSlugManuallyEdited(true);
+                      setForm((prev) => ({ ...prev, slug: toSlug(e.target.value) }));
                     }}
                     placeholder="Enter slug (e.g. ac-repair)"
                     fullWidth
@@ -624,14 +672,16 @@ const EditOndemandService = () => {
 
                 <IconButton
                   size="small"
-                  onClick={() => setIsEditingSlug(!isEditingSlug)}
+                  type="button"
+                  onClick={handleSlugEditToggle}
+                  disabled={slugSaving || loading}
                   color={isEditingSlug ? 'success' : 'primary'}
                 >
                   {isEditingSlug ? <CheckIcon /> : <EditIcon />}
                 </IconButton>
               </Box>
               <FormHelperText>
-                {isEditingSlug ? 'Edit the full URL path - click âœ“ to save' : ''}
+                {isEditingSlug ? 'Edit the full URL path - click check to save' : ''}
               </FormHelperText>
             </Grid>
 

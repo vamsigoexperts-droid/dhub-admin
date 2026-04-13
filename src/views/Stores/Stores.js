@@ -3,7 +3,7 @@ import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import { ToastContainer, toast } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import 'react-toastify/dist/ReactToastify.css';
@@ -495,35 +495,6 @@ const Store = () => {
     [filteredData],
   );
 
-  const editorConfiguration = {
-    toolbar: {
-      items: [
-        'heading',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'strikethrough',
-        '|',
-        'fontColor',
-        'fontBackgroundColor',
-        '|',
-        'bulletedList',
-        'numberedList',
-        '|',
-        'alignment',
-        '|',
-        'link',
-        'blockQuote',
-        'insertTable',
-        '|',
-        'undo',
-        'redo',
-      ],
-    },
-    language: 'en',
-    placeholder: 'Type your email message here...',
-  };
 
   return (
     <PageContainer title="Store Page" description="Manage Stores for your e-commerce platform">
@@ -721,8 +692,8 @@ const Store = () => {
                   }}
                 >
                   <CKEditor
-                    editor={ClassicEditor}
-                    config={editorConfiguration}
+                    editor={CustomCKEditor}
+                    config={{ placeholder: 'Type your email message here...' }}
                     data={mailForm.messageHtml}
                     onChange={handleEditorChange}
                     onReady={(editor) => {

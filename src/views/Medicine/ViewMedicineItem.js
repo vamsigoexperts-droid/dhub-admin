@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import DOMPurify from 'dompurify';
 import { Box, Grid, Typography, Button, Chip, Alert, Card, Skeleton } from '@mui/material';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
@@ -334,9 +335,15 @@ const ViewMedicineProduct = () => {
               Full Description
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {displayValue(productData.fullDescription)}
-              </Typography>
+              {productData.fullDescription ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.fullDescription) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No description available
+                </Typography>
+              )}
             </Card>
           </Grid>
           <Grid item xs={12}>
@@ -442,9 +449,15 @@ const ViewMedicineProduct = () => {
               Storage Instructions
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {displayValue(productData.storageInstructions)}
-              </Typography>
+              {productData.storageInstructions ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.storageInstructions) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No instructions available
+                </Typography>
+              )}
             </Card>
           </Grid>
           <Grid item xs={12}>
@@ -452,9 +465,15 @@ const ViewMedicineProduct = () => {
               Usage Instructions
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {displayValue(productData.usageInstructions)}
-              </Typography>
+              {productData.usageInstructions ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.usageInstructions) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No instructions available
+                </Typography>
+              )}
             </Card>
           </Grid>
           <Grid item xs={12}>
@@ -462,9 +481,15 @@ const ViewMedicineProduct = () => {
               Side Effects
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {displayValue(productData.sideEffects)}
-              </Typography>
+              {productData.sideEffects ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.sideEffects) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No side effects listed
+                </Typography>
+              )}
             </Card>
           </Grid>
           <Grid item xs={12}>
@@ -472,9 +497,15 @@ const ViewMedicineProduct = () => {
               Precautions / Warnings
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {displayValue(productData.precautionsWarnings)}
-              </Typography>
+              {productData.precautionsWarnings ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.precautionsWarnings) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No precautions listed
+                </Typography>
+              )}
             </Card>
           </Grid>
         </Grid>
@@ -520,9 +551,15 @@ const ViewMedicineProduct = () => {
               Composition Table
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {displayValue(productData.compositionTable)}
-              </Typography>
+              {productData.compositionTable ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.compositionTable) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No composition table available
+                </Typography>
+              )}
             </Card>
           </Grid>
           <Grid item xs={12}>

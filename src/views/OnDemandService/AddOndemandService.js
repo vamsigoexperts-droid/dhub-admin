@@ -4,7 +4,7 @@ import CustomTextField from '../../components/forms/theme-elements/CustomTextFie
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import ParentCard from '../../components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -567,7 +567,7 @@ const AddOndemandService = () => {
               <Grid item xs={12}>
                 <CustomFormLabel>Description</CustomFormLabel>
                 <CKEditor
-                  editor={ClassicEditor}
+                  editor={CustomCKEditor}
                   data={htmlDescription}
                   onChange={(_, editor) => {
                     const html = editor.getData();

@@ -63,9 +63,11 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import URLS from '../../URLS';
+import { getMediaBaseUrl } from '../../config/apiEnv';
 import { granularPartnerStatuses } from './config/statusConfig';
 
 const OrderDetails = () => {
+    const mediaBase = getMediaBaseUrl().replace(/\/$/, '');
     const { id } = useParams();
     const navigate = useNavigate();
     const [order, setOrder] = useState(null);
@@ -260,11 +262,31 @@ const OrderDetails = () => {
     if (!order) return <Box p={3}><Typography color="error">Order not found</Typography></Box>;
 
     const orderData = order.order || order;
+    const buildInvoiceUrl = (rawPath, fallbackPath) => {
+        const value = String(rawPath || '').trim();
+        if (value) {
+            if (/^https?:\/\//i.test(value)) return value;
+            return `${mediaBase}/${value.replace(/^\//, '')}`;
+        }
+        return fallbackPath;
+    };
+    const customerInvoiceUrl = buildInvoiceUrl(
+        orderData.invoice,
+        `${mediaBase}/uploads/invoices/invoice-${orderData.serviceBookingId || orderData._id}.pdf`
+    );
+    const partnerInvoiceUrl = buildInvoiceUrl(
+        orderData.providerInvoice,
+        `${mediaBase}/uploads/provider-invoices/provider-invoice-${orderData.serviceBookingId || orderData._id}.pdf`
+    );
     const customer = orderData.userId || {};
     const service = orderData.serviceId || orderData.service || {};
     const selectedRatecard = Array.isArray(orderData.selectedRatecards) && orderData.selectedRatecards.length
         ? orderData.selectedRatecards[0]
         : null;
+    /** Snapshot from customer checkout (BookService) — multiple rate lines */
+    const selectedServiceRatesList = Array.isArray(orderData.selectedServiceRates)
+        ? orderData.selectedServiceRates.filter((r) => r && (r.name || r.title))
+        : [];
     const snapshotService = Array.isArray(orderData.services) && orderData.services.length
         ? orderData.services[0]
         : null;
@@ -287,12 +309,16 @@ const OrderDetails = () => {
         '';
     const displayServiceCategory =
         service.categoryName ||
+        (snapshotService?.serviceCategory && snapshotService?.serviceSubcategory
+            ? `${snapshotService.serviceCategory} › ${snapshotService.serviceSubcategory}`
+            : snapshotService?.serviceCategory || snapshotService?.serviceSubcategory) ||
         orderData.services?.[0]?.serviceCategory ||
         orderData.categoryId?.categoryName ||
         orderData.categoryId?.name ||
         'General Service';
     const provider = orderData.provider || orderData.providerId || orderData.providerSnapshot || {};
     const statusHistory = orderData.statusHistory || [];
+    const submittedReview = orderData.review || null;
 
     // Robust Estimation Detection (Support for latestEstimation and estimations array)
     const estimation = orderData.latestEstimation ||
@@ -562,7 +588,7 @@ const OrderDetails = () => {
                         <>
                             <Button
                                 startIcon={<IconReceipt2 />}
-                                onClick={() => window.open(`https://api.doorstephub.com/uploads/invoices/invoice-${orderData.serviceBookingId || orderData._id}.pdf`, '_blank')}
+                                onClick={() => window.open(customerInvoiceUrl, '_blank')}
                                 variant="contained"
                                 color="success"
                                 sx={{ borderRadius: '8px', fontWeight: 'bold' }}
@@ -571,7 +597,7 @@ const OrderDetails = () => {
                             </Button>
                             <Button
                                 startIcon={<IconReceipt2 />}
-                                onClick={() => window.open(`https://api.doorstephub.com/uploads/provider-invoices/provider-invoice-${orderData.serviceBookingId || orderData._id}.pdf`, '_blank')}
+                                onClick={() => window.open(partnerInvoiceUrl, '_blank')}
                                 variant="contained"
                                 color="secondary"
                                 sx={{ borderRadius: '8px', fontWeight: 'bold' }}
@@ -703,7 +729,7 @@ const OrderDetails = () => {
                                             {providerDisplayName ? (
                                                 <Stack direction="row" spacing={2} alignItems="center">
                                                     <Avatar
-                                                        src={provider.image ? (provider.image.startsWith('http') ? provider.image : `https://api.doorstephub.com/${provider.image}`) : undefined}
+                                                        src={provider.image ? (provider.image.startsWith('http') ? provider.image : `${mediaBase}/${String(provider.image).replace(/^\//, '')}`) : undefined}
                                                         sx={{ width: 50, height: 50 }}
                                                     >
                                                         {providerDisplayName.charAt(0)}
@@ -786,22 +812,78 @@ const OrderDetails = () => {
                                             <Typography variant="h6" fontWeight="600">Service Items & Pricing</Typography>
                                         </Stack>
                                         <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px' }}>
-                                            <Stack direction="row" spacing={2} alignItems="center">
-                                                <Avatar src={displayServiceImage} variant="rounded" sx={{ width: 60, height: 60 }}><IconBriefcase /></Avatar>
-                                                <Box flexGrow={1}>
-                                                    <Typography variant="subtitle1" fontWeight="700">{displayServiceName}</Typography>
-                                                    <Typography variant="body2" color="textSecondary">{displayServiceCategory}</Typography>
-                                                </Box>
-                                                <Box textAlign="right">
-                                                    <Typography variant="h5" color="secondary.main" fontWeight="700">&#8377;{orderData.totalAmount || orderData.amount || '0'}</Typography>
-                                                    <Chip
-                                                        label={orderData.paymentStatus?.toUpperCase() || 'UNPAID'}
-                                                        size="small"
-                                                        color={orderData.paymentStatus === 'paid' ? 'success' : 'warning'}
-                                                        sx={{ mt: 0.5, fontWeight: '700' }}
-                                                    />
-                                                </Box>
-                                            </Stack>
+                                            {selectedServiceRatesList.length > 0 ? (
+                                                <Stack spacing={2}>
+                                                    <Stack direction="row" spacing={2} alignItems="flex-start">
+                                                        <Avatar src={displayServiceImage} variant="rounded" sx={{ width: 60, height: 60 }}><IconBriefcase /></Avatar>
+                                                        <Box flexGrow={1}>
+                                                            <Typography variant="subtitle2" color="textSecondary" fontWeight={600}>
+                                                                Selected services (from checkout)
+                                                            </Typography>
+                                                            <Typography variant="body2" color="textSecondary" sx={{ mt: 0.5 }}>
+                                                                {displayServiceCategory}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box textAlign="right">
+                                                            <Typography variant="caption" color="textSecondary" display="block">Order payment</Typography>
+                                                            <Typography variant="h5" color="secondary.main" fontWeight="700">&#8377;{orderData.totalAmount || orderData.amount || '0'}</Typography>
+                                                            <Chip
+                                                                label={orderData.paymentStatus?.toUpperCase() || 'UNPAID'}
+                                                                size="small"
+                                                                color={orderData.paymentStatus === 'paid' ? 'success' : 'warning'}
+                                                                sx={{ mt: 0.5, fontWeight: '700' }}
+                                                            />
+                                                        </Box>
+                                                    </Stack>
+                                                    <TableContainer>
+                                                        <Table size="small">
+                                                            <TableHead>
+                                                                <TableRow>
+                                                                    <TableCell sx={{ fontWeight: 700 }}>Service / rate line</TableCell>
+                                                                    <TableCell align="right" sx={{ fontWeight: 700 }}>Qty</TableCell>
+                                                                    <TableCell align="right" sx={{ fontWeight: 700 }}>Line (&#8377;)</TableCell>
+                                                                </TableRow>
+                                                            </TableHead>
+                                                            <TableBody>
+                                                                {selectedServiceRatesList.map((row, idx) => {
+                                                                    const label = String(row.name || row.title || '—').trim();
+                                                                    const qty = Math.max(1, Number(row.quantity) || 1);
+                                                                    const linePrice = Number(row.price) || 0;
+                                                                    return (
+                                                                        <TableRow key={`${label}-${idx}`}>
+                                                                            <TableCell>{label}</TableCell>
+                                                                            <TableCell align="right">{qty}</TableCell>
+                                                                            <TableCell align="right">
+                                                                                {(linePrice * qty).toFixed(0)}
+                                                                            </TableCell>
+                                                                        </TableRow>
+                                                                    );
+                                                                })}
+                                                            </TableBody>
+                                                        </Table>
+                                                    </TableContainer>
+                                                    <Typography variant="caption" color="textSecondary">
+                                                        Line totals are indicative (name + price × qty from booking snapshot). Platform / inspection fees may be separate on the order.
+                                                    </Typography>
+                                                </Stack>
+                                            ) : (
+                                                <Stack direction="row" spacing={2} alignItems="center">
+                                                    <Avatar src={displayServiceImage} variant="rounded" sx={{ width: 60, height: 60 }}><IconBriefcase /></Avatar>
+                                                    <Box flexGrow={1}>
+                                                        <Typography variant="subtitle1" fontWeight="700">{displayServiceName}</Typography>
+                                                        <Typography variant="body2" color="textSecondary">{displayServiceCategory}</Typography>
+                                                    </Box>
+                                                    <Box textAlign="right">
+                                                        <Typography variant="h5" color="secondary.main" fontWeight="700">&#8377;{orderData.totalAmount || orderData.amount || '0'}</Typography>
+                                                        <Chip
+                                                            label={orderData.paymentStatus?.toUpperCase() || 'UNPAID'}
+                                                            size="small"
+                                                            color={orderData.paymentStatus === 'paid' ? 'success' : 'warning'}
+                                                            sx={{ mt: 0.5, fontWeight: '700' }}
+                                                        />
+                                                    </Box>
+                                                </Stack>
+                                            )}
                                         </Paper>
                                     </Grid>
 
@@ -917,6 +999,53 @@ const OrderDetails = () => {
                                                     </Box>
                                                 )}
                                             </Box>
+                                        </Paper>
+                                    </Grid>
+
+                                    {/* Customer Rating & Review */}
+                                    <Grid item xs={12}>
+                                        <Stack direction="row" spacing={1.5} alignItems="center" mb={2} mt={1}>
+                                            <IconInfoCircle size={22} color="#FF9800" />
+                                            <Typography variant="h6" fontWeight="600">Rate & Review</Typography>
+                                        </Stack>
+                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px', bgcolor: 'grey.50' }}>
+                                            {submittedReview ? (
+                                                <Stack spacing={1.25}>
+                                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                                        <Typography variant="subtitle1" fontWeight="700">
+                                                            {Number(submittedReview.rating || 0).toFixed(1)} / 5
+                                                        </Typography>
+                                                        <Chip
+                                                            label="SUBMITTED"
+                                                            size="small"
+                                                            color="success"
+                                                            sx={{ fontWeight: 700 }}
+                                                        />
+                                                    </Stack>
+                                                    <Typography variant="body2" color="textSecondary">
+                                                        {submittedReview.description || 'No review comment provided.'}
+                                                    </Typography>
+                                                    <Divider />
+                                                    <Grid container spacing={2}>
+                                                        <Grid item xs={12} md={6}>
+                                                            <Typography variant="caption" color="textSecondary" fontWeight={600}>Mapped Service</Typography>
+                                                            <Typography variant="body2" fontWeight={700}>
+                                                                {submittedReview.serviceName || displayServiceName || 'N/A'}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={12} md={6}>
+                                                            <Typography variant="caption" color="textSecondary" fontWeight={600}>Mapped Provider</Typography>
+                                                            <Typography variant="body2" fontWeight={700}>
+                                                                {submittedReview.providerName || providerDisplayName || 'N/A'}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Stack>
+                                            ) : (
+                                                <Typography variant="body2" color="textSecondary">
+                                                    Customer has not submitted any rating or review for this booking yet.
+                                                </Typography>
+                                            )}
                                         </Paper>
                                     </Grid>
                                 </Grid>

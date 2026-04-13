@@ -135,6 +135,17 @@ const OrderTable = ({
                                             ? (order.services?.[0]?.serviceName || order.serviceSnapshot?.serviceName || '-')
                                             : (order.service?.serviceName || order.serviceId?.serviceName || '-')}
                                     </Typography>
+                                    {orderType === 'professional' &&
+                                        (order.services?.[0]?.serviceCategory || order.services?.[0]?.serviceSubcategory) && (
+                                        <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
+                                            {[
+                                                order.services?.[0]?.serviceCategory,
+                                                order.services?.[0]?.serviceSubcategory,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(' › ')}
+                                        </Typography>
+                                    )}
                                     {(order.provider?.businessName || order.providerSnapshot?.businessName) && (
                                         <Typography variant="caption" color="primary.main" sx={{ display: 'block', fontWeight: 600 }}>
                                             Provider: {order.provider?.businessName || order.providerSnapshot?.businessName}

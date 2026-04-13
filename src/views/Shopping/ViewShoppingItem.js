@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import DOMPurify from 'dompurify';
 import {
   Box,
   Grid,
@@ -294,9 +295,16 @@ const ViewProduct = () => {
               Full Description
             </Typography>
             <Card variant="outlined" sx={{ bgcolor: 'grey.50', p: 2 }}>
-              <Typography variant="body1" color="text.secondary" sx={{ whiteSpace: 'pre-wrap' }}>
-                {productData.fullDescription || 'N/A'}
-              </Typography>
+              {productData.fullDescription ? (
+                <div
+                  className="product-description"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(productData.fullDescription) }}
+                />
+              ) : (
+                <Typography variant="body1" color="text.secondary">
+                  No description available
+                </Typography>
+              )}
             </Card>
           </Grid>
           <Grid item xs={12} sm={6}>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { TextField, Avatar, Paper, Box, Typography, Divider, CardContent } from '@mui/material';
+import { TextField, Avatar, Paper, Box, Typography, Divider, CardContent, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import { IconPlus, IconEdit, IconTrash, IconEye, IconTablePlus } from '@tabler/icons-react';
+import { IconPlus, IconEdit, IconTrash, IconEye, IconTablePlus, IconStar } from '@tabler/icons-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTheme } from '@mui/material/styles';
@@ -29,6 +29,11 @@ const OnDemandService = () => {
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewModalTitle, setReviewModalTitle] = useState('');
+  const [serviceReviews, setServiceReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewSummary, setReviewSummary] = useState({ totalReviews: 0, averageRating: 0 });
 
   const token = JSON.parse(localStorage.getItem('user'))?.token || '';
 
@@ -49,6 +54,28 @@ const OnDemandService = () => {
   const handleViewPopUp = (data) => {
     navigate('/ondemandservice/viewondemandservice');
     localStorage.setItem('DemandServicesId', data._id);
+  };
+
+  const handleServiceReviews = async (row) => {
+    if (!token) return;
+    setReviewModalTitle(row?.name || 'Service');
+    setReviewModalOpen(true);
+    setReviewsLoading(true);
+    try {
+      const res = await axios.get(URLS.GetServiceReviews, {
+        params: { serviceId: row?._id, channel: 'verified-partner' },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const payload = res?.data?.data || {};
+      setServiceReviews(Array.isArray(payload.reviews) ? payload.reviews : []);
+      setReviewSummary(payload.summary || { totalReviews: 0, averageRating: 0 });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to fetch service reviews');
+      setServiceReviews([]);
+      setReviewSummary({ totalReviews: 0, averageRating: 0 });
+    } finally {
+      setReviewsLoading(false);
+    }
   };
 
   const handleDelete = async (data) => {
@@ -208,6 +235,23 @@ const OnDemandService = () => {
       <Button
         variant="text"
         size="small"
+        color="warning"
+        startIcon={<IconStar size={16} />}
+        onClick={() => handleServiceReviews(params.row)}
+        disabled={loading}
+        sx={{
+          textTransform: 'none',
+          fontFamily: 'Poppins',
+          fontSize: '13px',
+          '&:hover': { textDecoration: 'underline' },
+        }}
+      >
+        Reviews
+      </Button>
+
+      <Button
+        variant="text"
+        size="small"
         color="secondary"
         startIcon={<IconEye size={16} />}
         onClick={() => handleViewPopUp(params.row)}
@@ -323,6 +367,36 @@ const OnDemandService = () => {
           </Box>
         </CardContent>
       </Paper>
+
+      <Dialog open={reviewModalOpen} onClose={() => setReviewModalOpen(false)} fullWidth maxWidth="md">
+        <DialogTitle>{`Verified Partner Reviews - ${reviewModalTitle}`}</DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            Total Reviews: <strong>{reviewSummary.totalReviews || 0}</strong> | Average Rating:{' '}
+            <strong>{Number(reviewSummary.averageRating || 0).toFixed(2)}</strong>
+          </Typography>
+          {reviewsLoading ? (
+            <Typography variant="body2">Loading reviews...</Typography>
+          ) : serviceReviews.length === 0 ? (
+            <Typography variant="body2">No reviews found for this service.</Typography>
+          ) : (
+            <Box sx={{ maxHeight: 420, overflowY: 'auto' }}>
+              {serviceReviews.map((item) => (
+                <Paper key={item._id} variant="outlined" sx={{ p: 1.5, mb: 1 }}>
+                  <Typography variant="subtitle2">{item.customerName || 'Customer'}</Typography>
+                  <Typography variant="caption">Rating: {Number(item.rating || 0).toFixed(1)} / 5</Typography>
+                  <Typography variant="body2" sx={{ mt: 0.5 }}>
+                    {item.description || 'No comment'}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setReviewModalOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </PageContainer>
   );
 };

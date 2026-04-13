@@ -43,6 +43,29 @@ const BCrumb = [
   { title: 'Send to Service Providers' },
 ];
 
+/** API lists are sometimes null, missing, or a single object — never call .map on raw responses */
+const asArray = (value) => {
+  if (value == null) return [];
+  if (Array.isArray(value)) return value;
+  return [value];
+};
+
+/** Admin ondemandcategory / ondemandsubcategory APIs use these keys (not `data`). */
+const pickOndemandCategoriesFromResponse = (res) =>
+  asArray(res?.data?.ondemandcategorys ?? res?.data?.data);
+
+const pickOndemandSubcategoriesFromResponse = (res) =>
+  asArray(
+    res?.data?.ondemandsubcategorys ?? res?.data?.subcategories ?? res?.data?.data
+  );
+
+/** Master catalog: only active rows (schema default is active; treat missing as active). */
+const isActiveOndemandRow = (row) => {
+  const s = row?.status;
+  if (s == null || s === '') return true;
+  return String(s).toLowerCase() === 'active';
+};
+
 const AssignServiceProviders = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -108,6 +131,17 @@ const AssignServiceProviders = () => {
           serviceId: booking.serviceId?._id || booking.serviceId || booking.service?._id || booking.service || '',
         };
         setFilters(newFilters);
+        if (newFilters.categoryId) {
+          await fetchSubcategories(newFilters.categoryId);
+        } else {
+          setSubcategories([]);
+        }
+        if (newFilters.subcategoryId) {
+          await fetchServices(newFilters.subcategoryId);
+        } else {
+          setServices([]);
+        }
+        fetchServiceProviders(newFilters);
       }
     } catch (error) {
       console.error('Error fetching booking details:', error);
@@ -138,14 +172,17 @@ const AssignServiceProviders = () => {
     try {
       const [citiesRes, categoriesRes, websiteCitiesRes] = await Promise.all([
         axios.get(URLS.GetCity, { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { success: false } })),
-        axios.get(URLS.GetDemandCategory, { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { success: false } })),
+        // POST /admin/ondemandcategory/getallondemandcategorys — returns { ondemandcategorys }
+        axios
+          .post(URLS.GetDemandCategory, {}, { headers: { Authorization: `Bearer ${token}` } })
+          .catch(() => ({ data: { success: false } })),
         axios.get(URLS.GetWebsiteCities, { headers: { Authorization: `Bearer ${token}` } }).catch(() => ({ data: { success: false } })),
       ]);
 
       let combinedCities = [];
-      if (citiesRes.data.success) combinedCities = [...citiesRes.data.data];
+      if (citiesRes.data.success) combinedCities = [...asArray(citiesRes.data.data)];
       if (websiteCitiesRes.data.success) {
-        const websiteCities = websiteCitiesRes.data.data.map(c => ({
+        const websiteCities = asArray(websiteCitiesRes.data.data).map((c) => ({
           _id: c._id,
           cityName: c.cityName || c.name || c.city
         }));
@@ -158,7 +195,10 @@ const AssignServiceProviders = () => {
       }
 
       setCities(combinedCities);
-      if (categoriesRes.data.success) setCategories(categoriesRes.data.data);
+      if (categoriesRes.data.success) {
+        const allMaster = pickOndemandCategoriesFromResponse(categoriesRes);
+        setCategories(allMaster.filter(isActiveOndemandRow));
+      }
     } catch (error) {
       console.error('Error fetching filter options', error);
     }
@@ -176,7 +216,8 @@ const AssignServiceProviders = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.data.success) {
-        setSubcategories(response.data.data);
+        const list = pickOndemandSubcategoriesFromResponse(response).filter(isActiveOndemandRow);
+        setSubcategories(list);
       }
     } catch (error) {
       console.error('Error fetching subcategories', error);
@@ -195,7 +236,7 @@ const AssignServiceProviders = () => {
       });
 
       if (response.data.success) {
-        const allServices = response.data.data;
+        const allServices = asArray(response.data.data);
         const filtered = allServices.filter(
           (s) =>
             s.subCategoryId === subcategoryId ||
@@ -234,6 +275,8 @@ const AssignServiceProviders = () => {
   const handleClearFilters = () => {
     const cleared = { cityId: '', cityName: '', categoryId: '', subcategoryId: '', serviceId: '' };
     setFilters(cleared);
+    setSubcategories([]);
+    setServices([]);
     fetchServiceProviders(cleared);
   };
 
@@ -287,14 +330,15 @@ const AssignServiceProviders = () => {
         });
       }
 
-      if (response.data.success && response.data.data) {
-        setServiceProviders(response.data.data);
+      if (response.data.success && response.data.data != null) {
+        const list = asArray(response.data.data);
+        setServiceProviders(list);
 
         if (response.data.message && response.data.message.toLowerCase().includes('all active')) {
           setIsFallback(true);
         }
 
-        toast.success(`Found ${response.data.data.length} service providers`);
+        toast.success(`Found ${list.length} service providers`);
       } else {
         setServiceProviders([]);
         toast.warning('No service providers found');
@@ -302,6 +346,7 @@ const AssignServiceProviders = () => {
     } catch (error) {
       console.error('Error fetching service providers:', error);
       toast.error('Failed to load service providers');
+      setServiceProviders([]);
     } finally {
       setLoading(false);
     }
@@ -316,10 +361,11 @@ const AssignServiceProviders = () => {
   };
 
   const handleSelectAll = () => {
-    if (selectedProviders.length === serviceProviders.length) {
+    const list = asArray(serviceProviders);
+    if (selectedProviders.length === list.length) {
       setSelectedProviders([]);
     } else {
-      setSelectedProviders(serviceProviders.map((p) => p._id));
+      setSelectedProviders(list.map((p) => p._id));
     }
   };
 
@@ -410,7 +456,7 @@ const AssignServiceProviders = () => {
   // ... Helper to display address ...
   const displayAddress = bookingLocation || (addressDetails ? `${addressDetails.addressArea}, ${addressDetails.addressCityName}` : '');
 
-  const filteredProviders = serviceProviders.filter((provider) => {
+  const filteredProviders = asArray(serviceProviders).filter((provider) => {
     const fullName = `${provider.firstName || ''} ${provider.lastName || ''}`.toLowerCase();
     const phone = (provider.mobile || provider.phone || '').toString();
 
@@ -425,7 +471,7 @@ const AssignServiceProviders = () => {
   });
 
   console.log('FILTERED PROVIDERS:', {
-    total: serviceProviders.length,
+    total: asArray(serviceProviders).length,
     filtered: filteredProviders.length,
     searchTerm
   });
@@ -472,11 +518,11 @@ const AssignServiceProviders = () => {
         </Box>
       </Box>
 
-      {/* Filters */}
+      {/* Filters — ondemandcategories + ondemandsubcategories (verified partners) */}
       <Card elevation={0} sx={{ mb: 3, border: '1px solid #e0e0e0', borderRadius: '16px' }}>
         <CardContent>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <FormControl fullWidth size="small">
                 <InputLabel>City</InputLabel>
                 <Select
@@ -493,17 +539,75 @@ const AssignServiceProviders = () => {
                       serviceId: ''
                     };
                     setFilters(newFilters);
+                    setSubcategories([]);
+                    setServices([]);
                     fetchServiceProviders(newFilters);
                   }}
                 >
                   <MenuItem value=""><em>All Cities</em></MenuItem>
-                  {cities.map((city) => (
+                  {asArray(cities).map((city) => (
                     <MenuItem key={city._id} value={city._id}>{city.cityName || city.name || city.city}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={3}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Category</InputLabel>
+                <Select
+                  value={filters.categoryId}
+                  label="Category"
+                  onChange={(e) => {
+                    const categoryId = e.target.value;
+                    const newFilters = {
+                      ...filters,
+                      categoryId,
+                      subcategoryId: '',
+                      serviceId: '',
+                    };
+                    setFilters(newFilters);
+                    setServices([]);
+                    fetchSubcategories(categoryId);
+                    fetchServiceProviders(newFilters);
+                  }}
+                >
+                  <MenuItem value=""><em>All Categories</em></MenuItem>
+                  {asArray(categories).map((cat) => (
+                    <MenuItem key={cat._id} value={cat._id}>
+                      {cat.name || cat.categoryName || 'Category'}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <FormControl fullWidth size="small" disabled={!filters.categoryId}>
+                <InputLabel>Subcategory</InputLabel>
+                <Select
+                  value={filters.subcategoryId}
+                  label="Subcategory"
+                  onChange={(e) => {
+                    const subcategoryId = e.target.value;
+                    const newFilters = {
+                      ...filters,
+                      subcategoryId,
+                      serviceId: '',
+                    };
+                    setFilters(newFilters);
+                    fetchServices(subcategoryId);
+                    fetchServiceProviders(newFilters);
+                  }}
+                >
+                  <MenuItem value=""><em>All Subcategories</em></MenuItem>
+                  {asArray(subcategories).map((sub) => (
+                    <MenuItem key={sub._id} value={sub._id}>
+                      {sub.name || sub.subcategoryName || 'Subcategory'}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
               <TextField
                 fullWidth
                 size="small"
@@ -513,18 +617,19 @@ const AssignServiceProviders = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => {
-                  handleClearFilters();
-                  setSearchTerm('');
-                }}
-                sx={{ height: 40, borderColor: '#FA896B', color: '#FA896B' }}
-              >
-                Clear Filters
-              </Button>
+            <Grid item xs={12}>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    handleClearFilters();
+                    setSearchTerm('');
+                  }}
+                  sx={{ height: 40, borderColor: '#FA896B', color: '#FA896B', minWidth: 160 }}
+                >
+                  Clear Filters
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </CardContent>
@@ -551,28 +656,29 @@ const AssignServiceProviders = () => {
               Available Service Providers
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {selectedProviders.length} of {filteredProviders.length} selected
+              {selectedProviders.length} of {asArray(filteredProviders).length} selected
             </Typography>
           </Box>
           <Button
             variant="outlined"
             onClick={() => {
-              if (selectedProviders.length === filteredProviders.length && filteredProviders.length > 0) {
+              const fp = asArray(filteredProviders);
+              if (selectedProviders.length === fp.length && fp.length > 0) {
                 setSelectedProviders([]);
               } else {
-                setSelectedProviders(filteredProviders.map((p) => p._id));
+                setSelectedProviders(fp.map((p) => p._id));
               }
             }}
             className="transition-all duration-300 hover:scale-105"
             sx={{ borderRadius: '12px', textTransform: 'none', fontWeight: 600 }}
           >
-            {selectedProviders.length === filteredProviders.length && filteredProviders.length > 0 ? 'Deselect All' : 'Select All'}
+            {selectedProviders.length === asArray(filteredProviders).length && asArray(filteredProviders).length > 0 ? 'Deselect All' : 'Select All'}
           </Button>
         </Box>
 
         {/* Service Providers Grid */}
         <Grid container spacing={2}>
-          {filteredProviders.length === 0 ? (
+          {asArray(filteredProviders).length === 0 ? (
             <Grid item xs={12}>
               <Box
                 display="flex"
@@ -583,13 +689,15 @@ const AssignServiceProviders = () => {
               >
                 <Assignment sx={{ fontSize: 80, color: 'text.secondary', mb: 2 }} />
                 <Typography variant="h6" color="text.secondary">
-                  {searchTerm || filters.cityId ? 'No matching service providers found' : 'No service providers available'}
+                  {searchTerm || filters.cityId || filters.categoryId || filters.subcategoryId
+                    ? 'No matching service providers found'
+                    : 'No service providers available'}
                 </Typography>
                 <Button sx={{ mt: 2 }} onClick={() => { handleClearFilters(); setSearchTerm(''); }}>Clear Search</Button>
               </Box>
             </Grid>
           ) : (
-            filteredProviders.map((provider) => {
+            asArray(filteredProviders).map((provider) => {
               const isSelected = selectedProviders.includes(provider._id);
               const fullName = `${provider.firstName || ''} ${provider.lastName || ''}`.trim();
               const displayName = fullName || 'Unnamed Provider';
@@ -799,7 +907,7 @@ const AssignServiceProviders = () => {
                       </Box>
 
                       {/* Categories (New) */}
-                      {provider.categories && provider.categories.length > 0 && (
+                      {asArray(provider.categories).length > 0 && (
                         <Box sx={{ mt: 1, mb: 1 }}>
                           <Stack
                             direction="row"
@@ -809,10 +917,10 @@ const AssignServiceProviders = () => {
                             useFlexGap
                             sx={{ gap: 0.5 }}
                           >
-                            {provider.categories.slice(0, 3).map((cat, idx) => (
+                            {asArray(provider.categories).slice(0, 3).map((cat, idx) => (
                               <Chip
                                 key={idx}
-                                label={cat}
+                                label={typeof cat === 'string' ? cat : (cat?.name || cat?.categoryName || String(cat))}
                                 size="small"
                                 variant="outlined"
                                 sx={{
@@ -824,9 +932,9 @@ const AssignServiceProviders = () => {
                                 }}
                               />
                             ))}
-                            {provider.categories.length > 3 && (
+                            {asArray(provider.categories).length > 3 && (
                               <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem', mt: 0.5 }}>
-                                +{provider.categories.length - 3} more
+                                +{asArray(provider.categories).length - 3} more
                               </Typography>
                             )}
                           </Stack>

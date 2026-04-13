@@ -21,7 +21,7 @@ import axios from 'axios';
 import { URLS } from 'src/Url';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 
 const BCrumb = [
     { to: '/', title: 'Home' },
@@ -299,7 +299,7 @@ const CreateJob = () => {
                                     <Grid item xs={12}>
                                         <Typography variant="subtitle2" gutterBottom>Job Description</Typography>
                                         <CKEditor
-                                            editor={ClassicEditor}
+                                            editor={CustomCKEditor}
                                             data={formData.description}
                                             onChange={handleEditorChange}
                                         />

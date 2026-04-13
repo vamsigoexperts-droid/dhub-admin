@@ -1,4 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
+import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -275,7 +276,11 @@ const ViewDish = () => {
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               Full Description
             </Typography>
-            <Typography variant="body1">{dish.fullDescription || 'N/A'}</Typography>
+            <Box
+              className="product-description"
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(dish.fullDescription || 'No description available') }}
+              sx={{ typography: 'body1' }}
+            />
           </Grid>
           <Grid item xs={12} md={6}>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>

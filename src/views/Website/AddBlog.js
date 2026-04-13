@@ -14,7 +14,7 @@ import {
 import { IconArrowBackUp } from '@tabler/icons-react';
 import { ToastContainer, toast } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 
 // Custom components
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
@@ -32,25 +32,6 @@ const BREADCRUMB_ITEMS = [
   { title: 'Add Blog' }
 ];
 
-const CKEDITOR_CONFIG = {
-  toolbar: [
-    'heading',
-    '|',
-    'bold',
-    'italic',
-    'strikethrough',
-    'link',
-    '|',
-    'bulletedList',
-    'numberedList',
-    'blockQuote',
-    'code',
-    '|',
-    'undo',
-    'redo',
-  ],
-  placeholder: 'Type Large Description...',
-};
 
 const IMAGE_TYPES = ['jpg', 'jpeg', 'png'];
 
@@ -311,10 +292,10 @@ const AddBlog = () => {
           <Grid item xs={12}>
             <CustomFormLabel required>Detailed Content</CustomFormLabel>
             <CKEditor
-              editor={ClassicEditor}
+              editor={CustomCKEditor}
               data={editorData}
               onChange={(event, editor) => setEditorData(editor.getData())}
-              config={CKEDITOR_CONFIG}
+              config={{ placeholder: 'Type Large Description...' }}
             />
           </Grid>
         </ParentCard>

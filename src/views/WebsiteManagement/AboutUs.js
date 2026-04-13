@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
@@ -121,7 +121,7 @@ const ManageAboutUs = () => {
                     </Box>
                     <Paper variant="outlined" sx={{ overflow: 'hidden', minHeight: '400px' }}>
                         <CKEditor
-                            editor={ClassicEditor}
+                            editor={CustomCKEditor}
                             data={content}
                             onChange={(event, editor) => {
                                 const data = editor.getData();

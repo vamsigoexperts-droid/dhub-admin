@@ -4,7 +4,7 @@ import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLab
 import { Button, Box, Grid, Divider, Typography, Avatar } from '@mui/material';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import ParentCard from 'src/components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -191,26 +191,10 @@ const AboutUs = () => {
             <Grid item xs={12} sm={12}>
               <CustomFormLabel htmlFor="largeDescription">Detailed Description</CustomFormLabel>
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomCKEditor}
                 data={largeDescription}
                 onChange={(event, editor) => setLargeDescription(editor.getData())}
                 config={{
-                  toolbar: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'strikethrough',
-                    'link',
-                    '|',
-                    'bulletedList',
-                    'numberedList',
-                    'blockQuote',
-                    'code',
-                    '|',
-                    'undo',
-                    'redo',
-                  ],
                   placeholder: 'Type detailed About Us content here...',
                 }}
                 disabled={loading}

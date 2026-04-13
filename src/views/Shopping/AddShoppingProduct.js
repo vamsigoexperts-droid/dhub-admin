@@ -36,7 +36,7 @@ import {
 } from '@mui/material';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -1264,7 +1264,7 @@ const handleMetaKeywordsKeyDown = useCallback((e) => {
     }
   }}>
     <CKEditor
-      editor={ClassicEditor}
+      editor={CustomCKEditor}
       data={formData.fullDescription}
       onChange={(event, editor) => {
         const data = editor.getData();

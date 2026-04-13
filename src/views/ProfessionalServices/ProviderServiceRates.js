@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
-import { IconPlus, IconEdit, IconTrash, IconArrowBackUp, IconEye, IconTablePlus, IconX } from '@tabler/icons-react';
+import { IconPlus, IconEdit, IconTrash, IconArrowBackUp, IconEye, IconTablePlus, IconX, IconStar } from '@tabler/icons-react';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
 import ParentCard from '../../components/shared/ParentCard';
@@ -30,6 +30,7 @@ import {
   IconButton
 } from '@mui/material';
 import axios from 'axios';
+import { URLS } from '../../Url';
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Provider Service Rates' }];
 
@@ -61,6 +62,11 @@ const useProviderCategories = (providerId, token) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewModalTitle, setReviewModalTitle] = useState('');
+  const [serviceReviews, setServiceReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewSummary, setReviewSummary] = useState({ totalReviews: 0, averageRating: 0 });
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const fetchCategories = useCallback(async () => {
@@ -911,6 +917,28 @@ const ProviderServiceRates = () => {
     getSingleService(row._id);
   };
 
+  const handleServiceReviews = async (row) => {
+    if (!token) return;
+    setReviewModalTitle(row?.name || 'Service');
+    setReviewModalOpen(true);
+    setReviewsLoading(true);
+    try {
+      const res = await axios.get(URLS.GetServiceReviews, {
+        params: { serviceId: row?._id, channel: 'professional' },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const payload = res?.data?.data || {};
+      setServiceReviews(Array.isArray(payload.reviews) ? payload.reviews : []);
+      setReviewSummary(payload.summary || { totalReviews: 0, averageRating: 0 });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to fetch service reviews');
+      setServiceReviews([]);
+      setReviewSummary({ totalReviews: 0, averageRating: 0 });
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
   // Effects
   useEffect(() => {
     if (professionalProviderId && token) {
@@ -1104,6 +1132,32 @@ const ProviderServiceRates = () => {
           >
             View
           </Button>
+
+          <Button
+            size="small"
+            variant="outlined"
+            color="warning"
+            onClick={() => handleServiceReviews(params.row)}
+            disabled={loading}
+            startIcon={<IconStar size={14} />}
+            sx={{
+              minWidth: 78,
+              px: 1,
+              py: 0.5,
+              textTransform: 'none',
+              fontSize: '0.7rem',
+              borderRadius: '20px',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': {
+                borderRadius: '4px',
+                bgcolor: 'warning.main',
+                color: 'white',
+                transform: 'scale(1.08)'
+              }
+            }}
+          >
+            Reviews
+          </Button>
         </Box>
       )
     }
@@ -1136,6 +1190,35 @@ const ProviderServiceRates = () => {
         onClose={() => setViewDialogOpen(false)}
         serviceData={viewData}
       />
+      <Dialog open={reviewModalOpen} onClose={() => setReviewModalOpen(false)} fullWidth maxWidth="md">
+        <DialogTitle>{`Professional Reviews - ${reviewModalTitle}`}</DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            Total Reviews: <strong>{reviewSummary.totalReviews || 0}</strong> | Average Rating:{' '}
+            <strong>{Number(reviewSummary.averageRating || 0).toFixed(2)}</strong>
+          </Typography>
+          {reviewsLoading ? (
+            <Typography variant="body2">Loading reviews...</Typography>
+          ) : serviceReviews.length === 0 ? (
+            <Typography variant="body2">No reviews found for this service.</Typography>
+          ) : (
+            <Box sx={{ maxHeight: 420, overflowY: 'auto' }}>
+              {serviceReviews.map((item) => (
+                <Paper key={item._id} variant="outlined" sx={{ p: 1.5, mb: 1 }}>
+                  <Typography variant="subtitle2">{item.customerName || 'Customer'}</Typography>
+                  <Typography variant="caption">Rating: {Number(item.rating || 0).toFixed(1)} / 5</Typography>
+                  <Typography variant="body2" sx={{ mt: 0.5 }}>
+                    {item.description || 'No comment'}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setReviewModalOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       {/* ADD/EDIT FORM */}
       {showForm && (
