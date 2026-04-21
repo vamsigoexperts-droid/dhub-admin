@@ -349,7 +349,7 @@ const BlockedUsers = () => {
               placeholder="Search blocked users..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Blocked Users"
             />
           </Box>
@@ -446,3 +446,4 @@ const BlockedUsers = () => {
 };
 
 export default BlockedUsers;
+

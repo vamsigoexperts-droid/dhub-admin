@@ -930,7 +930,7 @@ const AcceptedOrders = () => {
             placeholder="Search orders..."
             value={search}
             onChange={handleSearch}
-            sx={{ minWidth: { xs: 150, sm: 250 }, bgcolor: 'white' }}
+            sx={{ minWidth: { xs: 150, sm: 250 }, bgcolor: 'background.paper' }}
           />
           <Button
             variant="outlined"
@@ -1065,3 +1065,4 @@ const AcceptedOrders = () => {
 };
 
 export default AcceptedOrders;
+

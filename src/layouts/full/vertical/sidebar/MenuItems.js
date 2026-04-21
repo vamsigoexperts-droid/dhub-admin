@@ -2,46 +2,27 @@ import { uniqueId } from 'lodash';
 import {
   IconHome,
   IconClipboardData,
-  IconLock,
-  IconBuildingStore,
   IconMap,
   IconUser,
-  IconSteeringWheel,
   IconPoint,
-  IconReport,
-  IconListCheck,
   IconDeviceDesktop,
   IconCreditCardRefund,
   IconPackage,
-  IconCar,
   IconBellPlus,
-  IconMail,
   IconBuildingBank,
   IconSettings,
-  IconCarGarage,
-  IconKey,
   IconDeviceLaptop,
   IconUsers,
   IconHeadphones,
-  IconShoppingCart,
-  IconPill,
-  IconPizza,
-  IconCarrot,
-  IconBrandInstagram,
-  IconDownload,
   IconUserPlus,
-  IconDeviceMobile,
-  IconBook,
   IconBriefcase,
-
-
-
+  IconBook,
 } from '@tabler/icons-react';
 
 const Menuitems = [
   {
     navlabel: true,
-    subheader: 'Home',
+    subheader: 'CORE CONTROL',
     permission: 'dashboard_view',
   },
   {
@@ -79,35 +60,8 @@ const Menuitems = [
         href: '/locations/city',
         permission: 'city_view',
       },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Zones',
-      //   icon: IconPoint,
-      //   href: '/locations/zones',
-      //   permission: 'zones_view',
-      // },
     ],
   },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Services',
-  //   icon: IconClipboardData,
-  //   href: '/services/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Service Type',
-  //       icon: IconPoint,
-  //       href: '/services/servicetype',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Service',
-  //       icon: IconPoint,
-  //       href: '/services/service',
-  //     },
-  //   ],
-  // },
   {
     id: uniqueId(),
     title: 'Business Verticals',
@@ -131,29 +85,6 @@ const Menuitems = [
       },
     ],
   },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Access Control',
-  //   icon: IconLock,
-  //   href: '/access-control/',
-  //   permission: 'access_control_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Department / Roles',
-  //       icon: IconPoint,
-  //       href: '/access-control/roles',
-  //       permission: 'department_roles_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Admin User',
-  //       icon: IconPoint,
-  //       href: '/access-control/adminusers',
-  //       permission: 'admin_user_view',
-  //     },
-  //   ],
-  // },
   {
     id: uniqueId(),
     title: 'Users / Customers',
@@ -184,46 +115,22 @@ const Menuitems = [
       },
     ],
   },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Advertisements',
-  //   icon: IconDeviceMobile, // You can change to any Tabler icon
-  //   href: '/advertisements',
-  //   permission: 'banner_image_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Home Page',
-  //       icon: IconPoint,
-  //       href: '/',
-  //       permission: 'banner_image_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Category Banners',
-  //       icon: IconPoint,
-  //       href: '/advertisments/categorybanners',
-  //       permission: 'banner_image_view',
-  //     },
-
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Offers',
-  //       icon: IconPoint,
-  //       href: '/advertisments/offers',
-  //       permission: 'banner_image_view',
-  //     },
-  //   ],
-  // },
-
-
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'Providers',
-  //   icon: IconTruckDelivery,
-  //   href: '/providers',
-  // },
+  {
+    id: uniqueId(),
+    title: 'Advertisements',
+    icon: IconPackage,
+    href: '/advertisements',
+    permission: 'banner_image_view',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'Coupons',
+        icon: IconPoint,
+        href: '/advertisments/offers',
+        permission: 'banner_image_view',
+      },
+    ],
+  },
   {
     navlabel: true,
     subheader: 'BOOKINGS',
@@ -232,11 +139,10 @@ const Menuitems = [
   {
     id: uniqueId(),
     title: 'Bookings',
-    icon: IconShoppingCart,
+    icon: IconClipboardData,
     href: '',
     permission: 'bookings_view',
     children: [
-
       {
         id: uniqueId(),
         title: 'Dashboard',
@@ -297,10 +203,9 @@ const Menuitems = [
       },
     ],
   },
-
   {
     navlabel: true,
-    subheader: 'Appliance Repair Services',
+    subheader: 'D-Hub Services',
     permission: 'on_demand_services_view',
   },
   {
@@ -337,35 +242,14 @@ const Menuitems = [
         icon: IconPoint,
         href: '/ondemandservice/ondemandservices',
         permission: 'on_demand_service_view',
-      },
-
+      }
+      //,
       // {
       //   id: uniqueId(),
-      //   title: 'New Service Requests',
+      //   title: 'Coupons',
       //   icon: IconPoint,
-      //   href: '/ondemandservice/ondemandservicerequest',
-      //   permission: 'on_demand_service_view',
-      // },
-      {
-        id: uniqueId(),
-        title: 'Coupons',
-        icon: IconPoint,
-        href: '/ondemandservice/ondemandcoupons',
-        permission: 'on_demand_coupons_view',
-      },
-
-      // {
-      //   id: uniqueId(),
-      //   title: 'Website Management',
-      //   icon: IconPoint,
-      //   href: '/serviceprovider-website/homeScreen/',
-      //   permission: 'website_management',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Workers',
-      //   icon: IconPoint,
-      //   href: '/ondemandservice/ondemandworkers',
+      //   href: '/ondemandservice/ondemandcoupons',
+      //   permission: 'on_demand_coupons_view',
       // },
     ],
   },
@@ -420,77 +304,6 @@ const Menuitems = [
       },
     ],
   },
-
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'Services Bookings',
-  //   icon: IconPackage,
-  //   href: '/ServicesBookings',
-  //   permission: 'service_bookings_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Verified Partners Bookings',
-  //       icon: IconPoint,
-  //       href: '/ondemandservice/verified-partners/pending',
-  //       permission: 'verified_bookings_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Near by Service Centers',
-  //       icon: IconPoint,
-  //       href: '/ondemandservice/near-by-shops/pending',
-  //       permission: 'nearby_bookings_view',
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'Buy / Sell',
-  //   icon: IconPackage,
-  //   href: '/Buy / Sell',
-  //   permission: 'buy_sell_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Category',
-  //       icon: IconPoint,
-  //       href: '/sale-category',
-  //       permission: 'buy_sell_category_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub Category',
-  //       icon: IconPoint,
-  //       href: '/sale-sub-category',
-  //       permission: 'buy_sell_subcategory_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sale Request',
-  //       icon: IconPoint,
-  //       href: '/sale-request',
-  //       permission: 'sale_request_view',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Provider Complaints',
-  //   icon: IconHeadphones,
-  //   href: '/ondemandservice/provider-complaints',
-  //   permission: 'provider_complaints_view',
-  // },
-
-
-  {
-    navlabel: true,
-    subheader: 'Professional Services',
-    permission: 'Near_by_professionals',
-  },
-
   {
     id: uniqueId(),
     title: 'Professional Services',
@@ -505,7 +318,6 @@ const Menuitems = [
         href: '/professional-categories',
         permission: 'Near_by_professionals',
       },
-
       {
         id: uniqueId(),
         title: 'SubCategories',
@@ -513,8 +325,6 @@ const Menuitems = [
         href: '/professional-subcategories',
         permission: 'Near_by_professionals',
       },
-
-
       {
         id: uniqueId(),
         title: 'All profesionals',
@@ -522,7 +332,6 @@ const Menuitems = [
         href: '/AllprofessionalProviders',
         permission: 'Near_by_professionals',
       },
-
       {
         id: uniqueId(),
         title: 'New Professional Requests',
@@ -530,9 +339,6 @@ const Menuitems = [
         href: '/pendingprofessionalserviceproviderrequest',
         permission: 'Near_by_professionals',
       },
-
-
-
       {
         id: uniqueId(),
         title: 'Rejected professionals',
@@ -540,7 +346,6 @@ const Menuitems = [
         href: '/rejectedProfessionalProvider',
         permission: 'Near_by_professionals',
       },
-
       {
         id: uniqueId(),
         title: 'Blocked professionals',
@@ -548,8 +353,6 @@ const Menuitems = [
         href: '/BlockedProfessionalProvider',
         permission: 'Near_by_professionals',
       },
-
-
       {
         id: uniqueId(),
         title: 'Deleted professionals',
@@ -557,11 +360,6 @@ const Menuitems = [
         href: '/DeletedProfessionalProvider',
         permission: 'Near_by_professionals',
       },
-
-
-
-
-
       {
         id: uniqueId(),
         title: 'Amenities',
@@ -569,13 +367,11 @@ const Menuitems = [
         href: '/amenities',
         permission: 'Near_by_professionals',
       },
-
     ],
   },
-
   {
     navlabel: true,
-    subheader: 'CAREERS',
+    subheader: 'Platform Management',
   },
   {
     id: uniqueId(),
@@ -603,989 +399,6 @@ const Menuitems = [
       },
     ],
   },
-
-
-
-  // {
-  //   navlabel: true,
-  //   subheader: 'ECommerce / Multivendor',
-  //   permission: 'grocery_view',
-  // },
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'Grocery',
-  //   icon: IconCarrot,
-  //   href: '/Grocery',
-  //   permission: 'grocery_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories',
-  //       icon: IconPoint,
-  //       href: '/grocery-categories',
-  //       permission: 'grocery_categories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories Request',
-  //       icon: IconPoint,
-  //       href: '/grocerys-categories-request',
-  //       permission: 'grocery_cat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories',
-  //       icon: IconPoint,
-  //       href: '/grocery-subcategories',
-  //       permission: 'grocery_subcategories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories Request',
-  //       icon: IconPoint,
-  //       href: '/grocerys-sub-categories-request',
-  //       permission: 'grocery_subcat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Grocery Specifications',
-  //       icon: IconPoint,
-  //       href: '/shop-variation-grocery',
-  //       permission: 'shop_variations_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Grocery Sub-Specifications',
-  //       icon: IconPoint,
-  //       href: '/sub-shop-variation-grocery',
-  //       permission: 'sub_shop_variations_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Brands',
-  //       icon: IconPoint,
-  //       href: '/grocerys-brand',
-  //       permission: 'grocery_brands_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Units',
-  //       icon: IconPoint,
-  //       href: '/grocery-units',
-  //       permission: 'grocery_units_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Weight',
-  //       icon: IconPoint,
-  //       href: '/grocerys-weight',
-  //       permission: 'grocery_weight_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Flavour',
-  //       icon: IconPoint,
-  //       href: '/flavour',
-  //       permission: 'grocery_flavour_view',
-  //     },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Add Product',
-  //     //   icon: IconPoint,
-  //     //   href: '/add-grocerys-Item',
-  //     //   permission: 'add_grocery_add',
-  //     // },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Add Grocery Product',
-  //       icon: IconPoint,
-  //       href: '/add-grocerys-Item',
-  //       permission: 'add_grocery_add',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Groceries List',
-  //       icon: IconPoint,
-  //       href: '/grocerys-item',
-  //       permission: 'grocery_list_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Groceries Request List',
-  //       icon: IconPoint,
-  //       href: '/grocerys-item-request',
-  //       permission: 'grocery_request_list_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Grocery Orders',
-  //       icon: IconPoint,
-  //       href: '/grocery/pending',
-  //       permission: 'grocery_orders_view',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Food',
-  //   icon: IconPizza,
-  //   href: '/Food',
-  //   permission: 'food_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories',
-  //       icon: IconPoint,
-  //       href: '/food-categories',
-  //       permission: 'food_categories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories Request',
-  //       icon: IconPoint,
-  //       href: '/food-categories-request',
-  //       permission: 'food_cat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories',
-  //       icon: IconPoint,
-  //       href: '/food-subcategories',
-  //       permission: 'food_subcategories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories Request',
-  //       icon: IconPoint,
-  //       href: '/food-sub-categories-request',
-  //       permission: 'food_subcat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Cuisine Type',
-  //       icon: IconPoint,
-  //       href: '/cuisine-type',
-  //       permission: 'cuisine_type_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Add Food Item',
-  //       icon: IconPoint,
-  //       href: '/add-food-item',
-  //       permission: 'add_food_item_add',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Food Items',
-  //       icon: IconPoint,
-  //       href: '/food-item',
-  //       permission: 'food_items_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Food Items Request',
-  //       icon: IconPoint,
-  //       href: '/food-item-request',
-  //       permission: 'food_items_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Food Orders',
-  //       icon: IconPoint,
-  //       href: '/food/pending',
-  //       permission: 'food_orders_view',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Shopping',
-  //   icon: IconShoppingCart,
-  //   href: '/Shopping',
-  //   permission: 'shopping_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories',
-  //       icon: IconPoint,
-  //       href: '/shopping-categories',
-  //       permission: 'shopping_categories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Cat Requests',
-  //       icon: IconPoint,
-  //       href: '/shopping-categories-request',
-  //       permission: 'shopping_cat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories',
-  //       icon: IconPoint,
-  //       href: '/shopping-subcategories',
-  //       permission: 'shopping_subcategories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Cat Request',
-  //       icon: IconPoint,
-  //       href: '/shopping-sub-categories-request',
-  //       permission: 'shopping_subcat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Child-Categories',
-  //       icon: IconPoint,
-  //       href: '/shopping-child-categories',
-  //       permission: 'shopping_child_categories_view',
-  //     },
-
-
-
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Shopping Items Request',
-  //       icon: IconPoint,
-  //       href: '/shopping-item-request',
-  //       permission: 'shopping_items_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Shop Specifications',
-  //       icon: IconPoint,
-  //       href: '/shop-variation',
-  //       permission: 'shop_variations_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Shop Sub-Specifications',
-  //       icon: IconPoint,
-  //       href: '/sub-shop-variation',
-  //       permission: 'sub_shop_variations_view',
-  //     },
-
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Add Shopping Product',
-  //       icon: IconPoint,
-  //       href: '/add-shopping-product',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Shopping Product List',
-  //       icon: IconPoint,
-  //       href: '/shopping-item',
-  //       permission: 'shopping_items_list_view',
-  //     },
-  //     //    {
-  //     //   id: uniqueId(),
-  //     //   title: 'Edit Shopping Product',
-  //     //   icon: IconPoint,
-  //     //   href: '/Edit-shopping-product',
-  //     // },
-
-
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Shopping Orders',
-  //       icon: IconPoint,
-  //       href: '/e-commerce/pending',
-  //       permission: 'shopping_orders_view',
-  //     },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Size',
-  //     //   icon: IconPoint,
-  //     //   href: '/size-type',
-  //     //   permission: 'size_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Weight',
-  //     //   icon: IconPoint,
-  //     //   href: '/shopping-weight',
-  //     //   permission: 'weight_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Color',
-  //     //   icon: IconPoint,
-  //     //   href: '/shopping-color',
-  //     //   permission: 'color_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Ram',
-  //     //   icon: IconPoint,
-  //     //   href: '/ram-type',
-  //     //   permission: 'ram_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Brand',
-  //     //   icon: IconPoint,
-  //     //   href: '/shopping-brand',
-  //     //   permission: 'brand_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Storage',
-  //     //   icon: IconPoint,
-  //     //   href: '/storage-type',
-  //     //   permission: 'storage_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Fit Type',
-  //     //   icon: IconPoint,
-  //     //   href: '/fit-type',
-  //     //   permission: 'fit_type_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Neck Type',
-  //     //   icon: IconPoint,
-  //     //   href: '/neck-type',
-  //     //   permission: 'neck_type_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Type Of Material',
-  //     //   icon: IconPoint,
-  //     //   href: '/material-type',
-  //     //   permission: 'material_type_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Type Of Product',
-  //     //   icon: IconPoint,
-  //     //   href: '/product-types',
-  //     //   permission: 'product_type_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Sleeve Type',
-  //     //   icon: IconPoint,
-  //     //   href: '/sleeve-type',
-  //     //   permission: 'sleeve_type_view',
-  //     // },
-  //     //  {
-  //     //   id: uniqueId(),
-  //     //   title: 'Operating System',
-  //     //   icon: IconPoint,
-  //     //   href: '/operating-system',
-  //     //   permission: 'operating_system_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Country Origin Type',
-  //     //   icon: IconPoint,
-  //     //   href: '/country-origin-type',
-  //     //   permission: 'country_origin_view',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Add Shopping Item',
-  //     //   icon: IconPoint,
-  //     //   href: '/add-shopping-item',
-  //     //   permission: 'add_shopping_item_add',
-  //     // },
-
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Medicine',
-  //   icon: IconPill,
-  //   href: '/Medicine',
-  //   permission: 'medicine_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories',
-  //       icon: IconPoint,
-  //       href: '/medicine-categories',
-  //       permission: 'medicine_categories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories Request ',
-  //       icon: IconPoint,
-  //       href: '/medicine-categories-request',
-  //       permission: 'medicine_cat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories',
-  //       icon: IconPoint,
-  //       href: '/medicine-subcategories',
-  //       permission: 'medicine_subcategories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories Request',
-  //       icon: IconPoint,
-  //       href: '/medicine-sub-categories-request',
-  //       permission: 'medicine_subcat_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Child-Categories',
-  //       icon: IconPoint,
-  //       href: '/medicine-child-categories',
-  //       permission: 'medicine_child_categories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Brands',
-  //       icon: IconPoint,
-  //       href: '/medicine-brands',
-  //       permission: 'medicine_brands_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Units',
-  //       icon: IconPoint,
-  //       href: '/medicine-units',
-  //       permission: 'medicine_units_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Medicine Weight',
-  //       icon: IconPoint,
-  //       href: '/medicine-weight',
-  //       permission: 'medicine_weight_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Medicine Form',
-  //       icon: IconPoint,
-  //       href: '/medicine-form',
-  //       permission: 'medicine_form_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Packing Types',
-  //       icon: IconPoint,
-  //       href: '/packing-types',
-  //       permission: 'packing_types_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Therapeutic Class',
-  //       icon: IconPoint,
-  //       href: '/therapeutic-class',
-  //       permission: 'therapeutic_class_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Drug Categories',
-  //       icon: IconPoint,
-  //       href: '/drug-categories',
-  //       permission: 'drug_categories_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Add Medicine',
-  //       icon: IconPoint,
-  //       href: '/add-medicine-item',
-  //       permission: 'add_medicine_add',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Medicines',
-  //       icon: IconPoint,
-  //       href: '/medicine-item',
-  //       permission: 'medicines_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Medicines Request',
-  //       icon: IconPoint,
-  //       href: '/medicine-item-request',
-  //       permission: 'medicines_request_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Medicines Orders',
-  //       icon: IconPoint,
-  //       href: '/medicines/pending',
-  //       permission: 'medicines_orders_view',
-  //     },
-  //   ],
-  // },
-  // {
-  //   navlabel: true,
-  //   subheader: 'Buy/Sell',
-  //   permission: 'grocery_view',
-  // },
-
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'Buy / Sell',
-  //   icon: IconPackage,
-  //   href: '/Buy / Sell',
-  //   permission: 'buy_sell_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Category',
-  //       icon: IconPoint,
-  //       href: '/sale-category',
-  //       permission: 'buy_sell_category_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub Category',
-  //       icon: IconPoint,
-  //       href: '/sale-sub-category',
-  //       permission: 'buy_sell_subcategory_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sale Request',
-  //       icon: IconPoint,
-  //       href: '/sale-request',
-  //       permission: 'sale_request_view',
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   navlabel: true,
-  //   subheader: 'Store Management',
-  //   permission: 'stores_view',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Stores',
-  //   icon: IconBuildingStore,
-  //   href: '/StoreManagement',
-  //   permission: 'stores_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Pending Stores Request',
-  //       icon: IconPoint,
-  //       href: '/pending-stores',
-  //       permission: 'pending_stores_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Stores List',
-  //       icon: IconPoint,
-  //       href: '/stores',
-  //       permission: 'stores_list_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Blocked Stores',
-  //       icon: IconPoint,
-  //       href: '/blocked-stores',
-  //       permission: 'blocked_stores_view',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Delivery Partners',
-  //   icon: IconSteeringWheel,
-  //   href: '/DeliveryPartners',
-  //   permission: 'delivery_partners_view',
-  //   children: [
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Pending Request',
-  //     //   icon: IconPoint,
-  //     //   href: '/drivers',
-  //     // },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Delivery Partners',
-  //       icon: IconPoint,
-  //       href: '/drivers',
-  //       permission: 'delivery_partners_list_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Blocked Delivery Partners',
-  //       icon: IconPoint,
-  //       href: '/blocked-delivery-partners',
-  //       permission: 'blocked_delivery_partners_view',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'ECommerce-Complaints',
-  //   icon: IconHeadphones,
-  //   href: '/ecommerce-complaints',
-  //   permission: 'ecommerce_complaints_view',
-  // },
-
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'ECommerce',
-  //   icon: IconReport,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Categories',
-  //       icon: IconPoint,
-  //       href: '/categories',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Pending Categories',
-  //       icon: IconPoint,
-  //       href: '/pending-categories',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Sub-Categories',
-  //       icon: IconPoint,
-  //       href: '/sub-categories',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Pending Sub-Categories',
-  //       icon: IconPoint,
-  //       href: '/pending-sub-categories',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Attributes',
-  //       icon: IconPoint,
-  //       href: '/attributes',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Attributes Values',
-  //       icon: IconPoint,
-  //       href: '/attributes-values',
-  //     },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Prices',
-  //     //   icon: IconPoint,
-  //     //   href: '/prices',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Prices Values',
-  //     //   icon: IconPoint,
-  //     //   href: '/prices-values',
-  //     // },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Specifications',
-  //       icon: IconPoint,
-  //       href: '/specifications',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Specifications values',
-  //       icon: IconPoint,
-  //       href: '/specification-values',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Items',
-  //       icon: IconPoint,
-  //       href: '/products',
-  //     },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Brands',
-  //     //   icon: IconPoint,
-  //     //   href: '/brands',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Item Attributes',
-  //     //   icon: IconPoint,
-  //     //   href: '/itemattribute',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Review Attributes',
-  //     //   icon: IconPoint,
-  //     //   href: '/reviewattributes',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Sales Repot',
-  //     //   icon: IconPoint,
-  //     //   href: '/salesreport',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Items',
-  //     //   icon: IconPoint,
-  //     //   href: '/items',
-  //     // },
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Coupons',
-  //     //   icon: IconPoint,
-  //     //   href: '/coupons',
-  //     // },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Stores',
-  //   icon: IconBuildingStore,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Pending Stores Request',
-  //       icon: IconPoint,
-  //       href: '/pending-stores',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Stores List',
-  //       icon: IconPoint,
-  //       href: '/stores',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Blocked Stores',
-  //       icon: IconPoint,
-  //       href: '/blocked-stores',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Delivery Partners',
-  //   icon: IconSteeringWheel,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Pending Request',
-  //       icon: IconPoint,
-  //       href: '/drivers',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Delivery Partners',
-  //       icon: IconPoint,
-  //       href: '/drivers',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Blocked Delivery Partners',
-  //       icon: IconPoint,
-  //       href: '/blocked-delivery-partners',
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Ecommerce Orders',
-  //   icon: IconListCheck,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'E-Commerce',
-  //       icon: IconPoint,
-  //       href: '/e-commerce/pending',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Medicines',
-  //       icon: IconPoint,
-  //       href: '/medicines/pending',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Grocery',
-  //       icon: IconPoint,
-  //       href: '/grocery/pending',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Food',
-  //       icon: IconPoint,
-  //       href: '/food/pending',
-  //     },
-  //   ],
-  // },
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'ECommerce-Complaints',
-  //   icon: IconHeadphones,
-  //   href: '/ecommerce-complaints',
-  // },
-
-  // {
-  //   navlabel: true,
-  //   subheader: 'Parcel Services',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Parcel Service',
-  //   icon: IconPackage,
-  //   href: '/',
-  //   children: [
-  //     // {
-  //     //   id: uniqueId(),
-  //     //   title: 'Goods Eye',
-  //     //   icon: IconPoint,
-  //     //   href: '/parcelservice/parcelgoodseye',
-  //     // },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Parcel Category',
-  //       icon: IconPoint,
-  //       href: '/parcelservice/parcelcategory',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Parcel Weight',
-  //       icon: IconPoint,
-  //       href: '/parcelservice/parcelweight',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Parcel Coupons',
-  //       icon: IconPoint,
-  //       href: '/parcelservice/parcelcoupon',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Parcel Orders',
-  //       icon: IconPoint,
-  //       href: '/parcelservice/parcelorder',
-  //     },
-  //   ],
-  // },
-  // {
-  //   navlabel: true,
-  //   subheader: 'Cab Sevices',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Cab Sevices',
-  //   icon: IconCar,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Riders',
-  //       icon: IconPoint,
-  //       href: '/cabservice/cab-riders',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'SOS Rides',
-  //       icon: IconPoint,
-  //       href: '/cabservice/cab-sos-riders',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Promo',
-  //       icon: IconPoint,
-  //       href: '/cabservice/cab-promo',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Complaints',
-  //       icon: IconPoint,
-  //       href: '/cabservice/cab-complaints',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Cab Vehicle Type',
-  //       icon: IconPoint,
-  //       href: '/cabservice/cab-vehicle-type',
-  //     },
-  //   ],
-  // },
-  // {
-  //   navlabel: true,
-  //   subheader: 'Vehicle Settings',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Vehicle Settings',
-  //   icon: IconCarGarage,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Make',
-  //       icon: IconPoint,
-  //       href: '/vehicle/make',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Model',
-  //       icon: IconPoint,
-  //       href: '/vehicle/model',
-  //     },
-  //   ],
-  // },
-  // {
-  //   navlabel: true,
-  //   subheader: 'Rental Services',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Rental Service',
-  //   icon: IconKey,
-  //   href: '/',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Rental Vehicle Type',
-  //       icon: IconPoint,
-  //       href: '/rentalservice/rental-vehicle-type',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Rental Type',
-  //       icon: IconPoint,
-  //       href: '/rentalservice/rental-type',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Rental Discount',
-  //       icon: IconPoint,
-  //       href: '/rentalservice/rental-discount',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Rental Orders',
-  //       icon: IconPoint,
-  //       href: '/rentalservice/rental-orders',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Rental Vehicle',
-  //       icon: IconPoint,
-  //       href: '/rentalservice/rental-vehicles',
-  //     },
-  //   ],
-  // },
-
-
-
-  {
-    navlabel: true,
-    subheader: 'SUBSCRIPTION SETUP',
-    permission: 'subscription_plan_view',
-  },
   {
     id: uniqueId(),
     title: 'Subscription Plan',
@@ -1608,10 +421,6 @@ const Menuitems = [
         permission: 'subscription_history_view',
       },
     ],
-  },
-  {
-    navlabel: true,
-    subheader: 'Website Management',
   },
   {
     id: uniqueId(),
@@ -1658,10 +467,6 @@ const Menuitems = [
     ],
   },
   {
-    navlabel: true,
-    subheader: 'Support Management',
-  },
-  {
     id: uniqueId(),
     title: 'Support Management',
     icon: IconHeadphones,
@@ -1687,10 +492,6 @@ const Menuitems = [
         permission: 'add_crm_view',
       },
     ],
-  },
-  {
-    navlabel: true,
-    subheader: 'Referrals & Payments',
   },
   {
     id: uniqueId(),
@@ -1720,7 +521,7 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Payments',
+    title: 'Payment Management',
     icon: IconBuildingBank,
     href: '/Payments',
     permission: 'payments_view',
@@ -1745,6 +546,13 @@ const Menuitems = [
         icon: IconPoint,
         href: '/payments/wallet-ledger',
         permission: 'wallet_transaction_view',
+      },
+      {
+        id: uniqueId(),
+        title: 'Admin Wallet',
+        icon: IconPoint,
+        href: '/payments/admin-wallet',
+        permission: 'payments_view',
       },
       {
         id: uniqueId(),
@@ -1774,23 +582,6 @@ const Menuitems = [
     href: '/Notification',
     permission: 'notification_view',
     children: [
-      // OLD NOTIFICATION SYSTEM - Commented out
-      // {
-      //   id: uniqueId(),
-      //   title: 'Send Notification',
-      //   icon: IconPoint,
-      //   href: '/sendnotification',
-      //   permission: 'app_notification_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'App Notification',
-      //   icon: IconPoint,
-      //   href: '/appnotification',
-      //   permission: 'app_notification_view',
-      // },
-
-      // NEW NOTIFICATION SYSTEM - Using new API endpoints
       {
         id: uniqueId(),
         title: 'Send Notification',
@@ -1807,108 +598,6 @@ const Menuitems = [
       },
     ],
   },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Banner Items',
-  //   icon: IconDeviceDesktop,
-  //   href: '/banneritems',
-  //   permission: 'banner_items_view',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Website',
-  //   icon: IconDeviceLaptop,
-  //   href: '/Website',
-  //   permission: 'website_view',
-  //   children: [
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Home Page',
-  //       icon: IconPoint,
-  //       href: '/website/homepage',
-  //       permission: 'home_page_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'About Us',
-  //       icon: IconPoint,
-  //       href: '/website/aboutus',
-  //       permission: 'about_us_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Our leadership',
-  //       icon: IconPoint,
-  //       href: '/website/ourvendors',
-  //       permission: 'our_leadership_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Testimonials',
-  //       icon: IconPoint,
-  //       href: '/website/testimonials',
-  //       permission: 'testimonials_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Blog',
-  //       icon: IconPoint,
-  //       href: '/website/blog',
-  //       permission: 'blog_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'App Screens',
-  //       icon: IconPoint,
-  //       href: '/website/appscreens',
-  //       permission: 'app_screens_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'App Download Screen',
-  //       icon: IconPoint,
-  //       href: '/website/app-downloads-screens',
-  //       permission: 'app_download_screen_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'App Scrolling',
-  //       icon: IconPoint,
-  //       href: '/website/appscrolling',
-  //       permission: 'app_scrolling_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Announcements',
-  //       icon: IconPoint,
-  //       href: '/website/Announcements',
-  //       permission: 'announcements_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Accept Payments',
-  //       icon: IconPoint,
-  //       href: '/website/accept-payments',
-  //       permission: 'accept_payments_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Website All Headings',
-  //       icon: IconPoint,
-  //       href: '/website/all-modules',
-  //       permission: 'website_headings_view',
-  //     },
-  //     {
-  //       id: uniqueId(),
-  //       title: 'Enquiry',
-  //       icon: IconPoint,
-  //       href: '/website/enquiry',
-  //       permission: 'enquiry_view',
-  //     },
-  //   ],
-  // },
-
-
   {
     id: uniqueId(),
     title: 'Settings',
@@ -1923,44 +612,6 @@ const Menuitems = [
         href: '/globalsettings',
         permission: 'global_settings_view',
       },
-      // {
-      //   id: uniqueId(),
-      //   title: 'App Settings',
-      //   icon: IconPoint,
-      //   href: '/appSettings',
-      //   permission: 'app_settings_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Bussiness Model Setting',
-      //   icon: IconPoint,
-      //   href: '/bussinessmodelsettings',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'App Banners',
-      //   icon: IconPoint,
-      //   href: '/appbanners',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Currencies',
-      //   icon: IconPoint,
-      //   href: '/currencies',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Payment Method',
-      //   icon: IconPoint,
-      //   href: '/paymentmethod',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Radius Configuration',
-      //   icon: IconPoint,
-      //   href: '/radiusconfiguration',
-      //   permission: 'radius_configuration_view',
-      // },
       {
         id: uniqueId(),
         title: 'Tax Setting',
@@ -1968,13 +619,6 @@ const Menuitems = [
         href: '/taxsettings',
         permission: 'tax_setting_view',
       },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Delivery Charges',
-      //   icon: IconPoint,
-      //   href: '/deliverycharges',
-      //   permission: 'delivery_charges_view',
-      // },
       {
         id: uniqueId(),
         title: 'Commission Settings',
@@ -1982,76 +626,6 @@ const Menuitems = [
         href: '/servicebookingcharges',
         permission: 'Service_booking_charges',
       },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Terms & Conditions',
-      //   icon: IconPoint,
-      //   href: '/terms',
-      //   permission: 'terms_conditions_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Service Terms & Conditions',
-      //   icon: IconPoint,
-      //   href: '/service-terms',
-      //   permission: 'service_terms_conditions_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Privacy Policy',
-      //   icon: IconPoint,
-      //   href: '/privacypolicy',
-      //   permission: 'privacy_policy_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Service Privacy Policy',
-      //   icon: IconPoint,
-      //   href: '/service-privacy-policy',
-      //   permission: 'service_privacy_policy_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Refund Policy',
-      //   icon: IconPoint,
-      //   href: '/refund-policy',
-      //   permission: 'refund_policy_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Service Refund Policy',
-      //   icon: IconPoint,
-      //   href: '/service-refund-policy',
-      //   permission: 'service_refund_policy_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Shipping Policy',
-      //   icon: IconPoint,
-      //   href: '/shipping-policy',
-      //   permission: 'shipping_policy_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Service Shipping Policy',
-      //   icon: IconPoint,
-      //   href: '/service-shipping-policy',
-      //   permission: 'service_shipping_policy_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Faqs',
-      //   icon: IconPoint,
-      //   href: '/faqs',
-      //   permission: 'faqs_view',
-      // },
-      // {
-      //   id: uniqueId(),
-      //   title: 'Service Faqs',
-      //   icon: IconPoint,
-      //   href: '/service-faqs',
-      //   permission: 'service_faqs_view',
-      // },
       {
         id: uniqueId(),
         title: 'Policies Management',
@@ -2091,11 +665,6 @@ const Menuitems = [
       },
     ],
   },
-
-
-
 ];
-
-
 
 export default Menuitems;

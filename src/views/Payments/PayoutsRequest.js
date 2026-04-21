@@ -583,7 +583,7 @@ const PayoutsRequest = () => {
               placeholder="Search by name, reason, account"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 200, sm: 250 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 200, sm: 250 }, bgcolor: 'background.paper' }}
               aria-label="Search Payout Requests"
             />
           </Box>
@@ -624,3 +624,4 @@ const PayoutsRequest = () => {
 };
 
 export default PayoutsRequest;
+

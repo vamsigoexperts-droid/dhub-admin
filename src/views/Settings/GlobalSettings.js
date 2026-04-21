@@ -16,7 +16,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import ParentCard from 'src/components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import { URLS } from 'src/Url';
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Global Settings' }];
@@ -668,7 +668,7 @@ const AppBanners = () => {
               About Us
             </CustomFormLabel>
             <CKEditor
-              editor={ClassicEditor}
+              editor={CustomCKEditor}
               data={form.aboutus}
               onChange={(event, editor) => {
                 const data = editor.getData();

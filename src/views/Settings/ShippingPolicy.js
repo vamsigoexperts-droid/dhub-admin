@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import ParentCard from 'src/components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -35,8 +35,6 @@ const Terms = () => {
   const [data, setData] = useState({
     customer: '<p>No content available</p>',
     vendor: '<p>No content available</p>',
-    store: '<p>No content available</p>',
-    driver: '<p>No content available</p>',
   });
 
   const token = getAuthToken();
@@ -44,8 +42,8 @@ const Terms = () => {
   const authData = JSON.parse(localStorage.getItem('user'));
   const rolesAndPermission = authData.rolesAndPermission[0];
 
-  const tabLabels = ['Customer', 'Vendor', 'Store', 'Driver'];
-  const tabTypes = ['customer', 'vendor', 'store', 'driver'];
+  const tabLabels = ['Customer', 'Vendor'];
+  const tabTypes = ['customer', 'vendor'];
 
   const getCurrentType = () => tabTypes[activeTab];
 
@@ -244,7 +242,7 @@ const Terms = () => {
               </Box>
             ) : (
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomCKEditor}
                 data={data[type]}
                 onChange={(event, editor) => handleEditorChange(editor.getData())}
                 config={{

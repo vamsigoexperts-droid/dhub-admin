@@ -707,13 +707,21 @@ const OrderDetails = () => {
                                             <IconUser size={22} color="#5D87FF" />
                                             <Typography variant="h6" fontWeight="600">Customer</Typography>
                                         </Stack>
-                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px', bgcolor: 'grey.50' }}>
+                                        <Paper
+                                            variant="outlined"
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: '12px',
+                                                bgcolor: 'rgba(9, 29, 36, 0.96)',
+                                                borderColor: 'rgba(24, 197, 188, 0.14)'
+                                            }}
+                                        >
                                             <Stack direction="row" spacing={2} alignItems="center">
                                                 <Avatar src={customer.image} sx={{ width: 50, height: 50 }}>{customer.name?.charAt(0)}</Avatar>
                                                 <Box>
-                                                    <Typography variant="subtitle1" fontWeight="700">{customer.name || 'N/A'}</Typography>
-                                                    <Typography variant="body2" color="textSecondary">{customer.phone || 'N/A'}</Typography>
-                                                    <Typography variant="body2" color="textSecondary">{customer.email || 'N/A'}</Typography>
+                                                    <Typography variant="subtitle1" fontWeight="700" color="#e8fffb">{customer.name || 'N/A'}</Typography>
+                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">{customer.phone || 'N/A'}</Typography>
+                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">{customer.email || 'N/A'}</Typography>
                                                 </Box>
                                             </Stack>
                                         </Paper>
@@ -725,7 +733,15 @@ const OrderDetails = () => {
                                             <IconTruckDelivery size={22} color="#009688" />
                                             <Typography variant="h6" fontWeight="600">Assigned Partner</Typography>
                                         </Stack>
-                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px', bgcolor: 'grey.50' }}>
+                                        <Paper
+                                            variant="outlined"
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: '12px',
+                                                bgcolor: 'rgba(9, 29, 36, 0.96)',
+                                                borderColor: 'rgba(24, 197, 188, 0.14)'
+                                            }}
+                                        >
                                             {providerDisplayName ? (
                                                 <Stack direction="row" spacing={2} alignItems="center">
                                                     <Avatar
@@ -735,18 +751,18 @@ const OrderDetails = () => {
                                                         {providerDisplayName.charAt(0)}
                                                     </Avatar>
                                                     <Box>
-                                                        <Typography variant="subtitle1" fontWeight="700">{providerDisplayName}</Typography>
-                                                        <Typography variant="body2" color="textSecondary">
+                                                        <Typography variant="subtitle1" fontWeight="700" color="#e8fffb">{providerDisplayName}</Typography>
+                                                        <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">
                                                             {provider.phone || 'Contact N/A'}
                                                         </Typography>
-                                                        <Typography variant="body2" color="primary.main" fontWeight="600">
+                                                        <Typography variant="body2" color="#18c5bc" fontWeight="600">
                                                             {provider.providerRating || provider.rating || '5.0'} &#9733; Rating
                                                         </Typography>
                                                     </Box>
                                                 </Stack>
                                             ) : (
                                                 <Box py={1.5} textAlign="center">
-                                                    <Typography color="textSecondary" variant="body2">No partner assigned yet</Typography>
+                                                    <Typography color="rgba(233, 255, 251, 0.72)" variant="body2">No partner assigned yet</Typography>
                                                 </Box>
                                             )}
                                         </Paper>
@@ -758,7 +774,15 @@ const OrderDetails = () => {
                                             <IconMapPin size={22} color="#E91E63" />
                                             <Typography variant="h6" fontWeight="600">Booking Address</Typography>
                                         </Stack>
-                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px', bgcolor: 'grey.50' }}>
+                                        <Paper
+                                            variant="outlined"
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: '12px',
+                                                bgcolor: 'rgba(9, 29, 36, 0.96)',
+                                                borderColor: 'rgba(24, 197, 188, 0.14)'
+                                            }}
+                                        >
                                             {(() => {
                                                 // API returns address as a populated object under orderData.address
                                                 const addr = typeof orderData.address === 'object' && orderData.address !== null
@@ -766,18 +790,18 @@ const OrderDetails = () => {
                                                     : null;
 
                                                 if (!addr) {
-                                                    return <Typography variant="body2" color="textSecondary">No address available</Typography>;
+                                                    return <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">No address available</Typography>;
                                                 }
 
                                                 return (
                                                     <Stack spacing={0.5}>
                                                         {addr.name && (
                                                             <Stack direction="row" spacing={1} alignItems="center">
-                                                                <Typography variant="subtitle2" fontWeight={700}>
+                                                                <Typography variant="subtitle2" fontWeight={700} color="#e8fffb">
                                                                     {addr.name}
                                                                 </Typography>
                                                                 {addr.phone && (
-                                                                    <Typography variant="body2" color="textSecondary">
+                                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">
                                                                         &middot; {addr.phone}
                                                                     </Typography>
                                                                 )}
@@ -787,16 +811,16 @@ const OrderDetails = () => {
                                                             </Stack>
                                                         )}
                                                         {[addr.flat, addr.area].filter(Boolean).length > 0 && (
-                                                            <Typography variant="body2" color="textSecondary">
+                                                            <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">
                                                                 {[addr.flat, addr.area].filter(Boolean).join(', ')}
                                                             </Typography>
                                                         )}
                                                         {addr.addressLineOne && (
-                                                            <Typography variant="body2" color="textSecondary">
+                                                            <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">
                                                                 {addr.addressLineOne}
                                                             </Typography>
                                                         )}
-                                                        <Typography variant="body2" fontWeight={600} color="text.primary">
+                                                        <Typography variant="body2" fontWeight={600} color="#e8fffb">
                                                             {[addr.cityName, addr.stateName, addr.postalCode].filter(Boolean).join(' - ')}
                                                         </Typography>
                                                     </Stack>
@@ -811,21 +835,29 @@ const OrderDetails = () => {
                                             <IconBriefcase size={22} color="#5D87FF" />
                                             <Typography variant="h6" fontWeight="600">Service Items & Pricing</Typography>
                                         </Stack>
-                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px' }}>
+                                        <Paper
+                                            variant="outlined"
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: '12px',
+                                                bgcolor: 'rgba(9, 29, 36, 0.96)',
+                                                borderColor: 'rgba(24, 197, 188, 0.14)'
+                                            }}
+                                        >
                                             {selectedServiceRatesList.length > 0 ? (
                                                 <Stack spacing={2}>
                                                     <Stack direction="row" spacing={2} alignItems="flex-start">
                                                         <Avatar src={displayServiceImage} variant="rounded" sx={{ width: 60, height: 60 }}><IconBriefcase /></Avatar>
                                                         <Box flexGrow={1}>
-                                                            <Typography variant="subtitle2" color="textSecondary" fontWeight={600}>
+                                                            <Typography variant="subtitle2" color="rgba(233, 255, 251, 0.72)" fontWeight={600}>
                                                                 Selected services (from checkout)
                                                             </Typography>
-                                                            <Typography variant="body2" color="textSecondary" sx={{ mt: 0.5 }}>
+                                                            <Typography variant="body2" color="rgba(233, 255, 251, 0.72)" sx={{ mt: 0.5 }}>
                                                                 {displayServiceCategory}
                                                             </Typography>
                                                         </Box>
                                                         <Box textAlign="right">
-                                                            <Typography variant="caption" color="textSecondary" display="block">Order payment</Typography>
+                                                            <Typography variant="caption" color="rgba(233, 255, 251, 0.72)" display="block">Order payment</Typography>
                                                             <Typography variant="h5" color="secondary.main" fontWeight="700">&#8377;{orderData.totalAmount || orderData.amount || '0'}</Typography>
                                                             <Chip
                                                                 label={orderData.paymentStatus?.toUpperCase() || 'UNPAID'}
@@ -839,9 +871,9 @@ const OrderDetails = () => {
                                                         <Table size="small">
                                                             <TableHead>
                                                                 <TableRow>
-                                                                    <TableCell sx={{ fontWeight: 700 }}>Service / rate line</TableCell>
-                                                                    <TableCell align="right" sx={{ fontWeight: 700 }}>Qty</TableCell>
-                                                                    <TableCell align="right" sx={{ fontWeight: 700 }}>Line (&#8377;)</TableCell>
+                                                                    <TableCell sx={{ fontWeight: 700, color: '#e8fffb', borderColor: 'rgba(24, 197, 188, 0.14)' }}>Service / rate line</TableCell>
+                                                                    <TableCell align="right" sx={{ fontWeight: 700, color: '#e8fffb', borderColor: 'rgba(24, 197, 188, 0.14)' }}>Qty</TableCell>
+                                                                    <TableCell align="right" sx={{ fontWeight: 700, color: '#e8fffb', borderColor: 'rgba(24, 197, 188, 0.14)' }}>Line (&#8377;)</TableCell>
                                                                 </TableRow>
                                                             </TableHead>
                                                             <TableBody>
@@ -893,12 +925,12 @@ const OrderDetails = () => {
                                             <IconCreditCard size={22} color="#5D87FF" />
                                             <Typography variant="h6" fontWeight="600">Transaction Details</Typography>
                                         </Stack>
-                                        <Paper variant="outlined" sx={{ p: 0, borderRadius: '12px', overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
-                                            <Box p={2} sx={{ bgcolor: 'grey.50', borderBottom: '1px solid', borderColor: 'divider' }}>
+                                        <Paper variant="outlined" sx={{ p: 0, borderRadius: '12px', overflow: 'hidden', border: '1px solid', borderColor: 'rgba(24, 197, 188, 0.14)', bgcolor: 'rgba(9, 29, 36, 0.96)' }}>
+                                            <Box p={2} sx={{ bgcolor: 'rgba(9, 29, 36, 0.96)', borderBottom: '1px solid', borderColor: 'rgba(24, 197, 188, 0.14)' }}>
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={12} md={4}>
                                                         <Stack direction="row" spacing={1} alignItems="center">
-                                                            <Typography variant="subtitle2" color="textSecondary">Status:</Typography>
+                                                            <Typography variant="subtitle2" color="rgba(233, 255, 251, 0.72)">Status:</Typography>
                                                             <Chip
                                                                 label={orderData.paymentStatus?.toUpperCase() || 'PENDING'}
                                                                 size="small"
@@ -909,7 +941,7 @@ const OrderDetails = () => {
                                                     </Grid>
                                                     <Grid item xs={12} md={4}>
                                                         <Stack direction="row" spacing={1} alignItems="center">
-                                                            <Typography variant="subtitle2" color="textSecondary">Method:</Typography>
+                                                            <Typography variant="subtitle2" color="rgba(233, 255, 251, 0.72)">Method:</Typography>
                                                             <Stack direction="row" spacing={0.5} alignItems="center">
                                                                 {orderData.paymentMethod?.toLowerCase() === 'wallet' ? <IconWallet size={16} /> : <IconCoin size={16} />}
                                                                 <Typography variant="subtitle2" fontWeight="700">
@@ -920,7 +952,7 @@ const OrderDetails = () => {
                                                     </Grid>
                                                     <Grid item xs={12} md={4}>
                                                         <Stack direction="row" spacing={1} alignItems="center">
-                                                            <Typography variant="subtitle2" color="textSecondary">Txn ID:</Typography>
+                                                            <Typography variant="subtitle2" color="rgba(233, 255, 251, 0.72)">Txn ID:</Typography>
                                                             <Typography variant="subtitle2" fontWeight="700" sx={{ wordBreak: 'break-all', color: 'primary.main' }}>
                                                                 {orderData.paymentTransactionId || orderData.paymentId || 'N/A'}
                                                             </Typography>
@@ -950,35 +982,35 @@ const OrderDetails = () => {
                                                     </Grid>
                                                 </Grid>
                                                 {uniquePaymentFlowRows.length > 0 && (
-                                                    <Box mt={3} p={1.5} sx={{ bgcolor: 'grey.50', borderRadius: '8px', border: '1px dashed', borderColor: 'divider' }}>
-                                                        <Typography variant="subtitle2" fontWeight="700" mb={1.25}>
+                                                    <Box mt={3} p={1.5} sx={{ bgcolor: 'rgba(6, 24, 30, 0.96)', borderRadius: '8px', border: '1px dashed', borderColor: 'rgba(24, 197, 188, 0.2)' }}>
+                                                        <Typography variant="subtitle2" fontWeight="700" mb={1.25} color="#e8fffb">
                                                             How payments add up
                                                         </Typography>
                                                         <Stack spacing={0.75}>
                                                             {uniquePaymentFlowRows.map((item, index) => (
                                                                 <Stack key={`${item.label}-${index}`} direction="row" justifyContent="space-between" alignItems="center">
-                                                                    <Typography variant="body2" color="textSecondary">{item.label}</Typography>
+                                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">{item.label}</Typography>
                                                                     <Typography variant="body2" fontWeight="700">&#8377;{Number(item.amount || 0).toFixed(2)}</Typography>
                                                                 </Stack>
                                                             ))}
                                                             <Divider sx={{ my: 0.5 }} />
                                                             <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                                                <Typography variant="subtitle2" fontWeight="700">Total collected</Typography>
+                                                                <Typography variant="subtitle2" fontWeight="700" color="#e8fffb">Total collected</Typography>
                                                                 <Typography variant="subtitle2" fontWeight="800" color="primary.main">&#8377;{displayTotalPaidAmount.toFixed(2)}</Typography>
                                                             </Stack>
                                                         </Stack>
                                                     </Box>
                                                 )}
                                                 {orderData.paymentRequest && Number(orderData.paymentRequest.amount) > 0 && (
-                                                    <Box mt={3} p={1.5} sx={{ bgcolor: '#FFF8E6', borderRadius: '8px', border: '1px solid #FFD54F' }}>
+                                                    <Box mt={3} p={1.5} sx={{ bgcolor: 'rgba(24, 197, 188, 0.08)', borderRadius: '8px', border: '1px solid rgba(24, 197, 188, 0.35)' }}>
                                                         <Stack direction="row" justifyContent="space-between" alignItems="center">
                                                             <Box>
-                                                                <Typography variant="subtitle2" color="#B28900" fontWeight="700">
+                                                                <Typography variant="subtitle2" color="#18c5bc" fontWeight="700">
                                                                     {['paid', 'completed'].includes(normalizedPaymentRequestStatus)
                                                                         ? 'Latest payment from customer'
                                                                         : 'Payment request (awaiting customer)'}
                                                                 </Typography>
-                                                                <Typography variant="caption" color="#B28900">
+                                                                <Typography variant="caption" color="rgba(233, 255, 251, 0.72)">
                                                                     {['paid', 'completed'].includes(normalizedPaymentRequestStatus)
                                                                         ? 'Amount received recently'
                                                                         : orderData.paymentRequest.type === 'partial'
@@ -987,7 +1019,7 @@ const OrderDetails = () => {
                                                                 </Typography>
                                                             </Box>
                                                             <Box textAlign="right">
-                                                                <Typography variant="h6" color="#B28900" fontWeight="800">&#8377;{displayPaymentRequestAmount}</Typography>
+                                                                <Typography variant="h6" color="#18c5bc" fontWeight="800">&#8377;{displayPaymentRequestAmount}</Typography>
                                                                 <Chip
                                                                     label={orderData.paymentRequest.status?.toUpperCase() || 'PENDING'}
                                                                     size="small"
@@ -1008,11 +1040,11 @@ const OrderDetails = () => {
                                             <IconInfoCircle size={22} color="#FF9800" />
                                             <Typography variant="h6" fontWeight="600">Rate & Review</Typography>
                                         </Stack>
-                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px', bgcolor: 'grey.50' }}>
+                                        <Paper variant="outlined" sx={{ p: 2, borderRadius: '12px', bgcolor: 'rgba(9, 29, 36, 0.96)', borderColor: 'rgba(24, 197, 188, 0.14)' }}>
                                             {submittedReview ? (
                                                 <Stack spacing={1.25}>
                                                     <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                                        <Typography variant="subtitle1" fontWeight="700">
+                                                        <Typography variant="subtitle1" fontWeight="700" color="#e8fffb">
                                                             {Number(submittedReview.rating || 0).toFixed(1)} / 5
                                                         </Typography>
                                                         <Chip
@@ -1022,27 +1054,27 @@ const OrderDetails = () => {
                                                             sx={{ fontWeight: 700 }}
                                                         />
                                                     </Stack>
-                                                    <Typography variant="body2" color="textSecondary">
+                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">
                                                         {submittedReview.description || 'No review comment provided.'}
                                                     </Typography>
                                                     <Divider />
                                                     <Grid container spacing={2}>
                                                         <Grid item xs={12} md={6}>
-                                                            <Typography variant="caption" color="textSecondary" fontWeight={600}>Mapped Service</Typography>
-                                                            <Typography variant="body2" fontWeight={700}>
+                                                            <Typography variant="caption" color="rgba(233, 255, 251, 0.72)" fontWeight={600}>Mapped Service</Typography>
+                                                            <Typography variant="body2" fontWeight={700} color="#e8fffb">
                                                                 {submittedReview.serviceName || displayServiceName || 'N/A'}
                                                             </Typography>
                                                         </Grid>
                                                         <Grid item xs={12} md={6}>
-                                                            <Typography variant="caption" color="textSecondary" fontWeight={600}>Mapped Provider</Typography>
-                                                            <Typography variant="body2" fontWeight={700}>
+                                                            <Typography variant="caption" color="rgba(233, 255, 251, 0.72)" fontWeight={600}>Mapped Provider</Typography>
+                                                            <Typography variant="body2" fontWeight={700} color="#e8fffb">
                                                                 {submittedReview.providerName || providerDisplayName || 'N/A'}
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
                                                 </Stack>
                                             ) : (
-                                                <Typography variant="body2" color="textSecondary">
+                                                <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">
                                                     Customer has not submitted any rating or review for this booking yet.
                                                 </Typography>
                                             )}
@@ -1190,28 +1222,36 @@ const OrderDetails = () => {
                                                     </Table>
                                                 </TableContainer>
 
-                                                <Box mt={2} p={1.5} sx={{ bgcolor: 'grey.50', borderRadius: '8px' }}>
+                                                <Box
+                                                    mt={2}
+                                                    p={1.5}
+                                                    sx={{
+                                                        bgcolor: 'rgba(6, 24, 30, 0.96)',
+                                                        borderRadius: '8px',
+                                                        border: '1px solid rgba(24, 197, 188, 0.14)'
+                                                    }}
+                                                >
                                                     <Grid container justifyContent="flex-end">
                                                         <Grid item xs={12} md={6}>
                                                             <Stack spacing={0.5}>
                                                                 <Stack direction="row" justifyContent="space-between">
-                                                                    <Typography variant="body2">Base Amount:</Typography>
-                                                                    <Typography variant="body2" fontWeight="600">&#8377;{est.baseAmount}</Typography>
+                                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">Base Amount:</Typography>
+                                                                    <Typography variant="body2" fontWeight="600" color="#e8fffb">&#8377;{est.baseAmount}</Typography>
                                                                 </Stack>
                                                                 <Stack direction="row" justifyContent="space-between">
-                                                                    <Typography variant="body2">GST (18%):</Typography>
-                                                                    <Typography variant="body2" fontWeight="600">&#8377;{est.gstAmount}</Typography>
+                                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">GST (18%):</Typography>
+                                                                    <Typography variant="body2" fontWeight="600" color="#e8fffb">&#8377;{est.gstAmount}</Typography>
                                                                 </Stack>
                                                                 <Divider sx={{ my: 0.5 }} />
                                                                 <Stack direction="row" justifyContent="space-between">
-                                                                    <Typography variant="subtitle1" fontWeight="700">Grand Total:</Typography>
+                                                                    <Typography variant="subtitle1" fontWeight="700" color="#e8fffb">Grand Total:</Typography>
                                                                     <Typography variant="subtitle1" fontWeight="700" color="primary.main">&#8377;{est.grandTotal}</Typography>
                                                                 </Stack>
                                                                 {(showPaidQuotationState || showPreviousQuotationSettledState) && isPartialQuotationPayment && (
                                                                     <>
                                                                         <Divider sx={{ my: 0.75 }} />
                                                                         <Stack direction="row" justifyContent="space-between">
-                                                                            <Typography variant="body2">Advance Paid:</Typography>
+                                                                            <Typography variant="body2" color="rgba(233, 255, 251, 0.72)">Advance Paid:</Typography>
                                                                             <Typography variant="body2" fontWeight="700" color="success.main">
                                                                                 &#8377;{
                                                                                     showLatestRevisedAdvanceState

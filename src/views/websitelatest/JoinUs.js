@@ -613,7 +613,7 @@ const JoinUs = () => {
               placeholder="Search by title or service"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Join Us entries"
             />
             {/* Create Entry button commented out as per your requirement */}
@@ -644,3 +644,4 @@ const JoinUs = () => {
 };
 
 export default JoinUs;
+

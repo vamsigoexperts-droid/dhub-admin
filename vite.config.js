@@ -69,6 +69,8 @@ export default defineConfig(({ mode }) => {
     alias: {
       src: resolve(__dirname, 'src'),
     },
+    // One copy of CKEditor 5 core (avoids ckeditor-duplicated-modules with Vite pre-bundling)
+    dedupe: ['ckeditor5', '@ckeditor/ckeditor5-core', '@ckeditor/ckeditor5-engine', '@ckeditor/ckeditor5-utils'],
   },
   esbuild: {
     loader: 'jsx',

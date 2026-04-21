@@ -993,7 +993,7 @@ const OnDemandCoupons = () => {
               placeholder="Search by coupon code"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Coupons"
             />
             {rolesAndPermission.on_demand_coupons_add === true ||
@@ -1036,3 +1036,4 @@ const OnDemandCoupons = () => {
 };
 
 export default OnDemandCoupons;
+

@@ -3,7 +3,7 @@ import CustomTextField from '../../components/forms/theme-elements/CustomTextFie
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import { ToastContainer, toast } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { useTheme } from '@mui/material/styles';
@@ -524,7 +524,7 @@ const Providers = () => {
             autoHeight
             sx={{
               '& .MuiDataGrid-row': {
-                backgroundColor: 'white',
+                backgroundColor: 'background.paper',
                 borderBottom: '1px solid #f0f0f0',
                 '&:hover': { backgroundColor: '#f8f9fa' }
               },
@@ -558,12 +558,10 @@ const Providers = () => {
             <ListItemText>Edit Provider</ListItemText>
           </MenuItem>
         )}
-        {selectedRow?.childcategoryId !== '683dbbfbb62d2a241de0f7e3' && (
-          <MenuItem onClick={() => handleServiceRequests(selectedRow)}>
-            <ListItemIcon><IconTablePlus size={18} color={theme.palette.success.main} /></ListItemIcon>
-            <ListItemText>Service Rates</ListItemText>
-          </MenuItem>
-        )}
+        <MenuItem onClick={() => handleServiceRequests(selectedRow)}>
+          <ListItemIcon><IconTablePlus size={18} color={theme.palette.success.main} /></ListItemIcon>
+          <ListItemText>Service Rates</ListItemText>
+        </MenuItem>
         <MenuItem onClick={() => handleViewPopUp(selectedRow)}>
           <ListItemIcon><IconEye size={18} color={theme.palette.secondary.main} /></ListItemIcon>
           <ListItemText>View Details</ListItemText>
@@ -600,7 +598,7 @@ const Providers = () => {
             <Grid item xs={12}>
               <CustomFormLabel>Message</CustomFormLabel>
               <Box sx={{ border: '1px solid #ddd', minHeight: '300px' }}>
-                <CKEditor editor={ClassicEditor} data={mailForm.messageHtml} onChange={handleEditorChange} />
+                <CKEditor editor={CustomCKEditor} data={mailForm.messageHtml} onChange={handleEditorChange} />
               </Box>
             </Grid>
           </Grid>
@@ -667,3 +665,4 @@ const Providers = () => {
 };
 
 export default Providers;
+

@@ -428,7 +428,7 @@ const LatestBlogs = () => {
         <Box display="flex" justifyContent="space-between" alignItems="center" p={2} flexWrap="wrap" gap={2}>
           <Typography variant="h6">Blog Posts ({data.length})</Typography>
           <Box display="flex" gap={2} alignItems="center">
-            <CustomTextField size="small" placeholder="Search by title, slug, or description" value={search} onChange={handleSearch} sx={{ minWidth: { xs: 150, sm: 250 }, bgcolor: 'white' }} />
+            <CustomTextField size="small" placeholder="Search by title, slug, or description" value={search} onChange={handleSearch} sx={{ minWidth: { xs: 150, sm: 250 }, bgcolor: 'background.paper' }} />
             <Button variant="contained" color="primary" onClick={handleAddPopUp} disabled={loading} startIcon={<IconPlus size={20} />}>Create Blog</Button>
           </Box>
         </Box>
@@ -444,3 +444,4 @@ const LatestBlogs = () => {
 };
 
 export default LatestBlogs;
+

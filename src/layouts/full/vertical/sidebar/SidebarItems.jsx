@@ -29,8 +29,8 @@ const SidebarItems = () => {
   );
 
   return (
-    <Box sx={{ px: 3 }}>
-      <List sx={{ pt: 0 }} className="sidebarNav">
+    <Box sx={{ px: 0.75 }}>
+      <List sx={{ pt: 0.5 }} className="sidebarNav">
         {filteredMenuitems.map((item) => {
           // {/********SubHeader**********/}
           if (item.subheader) {

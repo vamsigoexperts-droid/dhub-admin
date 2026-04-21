@@ -64,7 +64,7 @@ const ProfileBanner = ({ data }) => {
                       borderRadius: '50%',
                       width: '100px',
                       height: '100px',
-                      border: '4px solid #fff',
+                      border: '4px solid #dff6f2',
                     }}
                   />
                 </ProfileImage>

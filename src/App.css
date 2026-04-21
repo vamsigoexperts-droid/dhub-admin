@@ -1,9 +1,9 @@
 .MuiDataGrid-columnHeader {
-  background-color: #ecf2ff !important;
-  color: #007367 !important;
-  font-size: 0.875rem !important;  
-  font-weight: 700 !important;       
-  text-transform: capitalize;  
+  background-color: #0d2e38 !important;
+  color: #71e7da !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  text-transform: capitalize;
 }
 
 body {

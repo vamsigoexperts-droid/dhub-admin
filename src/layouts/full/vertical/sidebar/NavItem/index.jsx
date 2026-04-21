@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 // mui imports
 import {
+  Box,
   ListItemIcon,
   ListItem,
   List,
@@ -11,14 +12,11 @@ import {
   Chip,
   useTheme,
   Typography,
+  alpha,
 } from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
-import { CustomizerContext } from 'src/context/CustomizerContext';
-
 const NavItem = ({ item, level, pathDirect, onClick, hideMenu }) => {
-  const { isBorderRadius } = useContext(CustomizerContext);
-
   const Icon = item.icon;
   const theme = useTheme();
   const { t } = useTranslation();
@@ -28,26 +26,31 @@ const NavItem = ({ item, level, pathDirect, onClick, hideMenu }) => {
 
   const ListItemStyled = styled(ListItem)(() => ({
     whiteSpace: 'pre-line',
-    marginBottom: '2px',
-    padding: '8px 10px',
-    borderRadius: `${isBorderRadius}px`,
-    backgroundColor: 'inherit',
-    color: theme.palette.text.secondary,
-    paddingLeft: hideMenu ? '10px' : level > 2 ? `${level * 15}px` : '10px',
-    minHeight: '40px',
+    marginBottom: '8px',
+    padding: '12px 14px',
+    borderRadius: '18px',
+    backgroundColor: 'transparent',
+    color: 'rgba(227, 248, 244, 0.84)',
+    paddingLeft: hideMenu ? '14px' : level > 2 ? `${level * 15}px` : '14px',
+    minHeight: '52px',
+    border: '1px solid transparent',
+    boxShadow: 'none',
     '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.main,
+      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+      color: '#ffffff',
+      borderColor: alpha(theme.palette.primary.main, 0.18),
     },
     '&.active, &.Mui-selected': {
-      color: `${theme.palette.primary.main} !important`,
-      backgroundColor: `${theme.palette.primary.light} !important`,
+      color: '#ffffff !important',
+      backgroundColor: `${alpha(theme.palette.primary.main, 0.22)} !important`,
+      borderColor: `${alpha(theme.palette.primary.main, 0.45)} !important`,
+      boxShadow: `0 0 0 1px ${alpha(theme.palette.primary.main, 0.25)}, 0 12px 24px rgba(0, 0, 0, 0.22)`,
       '& .MuiListItemIcon-root': {
-        color: `${theme.palette.primary.main} !important`,
+        color: '#ffffff !important',
       },
       '&:hover': {
-        backgroundColor: theme.palette.primary.light,
-        color: `${theme.palette.primary.main} !important`,
+        backgroundColor: `${alpha(theme.palette.primary.main, 0.24)} !important`,
+        color: '#ffffff !important',
       },
     },
   }));
@@ -66,18 +69,47 @@ const NavItem = ({ item, level, pathDirect, onClick, hideMenu }) => {
       >
         <ListItemIcon
           sx={{
-            minWidth: '36px',
-            p: '3px 0',
+            minWidth: '48px',
+            p: '0',
             color: 'inherit',
           }}
         >
-          {itemIcon}
+          <Box
+            sx={{
+              width: 34,
+              height: 34,
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: isActive ? alpha(theme.palette.primary.main, 0.16) : 'rgba(255, 255, 255, 0.03)',
+              border: isActive ? '1px solid rgba(142, 243, 232, 0.18)' : '1px solid rgba(255, 255, 255, 0.05)',
+            }}
+          >
+            {itemIcon}
+          </Box>
         </ListItemIcon>
-        <ListItemText>
-          {hideMenu ? '' : <>{t(`${item.title}`)}</>}
+        <ListItemText sx={{ m: 0 }}>
+          {hideMenu ? (
+            ''
+          ) : (
+            <Typography
+              variant="body2"
+              noWrap
+              sx={{ fontSize: '0.92rem', lineHeight: 1.15, fontWeight: 600 }}
+            >
+              {t(`${item.title}`)}
+            </Typography>
+          )}
           <br />
           {item.subtitle ? (
-            <Typography variant="caption">{hideMenu ? '' : item.subtitle}</Typography>
+            <Typography
+              variant="caption"
+              noWrap
+              sx={{ color: 'rgba(227, 248, 244, 0.62)', fontSize: '0.74rem' }}
+            >
+              {hideMenu ? '' : item.subtitle}
+            </Typography>
           ) : (
             ''
           )}

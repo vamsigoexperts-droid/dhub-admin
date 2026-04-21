@@ -268,31 +268,6 @@ const AddServiceForm = ({ onClose, onSubmit, Zone }) => {
                 ))}
               </TextField>
             </Grid> */}
-{/* <Grid item xs={12} sm={6} md={3}>
-
-              <CustomFormLabel htmlFor="flagType" required>
-                Flag Type
-              </CustomFormLabel>
-              <CustomSelect
-                id="flagType"
-                fullWidth
-                variant="outlined"
-                name="flagType"
-                value={form.flagType}
-                required
-                onChange={handleChange}
-                aria-label="Flag Type"
-              >
-                <MenuItem value="shopping">Shopping</MenuItem>
-                <MenuItem value="services">Services</MenuItem>
-                <MenuItem value="parcel">Parcel</MenuItem>
-                <MenuItem value="ride">Ride</MenuItem>
-                <MenuItem value="cab">Cab</MenuItem>
-                <MenuItem value="medicine">Medicine</MenuItem>
-                <MenuItem value="grocery">Grocery</MenuItem>
-                <MenuItem value="food">Food</MenuItem>
-              </CustomSelect>
-            </Grid> */}
 <Grid item xs={12} sm={6} md={3}>
 
               <CustomFormLabel htmlFor="additionalText">Admin Text</CustomFormLabel>
@@ -658,28 +633,6 @@ const EditServiceForm = ({ onClose, onSubmit, initialData, Zone }) => {
                   </MenuItem>
                 ))}
               </TextField>
-            </Grid> */}
-        {/* <Grid item xs={12} sm={6} md={3}>
-              <CustomFormLabel htmlFor="flagType">Flag Type</CustomFormLabel>
-              <CustomSelect
-                id="flagType"
-                fullWidth
-                variant="outlined"
-                name="flagType"
-                value={form.flagType}
-                readOnly
-                onChange={handleChange}
-                aria-label="Flag Type"
-              >
-                <MenuItem value="shopping">Shopping</MenuItem>
-                <MenuItem value="services">Services</MenuItem>
-                <MenuItem value="parcel">Parcel</MenuItem>
-                <MenuItem value="ride">Ride</MenuItem>
-                <MenuItem value="cab">Cab</MenuItem>
-                <MenuItem value="medicine">Medicine</MenuItem>
-                <MenuItem value="grocery">Grocery</MenuItem>
-                <MenuItem value="food">Food</MenuItem>
-              </CustomSelect>
             </Grid> */}
    <Grid item xs={6} sm={6} md={3}>
               <CustomFormLabel htmlFor="additionalText">Admin Text</CustomFormLabel>
@@ -1118,7 +1071,7 @@ const Service = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Services"
             />
             {rolesAndPermission.services_add === true || rolesAndPermission.accessAll === true ? <>
@@ -1154,3 +1107,4 @@ const Service = () => {
 };
 
 export default Service;
+

@@ -538,7 +538,7 @@ const AcceptPayments = () => {
               placeholder="Search by name, description, or URL"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Accept Payments"
             />
             <Button
@@ -578,3 +578,4 @@ const AcceptPayments = () => {
 };
 
 export default AcceptPayments;
+

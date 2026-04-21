@@ -648,7 +648,7 @@ const AllAmenities = () => {
               placeholder="Search by name, service, category..."
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 110, sm: 250 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 110, sm: 250 }, bgcolor: 'background.paper' }}
               aria-label="Search Amenities"
             />
 
@@ -860,3 +860,4 @@ const AllAmenities = () => {
 };
 
 export default AllAmenities;
+

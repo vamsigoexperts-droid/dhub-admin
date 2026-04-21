@@ -8,7 +8,6 @@ import icon2 from 'src/assets/images/svgs/icon-inbox.svg'
 import icon3 from 'src/assets/images/svgs/icon-tasks.svg'
 
 import ddIcon1 from 'src/assets/images/svgs/icon-dd-chat.svg'
-import ddIcon2 from 'src/assets/images/svgs/icon-dd-cart.svg'
 import ddIcon3 from 'src/assets/images/svgs/icon-dd-invoice.svg'
 import ddIcon4 from 'src/assets/images/svgs/icon-dd-date.svg'
 import ddIcon5 from 'src/assets/images/svgs/icon-dd-mobile.svg'
@@ -135,12 +134,6 @@ const appsLink = [
   },
   {
     href: '/',
-    title: 'eCommerce App',
-    subtext: 'New stock available',
-    avatar: ddIcon2
-  },
-  {
-    href: '/',
     title: 'Notes App',
     subtext: 'To-do and Daily tasks',
     avatar: ddIcon3
@@ -208,10 +201,6 @@ const pageLinks = [
   {
     href: '/',
     title: 'Blog Design'
-  },
-  {
-    href: '/',
-    title: 'Shopping Cart'
   },
 ]
 

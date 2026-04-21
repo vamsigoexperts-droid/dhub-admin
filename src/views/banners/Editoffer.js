@@ -33,8 +33,8 @@ import axios from 'axios';
 
 const BCrumb = [
   { to: '/', title: 'Home' },
-  { to: '/offers-management', title: 'Offers' },
-  { title: 'Edit Offer' },
+  { to: '/advertisments/offers', title: 'Coupons' },
+  { title: 'Edit Coupon' },
 ];
 
 // Styled Components
@@ -89,6 +89,18 @@ const EditOffer = () => {
   const [errors, setErrors] = useState({});
 
   const token = localStorage.getItem('token');
+  const PROFESSIONAL_SERVICE_NAMES = ['Religious Services', 'PG Hostels', 'Spa Saloons', 'Spa Salons'];
+
+  const isProfessionalService = (serviceId) => {
+    const normalizedServiceId =
+      serviceId && typeof serviceId === 'object' ? serviceId._id || serviceId.id : serviceId;
+    const selectedService = services.find((service) => service._id === normalizedServiceId);
+    if (!selectedService) return false;
+
+    if (selectedService.serviceType === 'professional') return true;
+
+    return PROFESSIONAL_SERVICE_NAMES.includes(selectedService.name);
+  };
 
   // Fetch Services
   const getServices = async () => {
@@ -120,9 +132,12 @@ const EditOffer = () => {
 
     setLoadingCategories(true);
     try {
+      const normalizedServiceId =
+        serviceId && typeof serviceId === 'object' ? serviceId._id || serviceId.id : serviceId;
+      const isProfessional = isProfessionalService(normalizedServiceId);
       const res = await axios.post(
-        URLS.GetCategoriesByServiceId,
-        { serviceId: serviceId },
+        isProfessional ? URLS.GetProfessionalCategories : URLS.GetCategoriesByServiceId,
+        { serviceId: normalizedServiceId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -132,7 +147,7 @@ const EditOffer = () => {
       );
 
       if (res.data.success) {
-        setCategories(res.data.category || []);
+        setCategories(isProfessional ? res.data.data || [] : res.data.category || []);
       } else {
         setCategories([]);
       }
@@ -211,12 +226,18 @@ const EditOffer = () => {
   useEffect(() => {
     if (!token) {
       toast.error('Authentication token missing. Please log in.');
-      navigate('/offers-management');
+      navigate('/advertisments/offers');
       return;
     }
     getServices();
     getOfferData();
   }, [id]);
+
+  useEffect(() => {
+    if (formData.serviceId && services.length > 0) {
+      getCategoriesByServiceId(formData.serviceId);
+    }
+  }, [formData.serviceId, services]);
 
   // Handle Input Change
   const handleInputChange = (e) => {
@@ -419,7 +440,7 @@ const EditOffer = () => {
         if (res.data.success) {
           toast.success(res.data.message || 'Offer updated successfully');
           setTimeout(() => {
-            navigate('/offers-management');
+            navigate('/advertisments/offers');
           }, 1500);
         }
       } else {
@@ -438,7 +459,7 @@ const EditOffer = () => {
         if (res.data.success) {
           toast.success(res.data.message || 'Offer updated successfully');
           setTimeout(() => {
-            navigate('/offers-management');
+            navigate('/advertisments/offers');
           }, 1500);
         }
       }
@@ -453,8 +474,8 @@ const EditOffer = () => {
 
   if (pageLoading) {
     return (
-      <PageContainer title="Loading..." description="Loading offer details">
-        <Breadcrumb title="Edit Offer" items={BCrumb} />
+      <PageContainer title="Loading..." description="Loading coupon details">
+        <Breadcrumb title="Edit Coupon" items={BCrumb} />
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
           <CircularProgress />
         </Box>
@@ -463,8 +484,8 @@ const EditOffer = () => {
   }
 
   return (
-    <PageContainer title="Edit Offer" description="Update offer details">
-      <Breadcrumb title="Edit Offer" items={BCrumb} />
+    <PageContainer title="Edit Coupon" description="Update coupon details">
+      <Breadcrumb title="Edit Coupon" items={BCrumb} />
       <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Back Button */}
@@ -474,7 +495,7 @@ const EditOffer = () => {
           startIcon={<IconArrowLeft />}
           onClick={() => navigate('/advertisments/addoffer')}
         >
-          Back to Offers
+          Back to Coupons
         </Button>
       </Box>
 
@@ -488,7 +509,7 @@ const EditOffer = () => {
         }}
       >
         <Typography variant="h5" fontWeight={600} mb={3}>
-          Edit Offer Information
+          Edit Coupon Information
         </Typography>
 
         <form onSubmit={handleSubmit}>
@@ -499,7 +520,7 @@ const EditOffer = () => {
               <CustomTextField
                 id="title"
                 name="title"
-                placeholder="Enter offer title"
+                placeholder="Enter coupon title"
                 value={formData.title}
                 onChange={handleInputChange}
                 fullWidth
@@ -530,7 +551,7 @@ const EditOffer = () => {
               <CustomTextField
                 id="description"
                 name="description"
-                placeholder="Enter offer description"
+                placeholder="Enter coupon description"
                 value={formData.description}
                 onChange={handleInputChange}
                 fullWidth
@@ -543,7 +564,7 @@ const EditOffer = () => {
 
             {/* Image Upload */}
             <Grid item xs={12}>
-              <CustomFormLabel>Offer Image</CustomFormLabel>
+              <CustomFormLabel>Coupon Image</CustomFormLabel>
               {!imagePreview ? (
                 <ImageUploadBox onClick={() => document.getElementById('image-upload').click()}>
                   <input
@@ -566,7 +587,7 @@ const EditOffer = () => {
                   <CardMedia
                     component="img"
                     image={imagePreview}
-                    alt="Offer preview"
+                    alt="Coupon preview"
                     sx={{ height: 250, objectFit: 'cover' }}
                   />
                   {formData.image && (
@@ -804,7 +825,7 @@ const EditOffer = () => {
                 value={formData.usageLimit}
                 onChange={handleInputChange}
                 fullWidth
-                helperText="Number of times this offer can be used"
+                helperText="Number of times this coupon can be used"
               />
             </Grid>
 
@@ -835,7 +856,7 @@ const EditOffer = () => {
                   Cancel
                 </Button>
                 <Button type="submit" variant="contained" color="primary" disabled={loading}>
-                  {loading ? 'Updating Offer...' : 'Update Offer'}
+                  {loading ? 'Updating Coupon...' : 'Update Coupon'}
                 </Button>
               </Box>
             </Grid>

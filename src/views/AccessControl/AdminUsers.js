@@ -706,7 +706,7 @@ const AdminUsers = () => {
               placeholder="Search by name"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Admin Users"
             />{rolesAndPermission.admin_user_add === true || rolesAndPermission.accessAll === true ? <>
               <Button
@@ -741,3 +741,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
+

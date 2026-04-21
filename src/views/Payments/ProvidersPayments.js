@@ -508,7 +508,7 @@ const ProvidersPayments = () => {
               onChange={handleSearch}
               sx={{
                 minWidth: { xs: '100%', sm: 250 },
-                bgcolor: 'white',
+                bgcolor: 'background.paper',
                 flex: { xs: '1 1 100%', sm: '0 1 auto' },
               }}
               aria-label="Search Provider Payments"
@@ -561,3 +561,4 @@ const ProvidersPayments = () => {
 };
 
 export default ProvidersPayments;
+

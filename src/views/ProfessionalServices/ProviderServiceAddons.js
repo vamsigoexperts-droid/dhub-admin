@@ -383,7 +383,7 @@ const AddonForm = ({
                                 setSingleFiles(prev => ({ ...prev, purchasePriceBillDocument: null }));
                                 setSinglePreviews(prev => ({ ...prev, purchasePriceBillDocument: null }));
                               }}
-                              sx={{ position: 'absolute', top: -10, right: -10, bgcolor: 'white', border: '1px solid #eee' }}
+                              sx={{ position: 'absolute', top: -10, right: -10, bgcolor: 'background.paper', border: '1px solid #eee' }}
                             >
                               <IconX size={14} />
                             </IconButton>
@@ -1062,4 +1062,5 @@ const ProviderServiceAddons = () => {
 };
 
 export default ProviderServiceAddons;
+
 

@@ -244,7 +244,7 @@ const HeaderManagement = () => {
                                                     border: '1px solid rgba(0,0,0,0.05)',
                                                     transition: 'all 0.2s',
                                                     '&:hover': {
-                                                        bgcolor: 'white',
+                                                        bgcolor: 'background.paper',
                                                         boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                                                         transform: 'translateY(-2px)'
                                                     }
@@ -523,3 +523,4 @@ const HeaderManagement = () => {
 };
 
 export default HeaderManagement;
+

@@ -294,14 +294,53 @@ const ViewProfessionalProvider = () => {
     setOpenImage(null);
   };
 
+  const getDocumentPath = (fileValue) => {
+    if (Array.isArray(fileValue)) {
+      return getDocumentPath(fileValue.find(Boolean));
+    }
+
+    if (fileValue && typeof fileValue === 'object') {
+      return getDocumentPath(
+        fileValue.url ||
+        fileValue.path ||
+        fileValue.file ||
+        fileValue.image ||
+        fileValue.src ||
+        fileValue.location
+      );
+    }
+
+    return typeof fileValue === 'string' ? fileValue.trim() : '';
+  };
+
+  const getDocumentUrl = (fileValue) => {
+    const filePath = getDocumentPath(fileValue);
+    if (!filePath) return '';
+
+    if (/^(https?:|blob:|data:)/i.test(filePath)) {
+      return filePath;
+    }
+
+    return `https://api.doorstephub.com/${filePath.replace(/^\/+/, '')}`;
+  };
+
+  const getDocumentList = (fileValue) => {
+    if (!fileValue) return [];
+    if (Array.isArray(fileValue)) return fileValue.map(getDocumentPath).filter(Boolean);
+
+    const filePath = getDocumentPath(fileValue);
+    return filePath ? [filePath] : [];
+  };
+
   const isPdfFile = (filename) => {
-    return filename && filename.toLowerCase().endsWith('.pdf');
+    const filePath = getDocumentPath(filename);
+    return filePath.split('?')[0].toLowerCase().endsWith('.pdf');
   };
 
   const renderDocumentPreview = (fileUrl, altText) => {
-    if (!fileUrl) return null;
+    const fullUrl = getDocumentUrl(fileUrl);
 
-    const fullUrl = fileUrl.startsWith('http') ? fileUrl : `https://api.doorstephub.com/${fileUrl}`;
+    if (!fullUrl) return null;
 
     if (isPdfFile(fileUrl)) {
       return (
@@ -495,6 +534,8 @@ const ViewProfessionalProvider = () => {
   };
 
   const documentsData = documents;
+  const providerImageUrl = getDocumentUrl(provider.image);
+  const businessImages = getDocumentList(documents.business_images);
 
   const docKycStatus = documents.kyc_status || provider.kyc_status;
   const isKycApproved = docKycStatus === 'active' || docKycStatus === 'approved';
@@ -561,10 +602,10 @@ const ViewProfessionalProvider = () => {
                     border: `3px solid ${theme.palette.primary.main}20`,
                   }}
                 >
-                  {provider.image ? (
+                  {providerImageUrl ? (
                     <Box
                       component="img"
-                      src={`https://api.doorstephub.com/${provider.image}`}
+                      src={providerImageUrl}
                       alt={`${provider.firstName} ${provider.lastName}`}
                       sx={{
                         width: '100%',
@@ -954,12 +995,12 @@ const ViewProfessionalProvider = () => {
                   Business Images
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, mt: 1, flexWrap: 'wrap' }}>
-                  {(documents.business_images || []).slice(0, 4).map((img, idx) =>
+                  {businessImages.slice(0, 4).map((img, idx) =>
                     renderDocumentPreview(img, `Business ${idx + 1}`)
                   )}
-                  {(documents.business_images || []).length > 4 && (
+                  {businessImages.length > 4 && (
                     <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>
-                      +{(documents.business_images || []).length - 4} more
+                      +{businessImages.length - 4} more
                     </Typography>
                   )}
                 </Box>

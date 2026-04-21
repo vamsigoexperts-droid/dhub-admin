@@ -710,7 +710,7 @@ const ExploreApps = () => {
               placeholder="Search by title or app name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
             />
             {/* <Button
               variant="contained"
@@ -748,3 +748,4 @@ const ExploreApps = () => {
 };
 
 export default ExploreApps;
+

@@ -612,7 +612,7 @@ const Categories = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search categories"
             />
             <Button
@@ -647,3 +647,4 @@ const Categories = () => {
 };
 
 export default Categories;
+

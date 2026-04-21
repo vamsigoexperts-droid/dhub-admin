@@ -197,52 +197,11 @@ export const URLS = {
   EditUnit: Url + 'v1/dhubApi/admin/unit/editunit/',
   DeleteUnit: Url + 'v1/dhubApi/admin/unit/deleteunit/',
 
-  //GrocerysItem
-  AddGrocerysItem: Url + 'v1/dhubApi/admin/grocery-product/addproduct',
-  GetGrocerysItem: Url + 'v1/dhubApi/admin/grocery-product/getallproducts',
-  EditGrocerysItem: Url + 'v1/dhubApi/admin/grocery-product/editproduct/',
-  DeleteGrocerysItem: Url + 'v1/dhubApi/admin/grocery-product/deleteproduct',
-  GetOneGrocerysItem: Url + 'v1/dhubApi/admin/grocery-product/getproductbyid',
-  GetGrocerysItemRequest: Url + 'v1/dhubApi/admin/grocery-product/store-requested-products',
-  UpdateGrocerysItemRequest: Url + 'v1/dhubApi/admin/grocery-product/update-requested-bystore',
-
   //Weights
   AddWeight: Url + 'v1/dhubApi/admin/weight/addweight',
   GetWeights: Url + 'v1/dhubApi/admin/weight/getallweights',
   EditWeight: Url + 'v1/dhubApi/admin/weight/editweight/',
   DeleteWeight: Url + 'v1/dhubApi/admin/weight/deleteweight/',
-
-  //Shopping All Drop-Downs
-  AddShoppingDropDown: Url + 'v1/dhubApi/admin/ecommerce-dropdown/adddropdown',
-  GetShoppingDropDowns: Url + 'v1/dhubApi/admin/ecommerce-dropdown/getalldropdowns',
-  EditShoppingDropDown: Url + 'v1/dhubApi/admin/ecommerce-dropdown/editdropdown/',
-  DeleteShoppingDropDown: Url + 'v1/dhubApi/admin/ecommerce-dropdown/deletedropdown/',
-
-  //ShoppingItem
-  AddShoppingItem: Url + 'v1/dhubApi/admin/shopping-product/addproduct',
-  GetShoppingsItem: Url + 'v1/dhubApi/admin/shopping-product/getallproducts',
-  EditShoppingItem: Url + 'v1/dhubApi/admin/shopping-product/editproduct/',
-  DeleteShoppingItem: Url + 'v1/dhubApi/admin/shopping-product/deleteproduct',
-  GetOneShoppingItem: Url + 'v1/dhubApi/admin/shopping-product/getproductbyid',
-
-  //ShoppingItemRequest
-  GetShopingItemRequest: Url + 'v1/dhubApi/admin/shopping-product/get-store-requested-products',
-  UpdateShopingItemRequest: Url + 'v1/dhubApi/admin/shopping-product/update-requested-product',
-
-  //CuisineType
-  AddCuisineType: Url + 'v1/dhubApi/admin/cuisinetype/addcuisinetype',
-  GetCuisineTypes: Url + 'v1/dhubApi/admin/cuisinetype/getallcuisinetypes',
-  EditCuisineType: Url + 'v1/dhubApi/admin/cuisinetype/editcuisinetype/',
-  DeleteCuisineType: Url + 'v1/dhubApi/admin/cuisinetype/deletecuisinetype/',
-
-  //FoodItems
-  AddFoodItem: Url + 'v1/dhubApi/admin/restaurent-product/addproduct',
-  GetFoodItems: Url + 'v1/dhubApi/admin/restaurent-product/getallproducts',
-  EditFoodItem: Url + 'v1/dhubApi/admin/restaurent-product/editproduct/',
-  DeleteFoodItem: Url + 'v1/dhubApi/admin/restaurent-product/deleteproduct',
-  GetOneFoodItem: Url + 'v1/dhubApi/admin/restaurent-product/getproductbyid',
-  GetFoodItemRequest: Url + 'v1/dhubApi/admin/restaurent-product/get-all-requested-products',
-  UpdateFoodItemRequest: Url + 'v1/dhubApi/admin/restaurent-product/update-request-for-store',
 
   //AddCrmBokings
   AddCrmBokings: Url + 'v1/dhubApi/admin/restaurent-product/addproduct',
@@ -299,36 +258,6 @@ export const URLS = {
   EditDrugCategories: Url + 'v1/dhubApi/admin/drugtype/editdrugtype/',
   DeleteDrugCategories: Url + 'v1/dhubApi/admin/drugtype/deletedrugtype/',
 
-  //PACKING TYPES
-  AddPackingType: Url + 'v1/dhubApi/admin/packingtype/addpackingtype',
-  GetPackingTypes: Url + 'v1/dhubApi/admin/packingtype/getallpackingtypes',
-  EditPackingType: Url + 'v1/dhubApi/admin/packingtype/editpackingtype/',
-  DeletePackingType: Url + 'v1/dhubApi/admin/packingtype/deletepackingtype/',
-
-  //MEDICINE FORMS
-  AddMedicineForm: Url + 'v1/dhubApi/admin/medicine-form/addform',
-  GetMedicineForms: Url + 'v1/dhubApi/admin/medicine-form/getallforms',
-  EditMedicineForm: Url + 'v1/dhubApi/admin/medicine-form/editform/',
-  DeleteMedicineForm: Url + 'v1/dhubApi/admin/medicine-form/deleteform/',
-
-  //THERAPEUTIC CLASS
-  AddTherapeuticClass: Url + 'v1/dhubApi/admin/therapeutic-class/addtherapeutic-class',
-  GetTherapeuticClasss: Url + 'v1/dhubApi/admin/therapeutic-class/getalltherapeutic-class',
-  EditTherapeuticClass: Url + 'v1/dhubApi/admin/therapeutic-class/edittherapeutic-class/',
-  DeleteTherapeuticClass: Url + 'v1/dhubApi/admin/therapeutic-class/deletetherapeutic-class/',
-
-  //MedicalItem
-  AddMedicalItem: Url + 'v1/dhubApi/admin/medicine-product/addproduct',
-  GetMedicalItem: Url + 'v1/dhubApi/admin/medicine-product/getallproducts',
-  EditMedicalItem: Url + 'v1/dhubApi/admin/medicine-product/editproduct/',
-  DeleteMedicalItem: Url + 'v1/dhubApi/admin/medicine-product/deleteproduct',
-  GetOneMedicalItem: Url + 'v1/dhubApi/admin/medicine-product/getproductbyid',
-
-  //MedicineItemRequest
-  GetMedicineItemRequest:
-    Url + 'v1/dhubApi/admin/medicine-product/get-requested-products-from-store',
-  UpdateMedicineItemRequest: Url + 'v1/dhubApi/admin/medicine-product/update-request',
-
   //Attribute
   AddAttribute: Url + 'v1/dhubApi/admin/attribute/addattribute',
   GetAttribute: Url + 'v1/dhubApi/admin/attribute/getallattributes',
@@ -361,23 +290,6 @@ export const URLS = {
 
   GetServiceBookingCharges: Url + 'v1/dhubApi/admin/service-booking-charges',
   EditServiceBookingCharges: Url + 'v1/dhubApi/admin/service-booking-charges',
-
-  //variations
-  addShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/add-variation',
-  // getShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/getall-variations',
-  getAllShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/getall-active-variations',
-  editShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/edit-variation/',
-  deleteShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/delete-variation/',
-
-
-
-
-  //sub-variations-shopping
-  addSubShoppingVariation: Url + 'v1/dhubApi/admin/sub-shop-variation/add-sub-shop-variation',
-  getSubShoppingVariation: Url + 'v1/dhubApi/admin/sub-shop-variation/getall-sub-shop-variations',
-  editSubShoppingVariation: Url + 'v1/dhubApi/admin/sub-shop-variation/edit-sub-shop-variation/',
-  deleteSubShoppingVariation: Url + 'v1/dhubApi/admin/sub-shop-variation/delete-sub-shop-variation/',
-
 
   //Attribute Values
   AddAttributeValues: Url + 'v1/dhubApi/admin/attributevalue/addattributevalue',
@@ -490,6 +402,7 @@ export const URLS = {
   DeleteSubscriptionsplan: Url + 'v1/dhubApi/admin/plan/deleteplan',
   GetFinanceOverview: Url + 'v1/dhubApi/admin/finance/overview',
   GetFinanceWalletLedger: Url + 'v1/dhubApi/admin/finance/wallet-ledger',
+  GetAdminWalletLedger: Url + 'v1/dhubApi/admin/finance/admin-wallet-ledger',
   GetFinanceWithdrawals: Url + 'v1/dhubApi/admin/finance/withdrawals',
   UpdateFinanceWithdrawal: Url + 'v1/dhubApi/admin/finance/withdrawals/action',
   FinanceWalletAdjustment: Url + 'v1/dhubApi/admin/finance/wallet-adjustment',
@@ -497,31 +410,11 @@ export const URLS = {
   GetFinanceSubscriptions: Url + 'v1/dhubApi/admin/finance/subscriptions',
   GetProviderSubscriptions: Url + 'v1/dhubApi/admin/get-provider-subscriptions',
 
-  //Store
-  AddStore: Url + 'v1/dhubApi/admin/store/addstore',
+  //Store lookups used by active payment/coupon pages
   GetStore: Url + 'v1/dhubApi/admin/store/getallstores',
-  EditStore: Url + 'v1/dhubApi/admin/store/editstore',
-  DeleteStore: Url + 'v1/dhubApi/admin/store/deletestore',
-  GetStoreone: Url + 'v1/dhubApi/admin/store/getstorebyid',
-  BlockorUnblockStore: Url + 'v1/dhubApi/admin/store/update_store_block_unblock',
-  GetStoresByStatus: Url + 'v1/dhubApi/admin/store/get-block-unblock-stores',
-  ApproveStore: Url + 'v1/dhubApi/admin/approve_request/approve-storekyc-request',
-  StoreSendMail: Url + 'v1/dhubApi/admin/sendmailstore',
 
-  //Driver
-  AddDriver: Url + 'v1/dhubApi/admin/driver/adddriver',
+  //Driver lookups used by active payment pages
   GetDriver: Url + 'v1/dhubApi/admin/driver/getalldrivers',
-  EditDriver: Url + 'v1/dhubApi/admin/driver/editdriver',
-  DeleteDriver: Url + 'v1/dhubApi/admin/driver/deletedriver',
-  GetDriverone: Url + 'v1/dhubApi/admin/driver/getdriverbyid',
-  BlockorUnblockDriver: Url + 'v1/dhubApi/admin/driver/update-block-unblock',
-  GetDriversByStatus: Url + 'v1/dhubApi/admin/driver/get-block-unblock-drivers',
-
-  //Items
-  AddItems: Url + 'v1/dhubApi/admin/item/additem',
-  GetItems: Url + 'v1/dhubApi/admin/item/getallitems',
-  DeleteAllItems: Url + 'v1/dhubApi/admin/item/deleteitems',
-  DeleteItems: Url + 'v1/dhubApi/admin/item/deleteitem',
 
   //Coupon
   AddCoupon: Url + 'v1/dhubApi/admin/coupon/addcoupon',
@@ -540,37 +433,6 @@ export const URLS = {
   GetCMSPages: Url + 'v1/dhubApi/admin/cmspage/getallcmspages',
   EditCMSPages: Url + 'v1/dhubApi/admin/cmspage/editcmspage',
   DeleteCMSPages: Url + 'v1/dhubApi/admin/cmspage/deletecmspage',
-
-  //Vehicle Setting
-  //Make
-  AddMake: Url + 'v1/dhubApi/admin/vechile/addvechile',
-  GetMake: Url + 'v1/dhubApi/admin/vechile/getallvechiles',
-  EditMake: Url + 'v1/dhubApi/admin/vechile/editvechile/',
-  DeleteMake: Url + 'v1/dhubApi/admin/vechile/deletevechile/',
-
-  //Model
-  AddModel: Url + 'v1/dhubApi/admin/vechilemodel/addvechilemodel',
-  GetModel: Url + 'v1/dhubApi/admin/vechilemodel/getallvechilemodels',
-  EditModel: Url + 'v1/dhubApi/admin/vechilemodel/editvechilemodel/',
-  DeleteModel: Url + 'v1/dhubApi/admin/vechilemodel/deletevechilemodel/',
-
-  //ParcelCategory
-  AddParcelCategory: Url + 'v1/dhubApi/admin/parcelcategory/addparcelcategory',
-  GetParcelCategory: Url + 'v1/dhubApi/admin/parcelcategory/getallparcelcategorys',
-  EditParcelCategory: Url + 'v1/dhubApi/admin/parcelcategory/editparcelcategory',
-  DeleteParcelCategory: Url + 'v1/dhubApi/admin/parcelcategory/deleteparcelcategory',
-
-  //ParcelWeight
-  AddParcelWeight: Url + 'v1/dhubApi/admin/parcelweight/addparcelweight',
-  GetParcelWeight: Url + 'v1/dhubApi/admin/parcelweight/getallparcelweights',
-  EditParcelWeight: Url + 'v1/dhubApi/admin/parcelweight/editparcelweight/',
-  DeleteParcelWeight: Url + 'v1/dhubApi/admin/parcelweight/deleteparcelweight/',
-
-  //Store PayOuts
-  AddStorePayOut: Url + 'v1/dhubApi/admin/storepayout/addstorepayout',
-  GetStorePayOut: Url + 'v1/dhubApi/admin/storepayout/getallstorepayouts',
-  EditStorePayOut: Url + 'v1/dhubApi/admin/storepayout/editstorepayout',
-  DeleteStorePayOut: Url + 'v1/dhubApi/admin/storepayout/deletestorepayout',
 
   //Faqs
   AddFaqs: Url + 'v1/dhubApi/admin/faq/addfaq',
@@ -794,14 +656,6 @@ export const URLS = {
   GetAppSettings: Url + 'v1/dhubApi/admin/appdisplaysetting/getall-app-display-settings',
   EditAppSettings: Url + 'v1/dhubApi/admin/appdisplaysetting/edit-app-display-setting/',
   DeleteAppSettings: Url + 'v1/dhubApi/admin/appdisplaysetting/delete-app-display-setting/',
-
-
-  //variations
-  getShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/getall-variations',
-  // getAllShoppingVariation: Url + 'v1/dhubApi/admin/shop-variation/getall-active-variations',
-
-
-  //sub-variations-shopping
 
 
   Getdashboardcard: Url + 'v1/dhubApi/admin/dashboard/',

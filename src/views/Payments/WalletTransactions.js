@@ -555,7 +555,7 @@ const WalletTransactions = () => {
               placeholder="Search by user, reference, order"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 200, sm: 250 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 200, sm: 250 }, bgcolor: 'background.paper' }}
               aria-label="Search Wallet Transactions"
             />
             <Button
@@ -606,3 +606,4 @@ const WalletTransactions = () => {
 };
 
 export default WalletTransactions;
+

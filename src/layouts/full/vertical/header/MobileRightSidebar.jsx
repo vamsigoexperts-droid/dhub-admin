@@ -35,7 +35,7 @@ const MobileRightSidebar = () => {
     setOpen(!open);
   };
 
-  const cartContent = (
+  const navigationContent = (
     <Box>
       {/* ------------------------------------------- */}
       {/* Apps Content */}
@@ -120,7 +120,6 @@ const MobileRightSidebar = () => {
         <IconGridDots size="21" stroke="1.5" />
       </IconButton>
       {/* ------------------------------------------- */}
-      {/* Cart Sidebar */}
       {/* ------------------------------------------- */}
       <Drawer
         anchor="right"
@@ -135,7 +134,7 @@ const MobileRightSidebar = () => {
         </Box>
 
         {/* component */}
-        {cartContent}
+        {navigationContent}
       </Drawer>
     </Box>
   );

@@ -423,7 +423,7 @@ const DriversPayouts = () => {
             placeholder="Search by name, email, or phone"
             value={search}
             onChange={handleSearch}
-            sx={{ minWidth: { xs: 180, sm: 250 }, bgcolor: 'white' }}
+            sx={{ minWidth: { xs: 180, sm: 250 }, bgcolor: 'background.paper' }}
             aria-label="Search Driver Payouts"
           />
         </Box>
@@ -463,3 +463,4 @@ const DriversPayouts = () => {
 };
 
 export default DriversPayouts;
+

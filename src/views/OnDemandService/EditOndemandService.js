@@ -7,7 +7,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import ParentCard from '../../components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { styled } from '@mui/material/styles';
@@ -688,7 +688,7 @@ const EditOndemandService = () => {
             <Grid item xs={12}>
               <CustomFormLabel>Description</CustomFormLabel>
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomCKEditor}
                 data={descriptionHtml}
                 onChange={(_, editor) => {
                   const html = editor.getData();
@@ -772,7 +772,7 @@ const EditOndemandService = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 0.5,
-                        bgcolor: 'white',
+                        bgcolor: 'background.paper',
                       }}
                     >
                       <IconPlus size={24} />
@@ -959,3 +959,4 @@ const EditOndemandService = () => {
 };
 
 export default EditOndemandService;
+

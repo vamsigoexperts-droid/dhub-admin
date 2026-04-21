@@ -472,7 +472,7 @@ const TeamManagement = () => {
                             placeholder="Search..."
                             value={search}
                             onChange={handleSearch}
-                            sx={{ minWidth: { xs: 100, sm: 150 }, bgcolor: 'white' }}
+                            sx={{ minWidth: { xs: 100, sm: 150 }, bgcolor: 'background.paper' }}
                             aria-label="Search Team Members"
                         />
 
@@ -548,3 +548,4 @@ const TeamManagement = () => {
 };
 
 export default TeamManagement;
+

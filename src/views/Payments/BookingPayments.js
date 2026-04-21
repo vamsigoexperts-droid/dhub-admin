@@ -233,7 +233,7 @@ const BookingPayments = () => {
             placeholder="Search by booking, service, customer, provider"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            sx={{ minWidth: 320, bgcolor: 'white' }}
+            sx={{ minWidth: 320, bgcolor: 'background.paper' }}
           />
           <Select size="small" value={flowType} onChange={(e) => setFlowType(e.target.value)} displayEmpty>
             <MenuItem value="">All flows</MenuItem>
@@ -330,3 +330,4 @@ const BookingPayments = () => {
 };
 
 export default BookingPayments;
+

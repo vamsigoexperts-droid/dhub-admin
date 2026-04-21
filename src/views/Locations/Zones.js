@@ -234,7 +234,7 @@ const Zones = () => {
               placeholder="Search Zone Name..."
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Zone Name"
             />
             {rolesAndPermission.zones_add === true || rolesAndPermission.accessAll === true ? (
@@ -283,3 +283,4 @@ const Zones = () => {
 };
 
 export default Zones;
+

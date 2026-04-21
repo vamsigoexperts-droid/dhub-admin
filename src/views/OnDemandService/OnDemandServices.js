@@ -330,7 +330,7 @@ const OnDemandService = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search On Demand Service"
             />{' '}
             {rolesAndPermission.on_demand_service_add === true ||
@@ -402,3 +402,4 @@ const OnDemandService = () => {
 };
 
 export default OnDemandService;
+

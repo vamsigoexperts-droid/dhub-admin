@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { useState } from 'react';
 
@@ -8,12 +8,15 @@ import { useLocation } from 'react-router';
 
 // mui imports
 import {
+  Box,
   ListItemIcon,
   ListItemButton,
   Collapse,
   styled,
   ListItemText,
   useTheme,
+  Typography,
+  alpha,
 } from '@mui/material';
 
 // custom imports
@@ -24,12 +27,9 @@ import NavItem from '../NavItem';
 // @ts-ignore
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { CustomizerContext } from 'src/context/CustomizerContext';
 
 // FC Component For Dropdown Menu
 const NavCollapse = ({ menu, level, pathWithoutLastPart, pathDirect, hideMenu, onClick }) => {
-  const { isBorderRadius } = useContext(CustomizerContext);
-
   const Icon = menu?.icon;
   const theme = useTheme();
   const { pathname } = useLocation();
@@ -61,23 +61,26 @@ const NavCollapse = ({ menu, level, pathWithoutLastPart, pathDirect, hideMenu, o
   });
 
   const ListItemStyled = styled(ListItemButton)(() => ({
-    marginBottom: '2px',
-    padding: '8px 10px',
-    paddingLeft: hideMenu ? '10px' : level > 2 ? `${level * 15}px` : '10px',
-    backgroundColor: isChildActive ? theme.palette.primary.main : 'transparent',
+    marginBottom: '8px',
+    padding: '12px 14px',
+    paddingLeft: hideMenu ? '14px' : level > 2 ? `${level * 15}px` : '14px',
+    backgroundColor: isChildActive ? alpha(theme.palette.primary.main, 0.22) : 'transparent',
     whiteSpace: 'pre-line',
+    borderRadius: '18px',
+    border: isChildActive ? `1px solid ${alpha(theme.palette.primary.main, 0.45)}` : '1px solid transparent',
+    boxShadow: isChildActive ? `0 0 0 1px ${alpha(theme.palette.primary.main, 0.25)}, 0 12px 24px rgba(0, 0, 0, 0.22)` : 'none',
     '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.main,
+      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+      color: '#ffffff',
     },
-    color: isChildActive ? 'white' : theme.palette.text.secondary,
-    borderRadius: `${isBorderRadius}px`,
+    color: isChildActive ? '#ffffff' : 'rgba(227, 248, 244, 0.84)',
     fontWeight: isChildActive ? 600 : 400,
     '&.Mui-selected': {
-      backgroundColor: theme.palette.primary.main,
-      color: 'white',
+      backgroundColor: alpha(theme.palette.primary.main, 0.22),
+      color: '#ffffff',
       '&:hover': {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: alpha(theme.palette.primary.main, 0.24),
+        color: '#ffffff',
       },
     },
   }));
@@ -119,14 +122,39 @@ const NavCollapse = ({ menu, level, pathWithoutLastPart, pathDirect, hideMenu, o
       >
         <ListItemIcon
           sx={{
-            minWidth: '36px',
-            p: '3px 0',
-            color: isChildActive ? 'white' : 'inherit',
+            minWidth: '48px',
+            p: '0',
+            color: isChildActive ? '#effffb' : 'inherit',
           }}
         >
-          {menuIcon}
+          <Box
+            sx={{
+              width: 34,
+              height: 34,
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: isChildActive ? alpha(theme.palette.primary.main, 0.16) : 'rgba(255, 255, 255, 0.03)',
+              border: isChildActive ? '1px solid rgba(142, 243, 232, 0.18)' : '1px solid rgba(255, 255, 255, 0.05)',
+            }}
+          >
+            {menuIcon}
+          </Box>
         </ListItemIcon>
-        <ListItemText color="inherit">{hideMenu ? '' : <>{t(`${menu.title}`)}</>}</ListItemText>
+        <ListItemText color="inherit" sx={{ m: 0 }}>
+          {hideMenu ? (
+            ''
+          ) : (
+            <Typography
+              variant="body2"
+              noWrap
+              sx={{ fontSize: '0.92rem', lineHeight: 1.15, fontWeight: isChildActive ? 600 : 500 }}
+            >
+              {t(`${menu.title}`)}
+            </Typography>
+          )}
+        </ListItemText>
         {!open ? <IconChevronDown size="1rem" /> : <IconChevronUp size="1rem" />}
       </ListItemStyled>
       <Collapse in={open} timeout="auto" unmountOnExit>

@@ -9,7 +9,6 @@ import {
     MenuItem,
     Select,
     Chip,
-    Paper,
 } from '@mui/material';
 import axios from 'axios';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
@@ -33,7 +32,7 @@ const getAuthToken = () => {
 const DHUB_BASE_URL = 'https://api.doorstephub.com/v1/dhubApi/admin/dhub-management';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../../components/theme-elements/CustomCKEditor';
 
 const PrivacyTermsManagement = () => {
     const [applications, setApplications] = useState([]);
@@ -161,6 +160,10 @@ const PrivacyTermsManagement = () => {
     };
 
     const selectedAppData = applications.find((app) => app._id === selectedApp);
+    const termsEditorData =
+        typeof formData.termsAndConditions === 'string' ? formData.termsAndConditions : '';
+    const privacyEditorData =
+        typeof formData.privacyPolicy === 'string' ? formData.privacyPolicy : '';
 
     return (
         <PageContainer
@@ -216,34 +219,98 @@ const PrivacyTermsManagement = () => {
                                 <CustomFormLabel htmlFor="termsAndConditions" required>
                                     Terms & Conditions
                                 </CustomFormLabel>
-                                <Paper variant="outlined">
+                                <Box
+                                    sx={{
+                                        position: 'relative',
+                                        zIndex: 2,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 1,
+                                        minHeight: '420px',
+                                        overflow: 'visible',
+                                        pointerEvents: 'auto',
+                                        bgcolor: 'background.paper',
+                                        cursor: 'text',
+                                        '& .ck-editor': {
+                                            minHeight: '420px',
+                                            display: 'block',
+                                        },
+                                        '& .ck-editor__main': {
+                                            minHeight: '360px',
+                                            overflow: 'visible',
+                                        },
+                                        '& .ck-editor__editable': {
+                                            minHeight: '360px !important',
+                                            cursor: 'text',
+                                            position: 'relative',
+                                            zIndex: 3,
+                                        },
+                                        '& .ck-content': {
+                                            minHeight: '360px',
+                                        },
+                                    }}
+                                >
                                     <CKEditor
-                                        key={`terms-${selectedApp}-${formData.termsAndConditions.length}`}
-                                        editor={ClassicEditor}
-                                        data={formData.termsAndConditions}
-                                        onChange={(event, editor) => handleEditorChange('termsAndConditions', editor.getData())}
+                                        key={`terms-${selectedApp}`}
+                                        editor={CustomCKEditor}
+                                        data={termsEditorData}
+                                        onChange={(event, editor) =>
+                                            handleEditorChange('termsAndConditions', editor.getData() || '')
+                                        }
                                         config={{
                                             placeholder: 'Enter Terms & Conditions',
                                         }}
                                     />
-                                </Paper>
+                                </Box>
                             </Grid>
 
                             <Grid item xs={12}>
                                 <CustomFormLabel htmlFor="privacyPolicy" required>
                                     Privacy Policy
                                 </CustomFormLabel>
-                                <Paper variant="outlined">
+                                <Box
+                                    sx={{
+                                        position: 'relative',
+                                        zIndex: 2,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 1,
+                                        minHeight: '420px',
+                                        overflow: 'visible',
+                                        pointerEvents: 'auto',
+                                        bgcolor: 'background.paper',
+                                        cursor: 'text',
+                                        '& .ck-editor': {
+                                            minHeight: '420px',
+                                            display: 'block',
+                                        },
+                                        '& .ck-editor__main': {
+                                            minHeight: '360px',
+                                            overflow: 'visible',
+                                        },
+                                        '& .ck-editor__editable': {
+                                            minHeight: '360px !important',
+                                            cursor: 'text',
+                                            position: 'relative',
+                                            zIndex: 3,
+                                        },
+                                        '& .ck-content': {
+                                            minHeight: '360px',
+                                        },
+                                    }}
+                                >
                                     <CKEditor
-                                        key={`privacy-${selectedApp}-${formData.privacyPolicy.length}`}
-                                        editor={ClassicEditor}
-                                        data={formData.privacyPolicy}
-                                        onChange={(event, editor) => handleEditorChange('privacyPolicy', editor.getData())}
+                                        key={`privacy-${selectedApp}`}
+                                        editor={CustomCKEditor}
+                                        data={privacyEditorData}
+                                        onChange={(event, editor) =>
+                                            handleEditorChange('privacyPolicy', editor.getData() || '')
+                                        }
                                         config={{
                                             placeholder: 'Enter Privacy Policy',
                                         }}
                                     />
-                                </Paper>
+                                </Box>
                             </Grid>
 
                             <Grid item xs={12}>

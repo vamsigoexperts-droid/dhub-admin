@@ -4,20 +4,20 @@ const DarkThemeColors = [
     palette: {
       primary: {
         main: '#007367',
-        light: '#253662',
+        light: '#0d2e38',
         dark: '#007367',
         contrastText: '#ffffff',
       },
       secondary: {
         main: '#49BEFF',
-        light: '#1C455D',
+        light: '#163d4a',
         dark: '#23afdb',
         contrastText: '#ffffff',
       },
       background: {
-        default: '#2A3447',
-        dark: '#007367',
-        paper: '#2A3447',
+        default: '#0b2b34',
+        dark: '#0b141a',
+        paper: '#0f2028',
       },
     },
   },

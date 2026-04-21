@@ -26,13 +26,40 @@ import {
   ShoppingCart as CartIcon,
   Notifications as NotificationsIcon
 } from '@mui/icons-material';
-import { useSocket } from '../context/SocketContext';
+import { useSocket } from '../../context/SocketContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
+
+const resolveBookingRoute = (booking) => {
+  const bookingId = booking?._id || booking?.bookingId || booking?.id || booking?.orderId;
+  const bookingType = String(
+    booking?.bookingType ||
+      booking?.providerType ||
+      booking?.typeProvider ||
+      booking?.orderType ||
+      ''
+  ).toLowerCase();
+
+  if (!bookingId) return '/notifications/history';
+  if (bookingType === 'professional') return `/bookings/professional/view/${bookingId}`;
+  if (bookingType === 'verified-partner' || bookingType === 'verified_partner' || bookingType === 'partner') {
+    return `/bookings/verified-partner/view/${bookingId}`;
+  }
+  if (
+    bookingType === 'service-center' ||
+    bookingType === 'service_center' ||
+    bookingType === 'provider' ||
+    bookingType === 'regular' ||
+    bookingType === 'dhub'
+  ) {
+    return `/bookings/service-center/view/${bookingId}`;
+  }
+  return '/notifications/history';
+};
 
 const OrderNotificationPopup = () => {
   const { newBookings, pendingBookings, clearBooking } = useSocket(); // ✅ Get from context
@@ -91,7 +118,7 @@ const OrderNotificationPopup = () => {
 
         notification.onclick = () => {
           window.focus();
-          navigate(`/orders/${orderData.orderId}`);
+          navigate(resolveBookingRoute(orderData.rawData));
           notification.close();
         };
       }
@@ -128,8 +155,8 @@ const OrderNotificationPopup = () => {
     }, 300);
   }, [currentOrder, clearBooking]);
 
-  const handleViewOrder = useCallback((orderId) => {
-    navigate(`/orders/${orderId}`);
+  const handleViewOrder = useCallback((booking) => {
+    navigate(resolveBookingRoute(booking));
     handleClose();
   }, [navigate, handleClose]);
 
@@ -191,7 +218,7 @@ const OrderNotificationPopup = () => {
       >
         <Box display="flex" alignItems="center" gap={2}>
           <Badge badgeContent={orderQueue.length} color="error">
-            <Avatar sx={{ bgcolor: 'white', color: 'primary.main', width: 50, height: 50 }}>
+            <Avatar sx={{ bgcolor: 'background.paper', color: 'primary.main', width: 50, height: 50 }}>
               <NotificationsIcon />
             </Avatar>
           </Badge>
@@ -342,7 +369,7 @@ const OrderNotificationPopup = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleViewOrder(currentOrder.orderId)}
+          onClick={() => handleViewOrder(currentOrder.rawData)}
           sx={{ flex: 1 }}
         >
           View Details
@@ -353,3 +380,4 @@ const OrderNotificationPopup = () => {
 };
 
 export default OrderNotificationPopup;
+

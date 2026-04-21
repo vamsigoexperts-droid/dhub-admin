@@ -10,21 +10,27 @@ import Customizer from './shared/customizer/Customizer';
 import Navigation from './horizontal/navbar/Navigation';
 import ScrollToTop from '../../components/shared/ScrollToTop';
 import LoadingBar from '../../LoadingBar';
+import OrderNotificationPopup from '../../views/Socketiopopup/OrderNotificationPopup';
 
 const MainWrapper = styled('div')(() => ({
   display: 'flex',
   minHeight: '100vh',
   width: '100%',
+  height: '100vh',
+  overflow: 'hidden',
 }));
 
 const PageWrapper = styled('div')(() => ({
   display: 'flex',
   flexGrow: 1,
-  paddingBottom: '60px',
   flexDirection: 'column',
   zIndex: 1,
   width: '100%',
-  backgroundColor: '#D9EAE8',
+  background:
+    'radial-gradient(circle at top right, rgba(24, 197, 188, 0.12), transparent 25%), linear-gradient(180deg, #0b2b34 0%, #0f2028 50%, #0b141a 100%)',
+  color: '#d9f5f1',
+  height: '100vh',
+  overflow: 'hidden',
 }));
 
 const FullLayout = () => {
@@ -60,27 +66,45 @@ const FullLayout = () => {
           {/* PageContent */}
           {/* ------------------------------------------- */}
           {activeLayout === 'horizontal' ? <Navigation /> : ''}
-          <Container
+          <Box
+            className="page-scroll-container"
             sx={{
+              flex: 1,
+              minHeight: 0,
+              overflowY: 'scroll',
+              overflowX: 'hidden',
               pt: '30px',
-              maxWidth: isLayout === 'boxed' ? 'lg' : '100%!important',
+              pb: 3,
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              '&::-webkit-scrollbar': {
+                width: 0,
+                height: 0,
+                display: 'none',
+              },
             }}
           >
-            {/* ------------------------------------------- */}
-            {/* Page Route */}
-            {/* ------------------------------------------- */}
-            <Box sx={{ minHeight: 'calc(100vh - 170px)' }}>
+            <Container
+              sx={{
+                maxWidth: isLayout === 'boxed' ? 'lg' : '100%!important',
+                color: 'inherit',
+              }}
+            >
+              {/* ------------------------------------------- */}
+              {/* Page Route */}
+              {/* ------------------------------------------- */}
               <ScrollToTop>
                 <Outlet />
               </ScrollToTop>
-            </Box>
+            </Container>
             {/* ------------------------------------------- */}
             {/* End Page */}
             {/* ------------------------------------------- */}
-          </Container>
+          </Box>
           <Customizer />
         </PageWrapper>
       </MainWrapper>
+      <OrderNotificationPopup />
     </>
   );
 };

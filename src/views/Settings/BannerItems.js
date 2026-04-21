@@ -852,7 +852,7 @@ const Banners = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Banners"
             />{' '}
             {rolesAndPermission.banner_items_add === true ||
@@ -894,3 +894,4 @@ const Banners = () => {
 };
 
 export default Banners;
+

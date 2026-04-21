@@ -318,7 +318,7 @@ const PendingSubCategories = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Pending Sub Categories"
             />
           </Box>
@@ -350,3 +350,4 @@ const PendingSubCategories = () => {
 };
 
 export default PendingSubCategories;
+

@@ -1599,7 +1599,7 @@ const ProfessionalSubCategory = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search professional sub categories"
             />
             {(rolesAndPermission.professional_sub_categories_add === true ||
@@ -1682,4 +1682,5 @@ const ProfessionalSubCategory = () => {
 };
 
 export default ProfessionalSubCategory;
+
 

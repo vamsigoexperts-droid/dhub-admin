@@ -1,5 +1,8 @@
-import { ClassicEditor as Editor } from '@ckeditor/ckeditor5-editor-classic';
-import { Essentials } from '@ckeditor/ckeditor5-essentials';
+import {
+  ClassicEditor as Editor,
+} from '@ckeditor/ckeditor5-editor-classic/dist/index.js';
+import '@ckeditor/ckeditor5-theme-lark/dist/index.css';
+import { Essentials } from '@ckeditor/ckeditor5-essentials/dist/index.js';
 import {
   Bold,
   Italic,
@@ -7,12 +10,19 @@ import {
   Strikethrough,
   Subscript,
   Superscript,
-} from '@ckeditor/ckeditor5-basic-styles';
-import { FontFamily, FontSize, FontColor, FontBackgroundColor } from '@ckeditor/ckeditor5-font';
-import { Alignment } from '@ckeditor/ckeditor5-alignment';
-import { List, TodoList } from '@ckeditor/ckeditor5-list';
-import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent';
-import { Link } from '@ckeditor/ckeditor5-link';
+} from '@ckeditor/ckeditor5-basic-styles/dist/index.js';
+import {
+  FontFamily,
+  FontSize,
+  FontColor,
+  FontBackgroundColor,
+} from '@ckeditor/ckeditor5-font/dist/index.js';
+import { Alignment } from '@ckeditor/ckeditor5-alignment/dist/index.js';
+import { Heading } from '@ckeditor/ckeditor5-heading/dist/index.js';
+import { List, TodoList } from '@ckeditor/ckeditor5-list/dist/index.js';
+import { Indent, IndentBlock } from '@ckeditor/ckeditor5-indent/dist/index.js';
+import { Link, LinkImage } from '@ckeditor/ckeditor5-link/dist/index.js';
+import { BlockQuote } from '@ckeditor/ckeditor5-block-quote/dist/index.js';
 import {
   Image,
   ImageUpload,
@@ -20,26 +30,28 @@ import {
   ImageStyle,
   ImageToolbar,
   ImageResize,
-} from '@ckeditor/ckeditor5-image';
+  ImageTextAlternative,
+} from '@ckeditor/ckeditor5-image/dist/index.js';
 import {
   Table,
   TableToolbar,
   TableProperties,
   TableCellProperties,
-} from '@ckeditor/ckeditor5-table';
-import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed';
-import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
-import { HtmlEmbed } from '@ckeditor/ckeditor5-html-embed';
-import { SpecialCharacters } from '@ckeditor/ckeditor5-special-characters';
-import { Undo } from '@ckeditor/ckeditor5-undo';
-import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
-import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
-import { PageBreak } from '@ckeditor/ckeditor5-page-break';
-import { FindAndReplace } from '@ckeditor/ckeditor5-find-and-replace';
+} from '@ckeditor/ckeditor5-table/dist/index.js';
+import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed/dist/index.js';
+import { CodeBlock } from '@ckeditor/ckeditor5-code-block/dist/index.js';
+import { HtmlEmbed } from '@ckeditor/ckeditor5-html-embed/dist/index.js';
+import { SpecialCharacters } from '@ckeditor/ckeditor5-special-characters/dist/index.js';
+import { Undo } from '@ckeditor/ckeditor5-undo/dist/index.js';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing/dist/index.js';
+import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line/dist/index.js';
+import { PageBreak } from '@ckeditor/ckeditor5-page-break/dist/index.js';
+import { FindAndReplace } from '@ckeditor/ckeditor5-find-and-replace/dist/index.js';
 
 export default class CustomCKEditor extends Editor {
   static builtinPlugins = [
     Essentials,
+    Heading,
     Bold,
     Italic,
     Underline,
@@ -56,12 +68,15 @@ export default class CustomCKEditor extends Editor {
     Indent,
     IndentBlock,
     Link,
+    LinkImage,
+    BlockQuote,
     Image,
     ImageUpload,
     ImageCaption,
     ImageStyle,
     ImageToolbar,
     ImageResize,
+    ImageTextAlternative,
     Table,
     TableToolbar,
     TableProperties,

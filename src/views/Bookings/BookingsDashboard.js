@@ -17,7 +17,6 @@ import {
 import {
     IconTrendingUp,
     IconTrendingDown,
-    IconShoppingCart,
     IconUsers,
     IconClock,
     IconCheck,

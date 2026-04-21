@@ -652,7 +652,7 @@ const AddOndemandService = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 0.5,
-                        bgcolor: 'white',
+                        bgcolor: 'background.paper',
                       }}
                     >
                       <IconPlus size={24} />
@@ -838,3 +838,4 @@ const AddOndemandService = () => {
 };
 
 export default AddOndemandService;
+

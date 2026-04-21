@@ -9,7 +9,6 @@ import { URLS } from '../../../Url';
 
 // Import icons
 import iconServices from '../../../assets/images/svgs/icon-briefcase.svg';
-import iconCategories from '../../../assets/images/svgs/shopping.png';
 import iconProducts from '../../../assets/images/svgs/categories.png';
 import iconProviders from '../../../assets/images/svgs/employee.png';
 import iconStores from '../../../assets/images/svgs/online-store.png';
@@ -20,10 +19,6 @@ import iconlocation from '../../../assets/images/svgs/location.png';
 import accesscontrol from '../../../assets/images/svgs/access-control.png'
 import customer from '../../../assets/images/svgs/customer.png'
 import customerreview from '../../../assets/images/svgs/customer-review.png'
-import iconFood from '../../../assets/images/svgs/restaurant.png'
-import iconShopping from '../../../assets/images/svgs/online-shopping.png'
-import iconGrocery from '../../../assets/images/svgs/shopping-bag.png'
-import iconProductss from '../../../assets/images/svgs/product-management.png'
 
 
 const TopCards = () => {
@@ -265,145 +260,6 @@ const applianceServicesCards = [
   },
 ];
 
-
-  // E-COMMERCE SECTION
-  // const ecommerceCards = [
-  //   { key: 'EcommercecategoryCount', title: 'Ecommerce Categories', icon: iconCategories, bgcolor: 'info' },
-  //   { key: 'EcommercestoreCount', 
-  //     title: 'Ecommerce Stores', 
-  //     icon: iconStores, 
-  //     bgcolor: 'info' ,
-
-  //   statusBreakdown: [
-  //     { label: 'Active Stores', key: 'activeEcommercestoreCount', color: 'success' },
-  //     { label: 'In Active Stores', key: 'inactiveEcommercestoreCount', color: 'warning' }
-  //   ],
-  //   getValue: (data) => data?.section3?.grocery?.totalProducts ?? 0},
-  //  { 
-  //   key: 'grocery', 
-  //   title: 'Grocery Products', 
-  //   section4Type: 'grocery', 
-  //   icon: iconGrocery, 
-  //   bgcolor: 'info',
-  //   statusBreakdown: [
-  //     { label: 'Categories', key: 'totalCategories', color: 'success' },
-  //     { label: 'Subcategories', key: 'totalSubcategories', color: 'warning' }
-  //   ],
-  //   getValue: (data) => data?.section4?.grocery?.totalProducts ?? 0
-  // },
-  // { 
-  //   key: 'shopping', 
-  //   title: 'Shopping Products', 
-  //   icon: iconShopping,
-  //    section4Type: 'shopping', 
-  //   bgcolor: 'info',
-  //   statusBreakdown: [
-  //     { label: 'Categories', key: 'totalCategories', color: 'success' },
-  //     { label: 'Subcategories', key: 'totalSubcategories', color: 'warning' }
-  //   ],
-  //   getValue: (data) => data?.section4?.shopping?.totalProducts ?? 0
-  // },
-  // { 
-  //   key: 'restaurant', 
-  //   title: 'Restaurant Products', 
-  //     section4Type: 'restaurant',   
-  //   icon: iconFood, 
-  //   bgcolor: 'info',
-  //   statusBreakdown: [
-  //     { label: 'Categories', key: 'totalCategories', color: 'success' },
-  //     { label: 'Subcategories', key: 'totalSubcategories', color: 'warning' }
-  //   ],
-  //   getValue: (data) => data?.section4?.restaurant?.totalProducts ?? 0
-  // },
-  // { 
-  //   key: 'medicine', 
-  //   title: 'Medicine Products', 
-  //     section4Type: 'medicine', 
-  //   icon: iconProductss, 
-  //   bgcolor: 'info',
-  //   statusBreakdown: [
-  //     { label: 'Categories', key: 'totalCategories', color: 'success' },
-  //     { label: 'Subcategories', key: 'totalSubcategories', color: 'warning' }
-  //   ],
-  //   getValue: (data) => data?.section4?.medicine?.totalProducts ?? 0
-  // },
-  // ];
-
-  const ecommerceCards = [
-  {
-    key: 'EcommercecategoryCount',
-    title: 'Ecommerce Categories',
-    icon: iconCategories,
-    bgcolor: 'info',
-    getValue: (data) => data?.section3?.EcommercecategoryCount ?? 0,
-  },
-  {
-    key: 'EcommercestoreCount',
-    title: 'Ecommerce Stores',
-    icon: iconStores,
-    bgcolor: 'info',
-    statusBreakdown: [
-      { label: 'Active Stores', key: 'activeEcommercestoreCount', color: 'primary' },
-      { label: 'Inactive Stores', key: 'inactiveEcommercestoreCount', color: 'primary' },
-          { label: 'ActiveCities', key: 'nearbyservicecenteractivecities', color: 'primary' },
-    ],
-    getValue: (data) => data?.section3?.EcommercestoreCount ?? 0,
-  },
-  {
-    key: 'grocery',
-    title: 'Grocery Products',
-    section4Type: 'grocery',
-    icon: iconGrocery,
-    bgcolor: 'info',
-    statusBreakdown: [
-      { label: 'Categories', key: 'totalCategories', color: 'primary' },
-      { label: 'Subcategories', key: 'totalSubcategories', color: 'primary' },
-          { label: 'ActiveCities', key: 'groceryproductsactivecities', color: 'primary' },
-    ],
-    getValue: (data) => data?.section4?.grocery?.totalProducts ?? 0,
-  },
-  {
-    key: 'shopping',
-    title: 'Shopping Products',
-    section4Type: 'shopping',
-    icon: iconShopping,
-    bgcolor: 'info',
-    statusBreakdown: [
-      { label: 'Categories', key: 'totalCategories', color: 'primary' },
-      { label: 'Subcategories', key: 'totalSubcategories', color: 'primary' },
-          { label: 'ActiveCities', key: 'shoppingproductsactivecities', color: 'primary' },
-    ],
-    getValue: (data) => data?.section4?.shopping?.totalProducts ?? 0,
-  },
-  {
-    key: 'restaurant',
-    title: 'Restaurant Products',
-    section4Type: 'restaurant',
-    icon: iconFood,
-    bgcolor: 'info',
-    statusBreakdown: [
-      { label: 'Categories', key: 'totalCategories', color: 'primary' },
-      { label: 'Subcategories', key: 'totalSubcategories', color: 'primary' },
-          { label: 'ActiveCities', key: 'restuarantproductsactivecities', color: 'primary' },
-    ],
-    getValue: (data) => data?.section4?.restaurant?.totalProducts ?? 0,
-  },
-  {
-    key: 'medicine',
-    title: 'Medicine Products',
-    section4Type: 'medicine',
-    icon: iconProductss,
-    bgcolor: 'info',
-    statusBreakdown: [
-      { label: 'Categories', key: 'totalCategories', color: 'primary' },
-      { label: 'Subcategories', key: 'totalSubcategories', color: 'primary' },
-          { label: 'ActiveCities', key: 'medicineproductsactivecities', color: 'primary' },
-    ],
-    getValue: (data) => data?.section4?.medicine?.totalProducts ?? 0,
-  },
-];
-
-
   // BUY/SELL SECTION
   // const buySellCards = [
   //   { key: 'totalOrders', title: 'Total Orders', icon: iconOrders, bgcolor: 'info' },
@@ -522,24 +378,47 @@ const buySellCards = [
           }}
         >
           <CardContent sx={{ width: '100%', p: 0 }}>
-            <img src={card.icon} alt={card.title} width="50" loading="lazy" />
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 72,
+                height: 72,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                boxShadow: '0 0 12px rgba(255, 255, 255, 0.25)',
+                mb: 0.5,
+              }}
+            >
+              <img
+                src={card.icon}
+                alt={card.title}
+                width="40"
+                height="40"
+                loading="lazy"
+                style={{
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
+              />
+            </Box>
             
             <Typography
-              color={card.bgcolor + '.main'}
               mt={1}
               variant="subtitle2"
               fontWeight={600}
               fontSize="0.9rem"
+              sx={{ color: '#ffffff' }}
             >
               {card.title}
             </Typography>
-            
-            <Typography 
-              color={card.bgcolor + '.main'} 
-              variant="h4" 
-              fontWeight={700} 
+
+            <Typography
+              variant="h4"
+              fontWeight={700}
               mb={1}
-              sx={{ fontSize: '1.75rem' }}
+              sx={{ fontSize: '1.75rem', color: '#ffffff' }}
             >
               {displayValue.toLocaleString()}
             </Typography>
@@ -562,7 +441,7 @@ const buySellCards = [
         sx={{
           fontSize: '0.75rem',
           fontWeight: 600,
-          color: `${status.color}.main`, // use color theme (success.main, error.main, etc.)
+          color: '#ffffff',
         }}
       >
 {status.label}: {
@@ -654,28 +533,6 @@ const buySellCards = [
           {applianceServicesCards.map((card, i) => renderCard(card, i))}
         </Grid>
       </Box>
-
-      <Divider sx={{ my: 4 }} />
-
-      {/* E-COMMERCE SECTION */}
-      {/* <Box mb={4}>
-        <Typography 
-          variant="h5" 
-          fontWeight={700} 
-          mb={2}
-          sx={{ 
-            color: 'primary.main',
-            borderLeft: 4,
-            borderColor: 'primary.main',
-            pl: 2
-          }}
-        >
-          E-Commerce
-        </Typography>
-        <Grid container spacing={3}>
-          {ecommerceCards.map((card, i) => renderCard(card, i))}
-        </Grid>
-      </Box> */}
 
       <Divider sx={{ my: 4 }} />
 

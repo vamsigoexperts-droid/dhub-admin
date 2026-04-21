@@ -304,7 +304,7 @@ const AddCategoryForm = ({ onClose, onSubmit, DemandServicesId }) => {
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 0.5,
-                        bgcolor: 'white',
+                        bgcolor: 'background.paper',
                       }}
                     >
                       <IconPlus size={24} />
@@ -817,7 +817,7 @@ const EditCategoryForm = ({ onClose, onSubmit, initialData, DemandServicesId }) 
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 0.5,
-                        bgcolor: 'white',
+                        bgcolor: 'background.paper',
                       }}
                     >
                       <IconPlus size={24} />
@@ -1260,7 +1260,7 @@ const ServiceRateCard = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search Category"
             />
 
@@ -1316,3 +1316,4 @@ const ServiceRateCard = () => {
 };
 
 export default ServiceRateCard;
+

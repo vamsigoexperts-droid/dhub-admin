@@ -10,17 +10,21 @@ const NavGroup = ({ item, hideMenu }) => {
   const ListSubheaderStyle = styled((props) => <ListSubheader disableSticky {...props} />)(
     ({ theme }) => ({
       ...theme.typography.overline,
-      fontWeight: '700',
-      marginTop: theme.spacing(3),
-      marginBottom: theme.spacing(0),
-      color: 'text.Primary',
-      lineHeight: '26px',
-      padding: '3px 12px',
+      fontWeight: '800',
+      marginTop: theme.spacing(2.5),
+      marginBottom: theme.spacing(0.75),
+      color: '#77e7dc',
+      lineHeight: '24px',
+      padding: '4px 12px 4px 16px',
+      letterSpacing: '0.16em',
+      textTransform: 'uppercase',
     }),
   );
 
   return (
-    <ListSubheaderStyle>{hideMenu ? <IconDots size="14" /> : item?.subheader}</ListSubheaderStyle>
+    <ListSubheaderStyle>
+      {hideMenu ? <IconDots size="14" /> : item?.subheader}
+    </ListSubheaderStyle>
   );
 };
 

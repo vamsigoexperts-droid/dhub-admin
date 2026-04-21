@@ -48,23 +48,17 @@ function Faqs() {
   const [currentTab, setCurrentTab] = useState(0);
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [form, setForm] = useState({ question: '', answer: '', type: 'shopping' });
-  const [formEdit, setFormEdit] = useState({ question: '', answer: '', _id: '', type: 'shopping' });
+  const [form, setForm] = useState({ question: '', answer: '', type: 'services' });
+  const [formEdit, setFormEdit] = useState({ question: '', answer: '', _id: '', type: 'services' });
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const faqTypes = ['shopping', 'services', 'parcel', 'ride', 'cab', 'medicine', 'grocery', 'Food'];
+  const faqTypes = ['services', 'ride'];
   const tabLabels = {
-    shopping: 'Shopping FAQs',
     services: 'Services FAQs',
-    parcel: 'Parcel FAQs',
     ride: 'Ride FAQs',
-    cab: 'Cab FAQs',
-    medicine: 'Medicine FAQs',
-    grocery: 'Grocery FAQs',
-    Food: 'Food FAQs',
   };
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });

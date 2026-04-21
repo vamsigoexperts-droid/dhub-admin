@@ -283,7 +283,7 @@ const ProviderComplaints = () => {
               placeholder="Search by ticket, name, subject..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ minWidth: { xs: 220, sm: 300 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 220, sm: 300 }, bgcolor: 'background.paper' }}
             />
             <Button variant="contained" onClick={() => fetchTickets()} disabled={loading}>
               Refresh
@@ -313,3 +313,4 @@ const ProviderComplaints = () => {
 
 
 export default ProviderComplaints;
+

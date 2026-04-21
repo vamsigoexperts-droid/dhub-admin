@@ -14,7 +14,7 @@ const Breadcrumb = ({ subtitle, items, title, children }) => (
   <Grid
     container
     sx={{
-      backgroundColor: 'primary.light',
+      background: 'radial-gradient(circle at top left, rgba(24, 197, 188, 0.18), transparent 35%), linear-gradient(180deg, #0b2b34 0%, #0f2028 100%)',
       borderRadius: (theme) => theme.shape.borderRadius / 4,
       p: '30px 25px 20px',
       marginBottom: '30px',

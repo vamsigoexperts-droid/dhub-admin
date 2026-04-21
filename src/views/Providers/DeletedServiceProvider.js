@@ -84,18 +84,33 @@ const DeletedServiceProvider = () => {
     }
   };
 
+  const handleDelete = async (row) => {
+    if (!window.confirm('Are you sure you want to permanently delete this provider?')) return;
+    if (!token) return;
+    try {
+      await axios.delete(`${URLS.DeleteProvider}/${row._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success('Provider deleted permanently');
+      getData();
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to delete provider');
+    }
+  };
+
   const columns = [
     {
       field: 'sno',
       headerName: 'S.No',
-      width: 70,
+      width: 80,
+      resizable: false,
       renderCell: (params) => params.api.getSortedRowIds().indexOf(params.id) + 1,
     },
     {
       field: 'provider',
       headerName: 'Provider',
-      flex: 1.4,
-      minWidth: 220,
+      width: 250,
+      resizable: false,
       renderCell: (params) => (
         <Box display="flex" alignItems="center" gap={1.5}>
           <Avatar src={params.row.image ? `${URLS.FileBase}${params.row.image}` : ''} />
@@ -108,35 +123,56 @@ const DeletedServiceProvider = () => {
     {
       field: 'phone',
       headerName: 'Phone',
-      minWidth: 140,
-      flex: 0.7,
+      width: 150,
+      resizable: false,
     },
     {
       field: 'email',
       headerName: 'Email',
-      minWidth: 200,
-      flex: 1,
+      width: 250,
+      resizable: false,
     },
     {
       field: 'deleted',
       headerName: 'Status',
-      width: 110,
-      renderCell: () => (
-        <Chip label="Deleted" size="small" color="error" variant="outlined" icon={<IconTrash size={14} />} />
+      width: 130,
+      resizable: false,
+      renderCell: (params) => (
+        <Box
+          sx={{ 
+            backgroundColor: '#ff3333', 
+            color: 'white',
+            px: 2,
+            py: 0.5,
+            minWidth: '80px',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '0.8125rem',
+            fontWeight: 500,
+            gap: 1
+          }}
+        >
+          <IconTrash size={14} />
+          Delete
+        </Box>
       ),
     },
     {
       field: 'action',
       headerName: 'Actions',
-      minWidth: 220,
-      flex: 1,
+      width: 250,
+      resizable: false,
       sortable: false,
       renderCell: (params) => (
         <Box display="flex" gap={1}>
           {(rolesAndPermission.all_providers_view || rolesAndPermission.accessAll) && (
             <Button
               size="small"
-              variant="outlined"
+              variant="contained"
+              color="info"
+              sx={{ px: 2, py: 0.5, minWidth: '80px' }}
               startIcon={<IconEye size={14} />}
               onClick={() => handleView(params.row)}
             >
@@ -148,6 +184,7 @@ const DeletedServiceProvider = () => {
               size="small"
               color="success"
               variant="contained"
+              sx={{ px: 2, py: 0.5, minWidth: '80px' }}
               startIcon={<IconRestore size={14} />}
               onClick={() => handleRestore(params.row)}
             >
@@ -176,7 +213,7 @@ const DeletedServiceProvider = () => {
           />
         </Box>
         <Divider />
-        <CardContent>
+        <CardContent sx={{ p: 0, '&:last-child': { pb: 0 } }}>
           <DataGrid
             rows={filteredData}
             columns={columns}
@@ -186,8 +223,13 @@ const DeletedServiceProvider = () => {
             pageSizeOptions={[10, 20, 50]}
             initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
             disableRowSelectionOnClick
+            disableColumnMenu
             sx={{
               '& .MuiDataGrid-cell:focus': { outline: 'none' },
+              '& .MuiDataGrid-cell': {
+                display: 'flex',
+                alignItems: 'center',
+              },
               '& .MuiDataGrid-columnHeaders': {
                 backgroundColor: theme.palette.grey[50],
               },

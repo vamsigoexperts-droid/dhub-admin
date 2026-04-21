@@ -407,7 +407,7 @@ const SendNotificationNew = () => {
                                                                     } : {
                                                                         borderColor: subType.color,
                                                                         color: subType.color,
-                                                                        backgroundColor: 'white',
+                                                                        backgroundColor: 'background.paper',
                                                                         '&:hover': {
                                                                             backgroundColor: `${subType.color}10`,
                                                                             borderColor: subType.color,
@@ -635,3 +635,4 @@ const SendNotificationNew = () => {
 };
 
 export default SendNotificationNew;
+

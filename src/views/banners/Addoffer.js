@@ -30,8 +30,8 @@ import axios from 'axios';
 
 const BCrumb = [
   { to: '/', title: 'Home' },
-  { to: '/offers-management', title: 'Offers' },
-  { title: 'Add Offer' },
+  { to: '/advertisments/offers', title: 'Coupons' },
+  { title: 'Add Coupon' },
 ];
 
 // Styled Components
@@ -83,8 +83,18 @@ const AddOffer = () => {
   const [errors, setErrors] = useState({});
 
   const token = localStorage.getItem('token');
+  const PROFESSIONAL_SERVICE_NAMES = ['Religious Services', 'PG Hostels', 'Spa Saloons', 'Spa Salons'];
 
   console.log("token",token)
+
+  const isProfessionalService = (serviceId) => {
+    const selectedService = services.find((service) => service._id === serviceId);
+    if (!selectedService) return false;
+
+    if (selectedService.serviceType === 'professional') return true;
+
+    return PROFESSIONAL_SERVICE_NAMES.includes(selectedService.name);
+  };
 
   // Fetch Services
 const getServices = async () => {
@@ -116,9 +126,10 @@ const getServices = async () => {
 
     setLoadingCategories(true);
     try {
+      const isProfessional = isProfessionalService(serviceId);
       const res = await axios.post(
-        URLS.GetCategoriesByServiceId,
-        { serviceId: serviceId },
+        isProfessional ? URLS.GetProfessionalCategories : URLS.GetCategoriesByServiceId,
+        { serviceId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -128,7 +139,7 @@ const getServices = async () => {
       );
 
       if (res.data.success) {
-        setCategories(res.data.category  || []);
+        setCategories(isProfessional ? res.data.data || [] : res.data.category || []);
       } else {
         setCategories([]);
         toast.warning('No categories found for this service');
@@ -348,7 +359,7 @@ const handleImageChange = (e) => {
       if (res.data.success) {
         toast.success(res.data.message || 'Offer added successfully');
         setTimeout(() => {
-          navigate('/offers-management');
+          navigate('/advertisments/offers');
         }, 1500);
       }
     } catch (error) {
@@ -361,8 +372,8 @@ const handleImageChange = (e) => {
   };
 
   return (
-    <PageContainer title="Add Offer" description="Create a new offer">
-      <Breadcrumb title="Add New Offer" items={BCrumb} />
+    <PageContainer title="Add Coupon" description="Create a new coupon">
+      <Breadcrumb title="Add New Coupon" items={BCrumb} />
       <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Back Button */}
@@ -372,7 +383,7 @@ const handleImageChange = (e) => {
           startIcon={<IconArrowLeft />}
           onClick={() => navigate('/advertisments/offers')}
         >
-          Back to Offers
+          Back to Coupons
         </Button>
       </Box>
 
@@ -386,7 +397,7 @@ const handleImageChange = (e) => {
         }}
       >
         <Typography variant="h5" fontWeight={600} mb={3}>
-          Offer Information
+          Coupon Information
         </Typography>
 
         <form onSubmit={handleSubmit}>
@@ -397,7 +408,7 @@ const handleImageChange = (e) => {
               <CustomTextField
                 id="title"
                 name="title"
-                placeholder="Enter offer title"
+                placeholder="Enter coupon title"
                 value={formData.title}
                 onChange={handleInputChange}
                 fullWidth
@@ -428,7 +439,7 @@ const handleImageChange = (e) => {
               <CustomTextField
                 id="description"
                 name="description"
-                placeholder="Enter offer description"
+                placeholder="Enter coupon description"
                 value={formData.description}
                 onChange={handleInputChange}
                 fullWidth
@@ -441,7 +452,7 @@ const handleImageChange = (e) => {
 
             {/* Image Upload */}
             <Grid item xs={12}>
-              <CustomFormLabel>Offer Image*</CustomFormLabel>
+              <CustomFormLabel>Coupon Image*</CustomFormLabel>
               {!imagePreview ? (
                 <ImageUploadBox onClick={() => document.getElementById('image-upload').click()}>
                   <input
@@ -464,7 +475,7 @@ const handleImageChange = (e) => {
                   <CardMedia
                     component="img"
                     image={imagePreview}
-                    alt="Offer preview"
+                    alt="Coupon preview"
                     sx={{ height: 250, objectFit: 'cover' }}
                   />
                   <IconButton
@@ -690,7 +701,7 @@ const handleImageChange = (e) => {
                 value={formData.usageLimit}
                 onChange={handleInputChange}
                 fullWidth
-                helperText="Number of times this offer can be used"
+                helperText="Number of times this coupon can be used"
               />
             </Grid>
 
@@ -725,7 +736,7 @@ const handleImageChange = (e) => {
                   color="primary"
                   disabled={loading}
                 >
-                  {loading ? 'Adding Offer...' : 'Add Offer'}
+                  {loading ? 'Adding Coupon...' : 'Add Coupon'}
                 </Button>
               </Box>
             </Grid>

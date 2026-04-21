@@ -96,7 +96,7 @@ const ViewProviderComplaints = () => {
                       objectFit: 'contain',
                       borderRadius: 2,
                       border: '1px solid #E5E7EB',
-                      bgcolor: '#fff',
+                      bgcolor: 'background.paper',
                     }}
                   />
                 ) : (
@@ -308,3 +308,4 @@ const ViewProviderComplaints = () => {
 };
 
 export default ViewProviderComplaints;
+

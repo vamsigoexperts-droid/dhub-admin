@@ -487,7 +487,7 @@ const InstaGallery = () => {
               placeholder="Search by ID"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
             />
             <Button
               variant="contained"
@@ -525,3 +525,4 @@ const InstaGallery = () => {
 };
 
 export default InstaGallery;
+

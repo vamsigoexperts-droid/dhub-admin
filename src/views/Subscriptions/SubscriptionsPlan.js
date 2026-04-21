@@ -33,6 +33,11 @@ import { URLS } from '../../Url';
 import axios from 'axios';
 
 const BCrumb = [{ to: '/', title: 'Home' }, { title: 'SubscriptionsPlan' }];
+const ROLE_OPTIONS = [
+  { value: 'verified_partner', label: 'verified_partner' },
+  { value: 'service_center', label: 'service_center' },
+  { value: 'professional', label: 'professional' },
+];
 
 const CustomSelect = styled(Select)({
   '& .MuiOutlinedInput-root': {
@@ -45,6 +50,7 @@ const AddSubscriptionsPlanForm = ({ onClose, onSubmit, serviceTypes }) => {
   const [form, setForm] = useState({
     name: '',
     services: [], // Array of service IDs
+    selectedRoles: [],
     description: '',
     planType: 'free',
     planValidityDays: 'unlimited',
@@ -55,10 +61,32 @@ const AddSubscriptionsPlanForm = ({ onClose, onSubmit, serviceTypes }) => {
   const [availableFeatures, setAvailableFeatures] = useState([{ availableFeatures: '' }]);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const roleToServiceIds = useMemo(() => {
+    const professional = serviceTypes
+      .filter((s) => String(s?.providerType || '').toLowerCase() === 'professional')
+      .map((s) => s._id);
+    const regular = serviceTypes
+      .filter((s) => String(s?.providerType || '').toLowerCase() !== 'professional')
+      .map((s) => s._id);
+    return {
+      professional,
+      verified_partner: regular,
+      service_center: regular,
+    };
+  }, [serviceTypes]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  };
+
+  const handleRoleSelection = (e) => {
+    const selected = e.target.value;
+    const ids = new Set();
+    selected.forEach((role) => {
+      (roleToServiceIds[role] || []).forEach((id) => ids.add(id));
+    });
+    setForm((prev) => ({ ...prev, selectedRoles: selected, services: Array.from(ids) }));
   };
 
   const handleChanges = (index, e) => {
@@ -105,7 +133,7 @@ const AddSubscriptionsPlanForm = ({ onClose, onSubmit, serviceTypes }) => {
       return;
     }
     if (!form.services || form.services.length === 0) {
-      toast.error('At least one service selection is required.');
+      toast.error('Please select at least one role.');
       return;
     }
     if (!file) {
@@ -124,6 +152,7 @@ const AddSubscriptionsPlanForm = ({ onClose, onSubmit, serviceTypes }) => {
     });
     formData.append('name', form.name);
     formData.append('planType', form.planType);
+    formData.append('allowedRoles', JSON.stringify(form.selectedRoles));
     formData.append('price', form.price || 0);
     formData.append('validDays', form.validDays || 0);
     formData.append('planValidityDays', form.planValidityDays);
@@ -185,31 +214,31 @@ const AddSubscriptionsPlanForm = ({ onClose, onSubmit, serviceTypes }) => {
 
             <Grid item xs={12} sm={8}>
               <CustomFormLabel htmlFor="services" required>
-                Select Services
+                Select Role
               </CustomFormLabel>
               <CustomSelect
                 id="services"
                 multiple
                 name="services"
-                value={form.services}
-                onChange={handleChange}
-                input={<OutlinedInput label="Select Services" />}
+                value={form.selectedRoles}
+                onChange={handleRoleSelection}
+                input={<OutlinedInput label="Select Role" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => {
-                      const service = serviceTypes.find((s) => s._id === value);
-                      return <Chip key={value} label={service?.name || value} />;
+                      const role = ROLE_OPTIONS.find((r) => r.value === value);
+                      return <Chip key={value} label={role?.label || value} />;
                     })}
                   </Box>
                 )}
                 fullWidth
                 variant="outlined"
-                aria-label="Select multiple services"
+                aria-label="Select roles"
               >
-                {serviceTypes.map((option) => (
-                  <MenuItem key={option._id} value={option._id}>
-                    <Checkbox checked={form.services.indexOf(option._id) > -1} />
-                    <ListItemText primary={option.name} />
+                {ROLE_OPTIONS.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    <Checkbox checked={form.selectedRoles.indexOf(option.value) > -1} />
+                    <ListItemText primary={option.label} />
                   </MenuItem>
                 ))}
               </CustomSelect>
@@ -407,6 +436,11 @@ const EditSubscriptionsPlanForm = ({ onClose, onSubmit, initialData, serviceType
           ? JSON.parse(initialData.serviceId)
           : [initialData.serviceId]))
       : [],
+    selectedRoles: Array.isArray(initialData?.allowedRoles)
+      ? initialData.allowedRoles
+      : (typeof initialData?.allowedRoles === 'string' && initialData.allowedRoles.startsWith('[')
+        ? JSON.parse(initialData.allowedRoles)
+        : []),
     description: initialData?.description || '',
     planType: initialData?.planType || 'free',
     planValidityDays: initialData?.planValidityDays || 'unlimited',
@@ -429,10 +463,32 @@ const EditSubscriptionsPlanForm = ({ onClose, onSubmit, initialData, serviceType
   const [preview, setPreview] = useState(
     initialData?.image ? (URLS.FileBase + initialData.image).replace(/\\/g, '/') : null,
   );
+  const roleToServiceIds = useMemo(() => {
+    const professional = serviceTypes
+      .filter((s) => String(s?.providerType || '').toLowerCase() === 'professional')
+      .map((s) => s._id);
+    const regular = serviceTypes
+      .filter((s) => String(s?.providerType || '').toLowerCase() !== 'professional')
+      .map((s) => s._id);
+    return {
+      professional,
+      verified_partner: regular,
+      service_center: regular,
+    };
+  }, [serviceTypes]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+  };
+
+  const handleRoleSelection = (e) => {
+    const selected = e.target.value;
+    const ids = new Set();
+    selected.forEach((role) => {
+      (roleToServiceIds[role] || []).forEach((id) => ids.add(id));
+    });
+    setForm((prev) => ({ ...prev, selectedRoles: selected, services: Array.from(ids) }));
   };
 
   const handleChanges = (index, e) => {
@@ -479,7 +535,7 @@ const EditSubscriptionsPlanForm = ({ onClose, onSubmit, initialData, serviceType
       return;
     }
     if (!form.services || form.services.length === 0) {
-      toast.error('At least one service selection is required.');
+      toast.error('Please select at least one role.');
       return;
     }
     if (availableFeatures.some((feature) => !feature.availableFeatures.trim())) {
@@ -494,6 +550,7 @@ const EditSubscriptionsPlanForm = ({ onClose, onSubmit, initialData, serviceType
     });
     formData.append('name', form.name);
     formData.append('planType', form.planType);
+    formData.append('allowedRoles', JSON.stringify(form.selectedRoles));
     formData.append('price', form.price || 0);
     formData.append('validDays', form.validDays || 0);
     formData.append('planValidityDays', form.planValidityDays);
@@ -553,31 +610,31 @@ const EditSubscriptionsPlanForm = ({ onClose, onSubmit, initialData, serviceType
 
             <Grid item xs={12} sm={8}>
               <CustomFormLabel htmlFor="services-edit" required>
-                Select Services
+                Select Role
               </CustomFormLabel>
               <CustomSelect
                 id="services-edit"
                 multiple
                 name="services"
-                value={form.services}
-                onChange={handleChange}
-                input={<OutlinedInput label="Select Services" />}
+                value={form.selectedRoles}
+                onChange={handleRoleSelection}
+                input={<OutlinedInput label="Select Role" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => {
-                      const service = serviceTypes.find((s) => s._id === value);
-                      return <Chip key={value} label={service?.name || value} />;
+                      const role = ROLE_OPTIONS.find((r) => r.value === value);
+                      return <Chip key={value} label={role?.label || value} />;
                     })}
                   </Box>
                 )}
                 fullWidth
                 variant="outlined"
-                aria-label="Select multiple services"
+                aria-label="Select roles"
               >
-                {serviceTypes.map((option) => (
-                  <MenuItem key={option._id} value={option._id}>
-                    <Checkbox checked={form.services.indexOf(option._id) > -1} />
-                    <ListItemText primary={option.name} />
+                {ROLE_OPTIONS.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    <Checkbox checked={form.selectedRoles.indexOf(option.value) > -1} />
+                    <ListItemText primary={option.label} />
                   </MenuItem>
                 ))}
               </CustomSelect>
@@ -970,7 +1027,9 @@ const SubscriptionsPlan = () => {
         flex: 1,
         renderCell: (params) => (
           <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
-            {params.row.planType === 'paid' ? `${params.row.planType} - â‚¹${params.row.price || 0}` : params.row.planType}
+            {params.row.planType === 'paid'
+              ? `${params.row.planType} - Rs ${params.row.price || 0}`
+              : params.row.planType}
           </Typography>
         ),
       },
@@ -985,19 +1044,41 @@ const SubscriptionsPlan = () => {
         ),
       },
 
+      // {
+      //   field: 'serviceName',
+      //   headerName: 'Section',
+      //   flex: 1,
+      //   renderCell: (params) => {
+      //     if (!params.value || params.value === 'N/A') return 'N/A';
+      //     const names = params.value.split(', ').filter(Boolean);
+      //     return (
+      //       <Box display="flex" flexDirection="column" gap={0.5} sx={{ py: 1, minHeight: '50px', justifyContent: 'center' }}>
+      //         {names.map((name, i) => (
+      //           <Typography key={i} variant="body2" sx={{ display: 'block', fontSize: '13px' }}>
+      //             • {name}
+      //           </Typography>
+      //         ))}
+      //       </Box>
+      //     );
+      //   },
+      // },
       {
-        field: 'serviceName',
-        headerName: 'Section',
+        field: 'allowedRoles',
+        headerName: 'Allowed Roles',
         flex: 1,
+        minWidth: 220,
         renderCell: (params) => {
-          if (!params.value || params.value === 'N/A') return 'N/A';
-          const names = params.value.split(', ').filter(Boolean);
+          const roles = Array.isArray(params.row.allowedRoles) ? params.row.allowedRoles : [];
+          if (!roles.length) return <Typography variant="body2">All</Typography>;
           return (
-            <Box display="flex" flexDirection="column" gap={0.5} sx={{ py: 1, minHeight: '50px', justifyContent: 'center' }}>
-              {names.map((name, i) => (
-                <Typography key={i} variant="body2" sx={{ display: 'block', fontSize: '13px' }}>
-                  • {name}
-                </Typography>
+            <Box display="flex" flexWrap="wrap" gap={0.5}>
+              {roles.map((role) => (
+                <Chip
+                  key={role}
+                  size="small"
+                  label={String(role).replace('_', ' ')}
+                  variant="outlined"
+                />
               ))}
             </Box>
           );
@@ -1151,7 +1232,7 @@ const SubscriptionsPlan = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search SubscriptionsPlan"
             />{' '}
             {rolesAndPermission.subscription_plans_add === true ||
@@ -1193,3 +1274,4 @@ const SubscriptionsPlan = () => {
 };
 
 export default SubscriptionsPlan;
+

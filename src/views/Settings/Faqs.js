@@ -56,12 +56,10 @@ function Faqs() {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const faqTypes = ['customer', 'vendor', 'store', 'driver'];
+  const faqTypes = ['customer', 'vendor'];
   const tabLabels = {
     customer: 'Customer FAQs',
     vendor: 'Vendor FAQs',
-    store: 'Store FAQs',
-    driver: 'Driver FAQs',
   };
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -37,7 +37,7 @@ const Welcome = () => {
           onClose={handleClose}
           severity="info"
           variant="filled"
-          sx={{ width: '100%', color: 'white' }}
+          sx={{ width: '100%', color: '#e7fffb' }}
         >
           <AlertTitle>Welcome To D-Hub</AlertTitle>
           

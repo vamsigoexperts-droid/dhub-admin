@@ -31,6 +31,27 @@ const mapLegacyStatus = (status) => {
   return raw || 'pending';
 };
 
+const getAdminPartyLabel = (row) => {
+  const source = String(row?.source || '').toLowerCase();
+  const metadata = row?.metadata || {};
+  const customerName = metadata.customerName || metadata.customerEmail || metadata.customerPhone || '';
+  const customerContact = metadata.customerPhone || metadata.customerEmail || 'No contact';
+  if (source === 'booking_platform_fee' || source === 'service_cart_booking') {
+    return {
+      name: customerName || 'Customer Booking',
+      role: row?.walletOwnerRole || 'Customer',
+      contact: customerContact,
+    };
+  }
+  if (row?.providerId) {
+    return { name: row.beneficiaryName || 'Partner', role: 'Partner', contact: row.beneficiaryEmail || row.beneficiaryPhone || 'No contact' };
+  }
+  if (source.startsWith('manual_')) {
+    return { name: 'Admin Adjustment', role: 'Admin', contact: 'Internal adjustment' };
+  }
+  return { name: row?.beneficiaryName || 'Admin Wallet', role: 'Admin', contact: row?.beneficiaryEmail || row?.beneficiaryPhone || 'No contact' };
+};
+
 const defaultManualForm = {
   sourceRole: 'provider',
   identifier: '',
@@ -43,6 +64,9 @@ const Withdrawals = () => {
   const [loading, setLoading] = useState(true);
   const [rows, setRows] = useState([]);
   const [summary, setSummary] = useState(null);
+  const [adminHistoryLoading, setAdminHistoryLoading] = useState(true);
+  const [adminHistoryRows, setAdminHistoryRows] = useState([]);
+  const [adminHistorySummary, setAdminHistorySummary] = useState(null);
   const [search, setSearch] = useState('');
   const [sourceRole, setSourceRole] = useState('');
   const [status, setStatus] = useState('pending');
@@ -125,9 +149,32 @@ const Withdrawals = () => {
     }
   }, [search, sourceRole, status]);
 
+  const fetchAdminHistory = useCallback(async () => {
+    setAdminHistoryLoading(true);
+    try {
+      const response = await axios.get(URLS.GetAdminWalletLedger, {
+        headers: getAuthHeaders(),
+        params: {
+          page: 1,
+          limit: 10,
+        },
+      });
+      setAdminHistoryRows(response.data?.data || []);
+      setAdminHistorySummary(response.data?.summary || null);
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to load admin wallet history');
+    } finally {
+      setAdminHistoryLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchWithdrawals();
   }, [fetchWithdrawals]);
+
+  useEffect(() => {
+    fetchAdminHistory();
+  }, [fetchAdminHistory]);
 
   const handleWithdrawalAction = async (row, action) => {
     setActionLoadingId(row._id);
@@ -300,6 +347,89 @@ const Withdrawals = () => {
     [actionLoadingId],
   );
 
+  const adminHistoryColumns = useMemo(
+    () => [
+      {
+        field: 'sno',
+        headerName: 'S. No',
+        width: 80,
+        sortable: false,
+        filterable: false,
+        renderCell: (params) => {
+          const sortedRows = params.api.getSortedRowIds();
+          return sortedRows.indexOf(params.id) + 1;
+        },
+      },
+      {
+        field: 'createdAt',
+        headerName: 'Created',
+        minWidth: 160,
+        renderCell: (params) => formatDateTime(params.value),
+      },
+      {
+        field: 'providerName',
+        headerName: 'Party',
+        minWidth: 240,
+        flex: 1,
+        renderCell: (params) => (
+          <Box>
+            {(() => {
+              const party = getAdminPartyLabel(params.row);
+              return (
+                <>
+                  <Typography variant="body2" fontWeight={700}>
+                    {party.name}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {party.role} {party.contact ? `• ${party.contact}` : ''}
+                  </Typography>
+                </>
+              );
+            })()}
+          </Box>
+        ),
+      },
+      {
+        field: 'transactionType',
+        headerName: 'Type',
+        minWidth: 110,
+        renderCell: (params) => (
+          <Chip
+            size="small"
+            label={String(params.row.transactionType || params.row.type || 'unknown')}
+            color={String(params.row.transactionType || params.row.type || '').toLowerCase() === 'credit' ? 'success' : 'error'}
+            variant="outlined"
+          />
+        ),
+      },
+      {
+        field: 'amount',
+        headerName: 'Amount',
+        minWidth: 140,
+        renderCell: (params) => (
+          <Typography variant="body2" fontWeight={700}>
+            {formatCurrency(params.value)}
+          </Typography>
+        ),
+      },
+      {
+        field: 'balanceAfter',
+        headerName: 'Balance After',
+        minWidth: 150,
+        renderCell: (params) => formatCurrency(params.value),
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        minWidth: 110,
+        renderCell: (params) => (
+          <Chip size="small" label={params.row.status || 'success'} color="success" variant="outlined" />
+        ),
+      },
+    ],
+    [],
+  );
+
   return (
     <PageContainer title="Withdrawals" description="Customer and provider withdrawal tracking">
       <Breadcrumb title="Withdrawals" items={BCrumb} />
@@ -325,20 +455,68 @@ const Withdrawals = () => {
             </Stack>
           </Stack>
           {summary ? (
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} sx={{ mt: 2 }}>
-              <Typography variant="body2">
-                Total amount: <strong>{formatCurrency(summary.totalAmount)}</strong>
-              </Typography>
-              <Typography variant="body2">
-                Pending queue: <strong>{summary.pendingCount}</strong>
-              </Typography>
-              <Typography variant="body2">
-                Provider requests: <strong>{summary.providerCount}</strong>
-              </Typography>
-              <Typography variant="body2">
-                Customer requests: <strong>{summary.customerCount}</strong>
-              </Typography>
-            </Stack>
+            <Box
+              sx={{
+                mt: 2,
+                display: 'grid',
+                gap: 2,
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' },
+              }}
+            >
+              {[
+                {
+                  label: 'Pending approvals',
+                  value: summary.pendingCount ?? 0,
+                  helper: 'Withdrawals waiting for admin action',
+                  accent: 'warning.main',
+                },
+                {
+                  label: 'Provider requests',
+                  value: summary.providerCount ?? 0,
+                  helper: 'Partner payout requests in the queue',
+                  accent: 'info.main',
+                },
+                {
+                  label: 'Customer requests',
+                  value: summary.customerCount ?? 0,
+                  helper: 'Customer wallet withdrawals',
+                  accent: 'success.main',
+                },
+                {
+                  label: 'Total amount',
+                  value: formatCurrency(summary.totalAmount || 0),
+                  helper: 'Combined withdrawal amount',
+                  accent: 'secondary.main',
+                  isCurrency: true,
+                },
+              ].map((card) => (
+                <Paper
+                  key={card.label}
+                  variant="outlined"
+                  sx={{
+                    p: 2.25,
+                    borderRadius: 2,
+                    borderColor: 'divider',
+                    bgcolor: 'background.paper',
+                    minHeight: 112,
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    {card.label}
+                  </Typography>
+                  <Typography
+                    variant={card.isCurrency ? 'h6' : 'h4'}
+                    fontWeight={800}
+                    sx={{ color: card.accent, lineHeight: 1.1 }}
+                  >
+                    {card.value}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                    {card.helper}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
           ) : null}
         </Box>
         <Divider />
@@ -352,7 +530,7 @@ const Withdrawals = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by person, account, reference"
-            sx={{ minWidth: 300, bgcolor: 'white' }}
+            sx={{ minWidth: 300, bgcolor: 'background.paper' }}
           />
           <Select
             size="small"
@@ -383,6 +561,55 @@ const Withdrawals = () => {
             }
             columns={columns}
             loading={loading}
+            initialState={{
+              pagination: {
+                paginationModel: { pageSize: 10 },
+              },
+            }}
+            pageSizeOptions={[10, 20, 50]}
+          />
+        </Box>
+      </Paper>
+
+      <Paper variant="outlined" sx={{ borderRadius: 2, mt: 2 }}>
+        <Box p={3}>
+          <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2}>
+            <Box>
+              <Typography variant="h6" fontWeight={700}>
+                Admin Wallet History
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Recent admin credits and debits from bookings and adjustments.
+              </Typography>
+            </Box>
+            {adminHistorySummary ? (
+              <Stack direction="row" spacing={3}>
+                <Typography variant="body2">
+                  Total: <strong>{adminHistorySummary.totalTransactions || 0}</strong>
+                </Typography>
+                <Typography variant="body2">
+                  Income: <strong>{formatCurrency(adminHistorySummary.totalIncome || 0)}</strong>
+                </Typography>
+                <Typography variant="body2">
+                  Expense: <strong>{formatCurrency(adminHistorySummary.totalExpense || 0)}</strong>
+                </Typography>
+              </Stack>
+            ) : null}
+          </Stack>
+        </Box>
+        <Divider />
+        <Box sx={{ width: '100%', p: 2 }}>
+          <DataGrid
+            autoHeight
+            disableRowSelectionOnClick
+            rows={adminHistoryRows}
+            getRowId={(row) =>
+              row.id ||
+              row._id ||
+              `${row.walletOwnerRole || 'admin'}-${row.orderId || row.bookingId || row.createdAt || Math.random()}`
+            }
+            columns={adminHistoryColumns}
+            loading={adminHistoryLoading}
             initialState={{
               pagination: {
                 paginationModel: { pageSize: 10 },
@@ -532,3 +759,4 @@ const Withdrawals = () => {
 };
 
 export default Withdrawals;
+

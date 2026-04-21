@@ -568,7 +568,7 @@ const Providers = () => {
                         {previews.business_images.map((img, i) => (
                           <Box key={i} sx={{ position: 'relative', width: 60, height: 60 }}>
                             <CardMedia component="img" image={img} sx={{ width: '100%', height: '100%', borderRadius: 1 }} />
-                            <IconButton size="small" onClick={() => removeBusinessImage(i)} sx={{ position: 'absolute', top: -5, right: -5, bgcolor: 'white', p: 0.5 }}><IconX size={12} /></IconButton>
+                            <IconButton size="small" onClick={() => removeBusinessImage(i)} sx={{ position: 'absolute', top: -5, right: -5, bgcolor: 'background.paper', p: 0.5 }}><IconX size={12} /></IconButton>
                           </Box>
                         ))}
                       </Box>
@@ -627,3 +627,4 @@ const Providers = () => {
 };
 
 export default Providers;
+

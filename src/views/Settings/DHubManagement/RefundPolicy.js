@@ -9,7 +9,6 @@ import {
     MenuItem,
     Select,
     Chip,
-    Paper,
 } from '@mui/material';
 import axios from 'axios';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
@@ -18,7 +17,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import ParentCard from 'src/components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../../components/theme-elements/CustomCKEditor';
 
 const BCrumb = [
     { to: '/', title: 'Home' },
@@ -129,6 +128,7 @@ const DHubRefundPolicy = () => {
     };
 
     const selectedAppData = applications.find((app) => app._id === selectedApp);
+    const editorData = typeof refundPolicy === 'string' ? refundPolicy : '';
 
     return (
         <PageContainer
@@ -184,19 +184,63 @@ const DHubRefundPolicy = () => {
                                 <CustomFormLabel htmlFor="refundPolicy" required>
                                     Refund Policy Content
                                 </CustomFormLabel>
-                                <Paper variant="outlined" sx={{ p: 0, minHeight: '400px' }}>
-                                    <CKEditor
-                                        editor={ClassicEditor}
-                                        data={refundPolicy}
-                                        onChange={(event, editor) => {
-                                            const data = editor.getData();
-                                            setRefundPolicy(data);
-                                        }}
-                                        config={{
-                                            placeholder: 'Enter Refund Policy content here...',
-                                        }}
-                                    />
-                                </Paper>
+                                <Box
+                                    sx={{
+                                        position: 'relative',
+                                        zIndex: 2,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 1,
+                                        minHeight: '420px',
+                                        overflow: 'visible',
+                                        pointerEvents: 'auto',
+                                        bgcolor: 'background.paper',
+                                        cursor: 'text',
+                                        '& .ck-editor': {
+                                            minHeight: '420px',
+                                            display: 'block',
+                                        },
+                                        '& .ck-editor__main': {
+                                            minHeight: '360px',
+                                            overflow: 'visible',
+                                        },
+                                        '& .ck-editor__editable': {
+                                            minHeight: '360px !important',
+                                            cursor: 'text',
+                                            position: 'relative',
+                                            zIndex: 3,
+                                        },
+                                        '& .ck-content': {
+                                            minHeight: '360px',
+                                        },
+                                    }}
+                                >
+                                    {loading ? (
+                                        <Box
+                                            sx={{
+                                                minHeight: 420,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            <CircularProgress />
+                                        </Box>
+                                    ) : (
+                                        <CKEditor
+                                            key={`refund-policy-${selectedApp}`}
+                                            editor={CustomCKEditor}
+                                            data={editorData}
+                                            onChange={(event, editor) => {
+                                                const data = editor.getData() || '';
+                                                setRefundPolicy(data);
+                                            }}
+                                            config={{
+                                                placeholder: 'Enter Refund Policy content here...',
+                                            }}
+                                        />
+                                    )}
+                                </Box>
                             </Grid>
 
                             <Grid item xs={12}>

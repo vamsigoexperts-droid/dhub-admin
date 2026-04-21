@@ -1,9 +1,38 @@
 export default function components(theme) {
   return {
+    MuiDataGrid: {
+      defaultProps: {
+        disableColumnResize: true,
+        disableColumnReorder: true,
+      },
+      styleOverrides: {
+        root: {
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: `${theme.palette.primary.light} !important`,
+          },
+          '& .MuiDataGrid-row.Mui-selected, & .MuiDataGrid-row.Mui-selected:hover': {
+            backgroundColor: `${theme.palette.primary.light} !important`,
+          },
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: {
         '*': {
           boxSizing: 'border-box',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        },
+        '*::-webkit-scrollbar': {
+          width: 0,
+          height: 0,
+          display: 'none',
+        },
+        '*::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: 'transparent',
         },
         html: {
           height: '100%',
@@ -16,6 +45,14 @@ export default function components(theme) {
           height: '100%',
           margin: 0,
           padding: 0,
+          overflow: 'hidden',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          '&::-webkit-scrollbar': {
+            width: 0,
+            height: 0,
+            display: 'none',
+          },
         },
         '.ql-container.ql-snow, .ql-toolbar.ql-snow': {
           border: '0 !important',
@@ -26,6 +63,31 @@ export default function components(theme) {
         },
         '#root': {
           height: '100%',
+          overflow: 'hidden',
+        },
+        '.page-scroll-container': {
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        },
+        '.page-scroll-container::-webkit-scrollbar': {
+          width: 0,
+          height: 0,
+          display: 'none',
+        },
+        '.page-scroll-container::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '.page-scroll-container::-webkit-scrollbar-thumb': {
+          backgroundColor: 'transparent',
+        },
+        'html, body, #root': {
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        },
+        'html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar': {
+          width: 0,
+          height: 0,
+          display: 'none',
         },
         "*[dir='rtl'] .buyNowImg": {
           transform: 'scaleX(-1)',
@@ -141,6 +203,7 @@ export default function components(theme) {
         root: {
           // border: `1px solid ${theme.palette.divider}`,
           backgroundImage: 'none',
+          backgroundColor: `${theme.palette.background.paper} !important`,
         },
       },
     },
@@ -174,37 +237,37 @@ export default function components(theme) {
         colorPrimary: {
           '&:hover': {
             backgroundColor: theme.palette.primary.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         colorSecondary: {
           '&:hover': {
             backgroundColor: theme.palette.secondary.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         colorSuccess: {
           '&:hover': {
             backgroundColor: theme.palette.success.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         colorError: {
           '&:hover': {
             backgroundColor: theme.palette.error.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         colorWarning: {
           '&:hover': {
             backgroundColor: theme.palette.warning.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         colorInfo: {
           '&:hover': {
             backgroundColor: theme.palette.info.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
       },
@@ -226,78 +289,78 @@ export default function components(theme) {
           backgroundColor: theme.palette.primary.light,
           '&:hover': {
             backgroundColor: theme.palette.primary.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         textSecondary: {
           backgroundColor: theme.palette.secondary.light,
           '&:hover': {
             backgroundColor: theme.palette.secondary.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         textSuccess: {
           backgroundColor: theme.palette.success.light,
           '&:hover': {
             backgroundColor: theme.palette.success.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         textError: {
           backgroundColor: theme.palette.error.light,
           '&:hover': {
             backgroundColor: theme.palette.error.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         textInfo: {
           backgroundColor: theme.palette.info.light,
           '&:hover': {
             backgroundColor: theme.palette.info.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         textWarning: {
           backgroundColor: theme.palette.warning.light,
           '&:hover': {
             backgroundColor: theme.palette.warning.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         outlinedPrimary: {
           '&:hover': {
             backgroundColor: theme.palette.primary.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         outlinedSecondary: {
           '&:hover': {
             backgroundColor: theme.palette.secondary.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         outlinedError: {
           '&:hover': {
             backgroundColor: theme.palette.error.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         outlinedSuccess: {
           '&:hover': {
             backgroundColor: theme.palette.success.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         outlinedInfo: {
           '&:hover': {
             backgroundColor: theme.palette.info.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
         outlinedWarning: {
           '&:hover': {
             backgroundColor: theme.palette.warning.main,
-            color: 'white',
+            color: theme.palette.primary.light,
           },
         },
       },
@@ -318,6 +381,7 @@ export default function components(theme) {
           width: '100%',
           padding: '15px',
           backgroundImage: 'none',
+          backgroundColor: `${theme.palette.background.paper} !important`,
         },
       },
     },
@@ -386,16 +450,16 @@ export default function components(theme) {
     MuiAlert: {
       styleOverrides: {
         filledSuccess: {
-          color: 'white',
+          color: theme.palette.primary.light,
         },
         filledInfo: {
-          color: 'white',
+          color: theme.palette.primary.light,
         },
         filledError: {
-          color: 'white',
+          color: theme.palette.primary.light,
         },
         filledWarning: {
-          color: 'white',
+          color: theme.palette.primary.light,
         },
         standardSuccess: {
           backgroundColor: theme.palette.success.light,
@@ -487,7 +551,29 @@ export default function components(theme) {
     MuiPopover: {
       styleOverrides: {
         paper: {
+          backgroundColor: theme.palette.background.paper,
           boxShadow: theme.shadows[9],
+        },
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: theme.palette.background.paper,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: theme.palette.background.paper,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: theme.palette.background.paper,
         },
       },
     },

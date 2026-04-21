@@ -1143,7 +1143,7 @@ const DemandCategory = () => {
               placeholder="Search by name"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search On Demand Sub Category"
             />
             {rolesAndPermission.on_demand_sub_categories_add === true ||
@@ -1185,3 +1185,4 @@ const DemandCategory = () => {
 };
 
 export default DemandCategory;
+

@@ -540,7 +540,7 @@ const PendingServiceProvider = () => {
                 placeholder="Search by name, email or phone"
                 value={search}
                 onChange={handleSearch}
-                sx={{ minWidth: { xs: '100%', sm: 250 }, bgcolor: 'white' }}
+                sx={{ minWidth: { xs: '100%', sm: 250 }, bgcolor: 'background.paper' }}
               />
             </Box>
           </Box>
@@ -740,3 +740,4 @@ const PendingServiceProvider = () => {
 };
 
 export default PendingServiceProvider;
+

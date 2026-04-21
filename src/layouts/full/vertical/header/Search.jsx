@@ -217,7 +217,7 @@ const Search = () => {
         aria-haspopup="true"
         onClick={() => setShowDrawer2(true)}
         size="large"
-        style={{ color: 'white' }}
+        style={{ color: '#e7fffb' }}
       >
         <IconSearch size="16" />
       </IconButton>

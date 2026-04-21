@@ -41,6 +41,8 @@ const getImageUrl = (imagePath) => {
   return `https://api.doorstephub.com/${cleanPath}`;
 };
 
+const formatPrice = (value) => `Rs. ${value ?? 0}`;
+
 // ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ COMPLETE API CONFIGURATION
 const API_URLS = {
   CREATE: 'https://api.doorstephub.com/v1/dhubApi/admin/professional-service-request/create',
@@ -62,11 +64,6 @@ const useProviderCategories = (providerId, token) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [reviewModalOpen, setReviewModalOpen] = useState(false);
-  const [reviewModalTitle, setReviewModalTitle] = useState('');
-  const [serviceReviews, setServiceReviews] = useState([]);
-  const [reviewsLoading, setReviewsLoading] = useState(false);
-  const [reviewSummary, setReviewSummary] = useState({ totalReviews: 0, averageRating: 0 });
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const fetchCategories = useCallback(async () => {
@@ -197,7 +194,7 @@ const ServiceViewDialog = ({ open, onClose, serviceData }) => {
           <Grid item xs={12} md={4}>
             <Paper elevation={0} sx={{ p: 2, bgcolor: 'primary.lighter', borderRadius: 2 }}>
               <Typography variant="h5" fontWeight={700} color="primary.main">
-                ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{serviceData.offerPrice || serviceData.price}
+                {formatPrice(serviceData.offerPrice || serviceData.price)}
               </Typography>
             </Paper>
           </Grid>
@@ -205,7 +202,7 @@ const ServiceViewDialog = ({ open, onClose, serviceData }) => {
             <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.50', borderRadius: 2 }}>
               <Typography variant="caption" color="text.secondary" fontWeight={600}>MRP</Typography>
               <Typography variant="h5" fontWeight={700}>
-                ₹{serviceData.mrp || serviceData.defaultPrice || serviceData.purchasePrice || 0}
+                {formatPrice(serviceData.mrp || serviceData.defaultPrice || serviceData.purchasePrice)}
               </Typography>
             </Paper>
           </Grid>
@@ -475,7 +472,7 @@ const ServiceRateForm = ({
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <CustomFormLabel>Default Price (ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹)</CustomFormLabel>
+              <CustomFormLabel>Default Price (Rs.)</CustomFormLabel>
               <CustomTextField
                 type="number"
                 name="defaultPrice"
@@ -488,7 +485,7 @@ const ServiceRateForm = ({
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <CustomFormLabel required>Offer Price (ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹)*</CustomFormLabel>
+              <CustomFormLabel required>Offer Price (Rs.)*</CustomFormLabel>
               <CustomTextField
                 type="number"
                 name="offerPrice"
@@ -800,6 +797,11 @@ const ProviderServiceRates = () => {
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [reviewModalTitle, setReviewModalTitle] = useState('');
+  const [serviceReviews, setServiceReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewSummary, setReviewSummary] = useState({ totalReviews: 0, averageRating: 0 });
 
   const professionalProviderId = getProfessionalProviderId();
   const token = localStorage.getItem('token');
@@ -1008,7 +1010,7 @@ const ProviderServiceRates = () => {
       width: 110,
       renderCell: (params) => (
         <Typography variant="body2" sx={{ textDecoration: 'line-through', color: 'text.secondary' }}>
-          ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{params.row.defaultPrice || params.row.purchasePrice || 0}
+          {formatPrice(params.row.defaultPrice || params.row.purchasePrice)}
         </Typography>
       )
     },
@@ -1018,7 +1020,7 @@ const ProviderServiceRates = () => {
       width: 110,
       renderCell: (params) => (
         <Typography variant="subtitle2" fontWeight={700} color="primary.main">
-          ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{params.row.offerPrice || params.row.price}
+          {formatPrice(params.row.offerPrice || params.row.price)}
         </Typography>
       )
     },

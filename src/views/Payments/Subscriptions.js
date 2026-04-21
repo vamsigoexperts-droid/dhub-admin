@@ -182,7 +182,7 @@ const Subscriptions = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by provider, plan, service"
-            sx={{ minWidth: 300, bgcolor: 'white' }}
+            sx={{ minWidth: 300, bgcolor: 'background.paper' }}
           />
           <Select size="small" value={status} onChange={(e) => setStatus(e.target.value)} displayEmpty>
             <MenuItem value="">All subscription states</MenuItem>
@@ -227,3 +227,4 @@ const Subscriptions = () => {
 };
 
 export default Subscriptions;
+

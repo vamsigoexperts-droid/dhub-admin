@@ -529,7 +529,7 @@ const DeletedProfessionalProviders = () => {
         <DialogTitle>Restore Professional Provider</DialogTitle>
         <DialogContent>
           <Alert severity="success" sx={{ mt: 2, mb: 2 }}>
-            This will restore the provider to their previous status.
+            This will restore the provider, undelete the record, and mark it as active.
           </Alert>
           {selectedProvider && (
             <Box sx={{ mb: 3 }}>
@@ -537,7 +537,7 @@ const DeletedProfessionalProviders = () => {
                 <strong>Name:</strong> {`${selectedProvider.firstName || ''} ${selectedProvider.lastName || ''}`.trim() || selectedProvider.business_name || 'N/A'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <strong>Previous Status:</strong> {selectedProvider.status || 'N/A'}
+                <strong>Status after restore:</strong> Active
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <strong>Delete Reason:</strong> {selectedProvider.deleteReason || 'N/A'}

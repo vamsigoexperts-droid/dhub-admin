@@ -3,7 +3,7 @@
  * Default API is production; override VITE_API_BASE_URL when needed.
  */
 export function getAdminApiBaseUrl() {
-  const raw = String(import.meta.env?.VITE_API_BASE_URL || 'https://api.doorstephub.com').trim();
+  const raw = String(import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5013').trim();
   return raw.endsWith('/') ? raw : `${raw}/`;
 }
 

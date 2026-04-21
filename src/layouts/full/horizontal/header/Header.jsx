@@ -16,7 +16,6 @@ import { CustomizerContext } from 'src/context/CustomizerContext';
 // @ts-ignore
 import { IconMenu2, IconMoon, IconSun } from '@tabler/icons-react';
 import Notifications from 'src/layouts/full/vertical/header/Notification';
-import Cart from 'src/layouts/full/vertical/header/Cart';
 import Profile from 'src/layouts/full/vertical/header/Profile';
 import Search from 'src/layouts/full/vertical/header/Search';
 import Language from 'src/layouts/full/vertical/header/Language';
@@ -74,14 +73,6 @@ const Header = () => {
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
           <Language />
-          {/* ------------------------------------------- */}
-          {/* Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-          <Cart />
-          {/* ------------------------------------------- */}
-          {/* End Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-
           <IconButton size="large" color="inherit">
             {activeMode === 'light' ? (
               <IconMoon size="21" stroke="1.5" onClick={() => setActiveMode("dark")} />

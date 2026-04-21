@@ -488,7 +488,7 @@ const handleRemoveEditImage = () => {
         <IconButton
           component="label"
           size="small"
-          sx={{ bgcolor: 'white' }}
+          sx={{ bgcolor: 'background.paper' }}
         >
           <CloudUploadIcon fontSize="small" />
           <input
@@ -503,7 +503,7 @@ const handleRemoveEditImage = () => {
           size="small"
           color="error"
           onClick={handleRemoveImage}
-          sx={{ bgcolor: 'white' }}
+          sx={{ bgcolor: 'background.paper' }}
         >
           <DeleteOutlineIcon fontSize="small" />
         </IconButton>
@@ -644,7 +644,7 @@ const handleRemoveEditImage = () => {
           gap: 1,
         }}
       >
-        <IconButton component="label" size="small" sx={{ bgcolor: 'white' }}>
+        <IconButton component="label" size="small" sx={{ bgcolor: 'background.paper' }}>
           <CloudUploadIcon fontSize="small" />
           <input
             type="file"
@@ -658,7 +658,7 @@ const handleRemoveEditImage = () => {
           size="small"
           color="error"
           onClick={handleRemoveEditImage}
-          sx={{ bgcolor: 'white' }}
+          sx={{ bgcolor: 'background.paper' }}
         >
           <DeleteOutlineIcon fontSize="small" />
         </IconButton>
@@ -728,3 +728,4 @@ const handleRemoveEditImage = () => {
 }
 
 export default City;
+

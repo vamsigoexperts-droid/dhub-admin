@@ -141,50 +141,9 @@ const RejectServiceProvider = Loadable(
 const AllProviders = Loadable(lazy(() => import('../views/Providers/AllProviders')));
 const DeletedServiceProvider = Loadable(lazy(() => import('../views/Providers/DeletedServiceProvider')));
 
-//ECommerce / Multivendor
-//Stores
-const AddStore = Loadable(lazy(() => import('../views/Stores/AddStore')));
-const EditStore = Loadable(lazy(() => import('../views/Stores/EditStore')));
-const Store = Loadable(lazy(() => import('../views/Stores/Stores')));
-const ViewStore = Loadable(lazy(() => import('../views/Stores/ViewStore')));
-const BlockedStores = Loadable(lazy(() => import('../views/Stores/BlockedStores')));
-const PendingStores = Loadable(lazy(() => import('../views/Stores/PendingStores')));
 
-//Drivers
-const AddDriver = Loadable(lazy(() => import('../views/Drivers/AddDriver')));
-const Drivers = Loadable(lazy(() => import('../views/Drivers/Drivers')));
-const EditDriver = Loadable(lazy(() => import('../views/Drivers/EditDriver')));
-const ViewDriver = Loadable(lazy(() => import('../views/Drivers/ViewDriver')));
-const BlockedDeliveryPartners = Loadable(
-  lazy(() => import('../views/Drivers/BlockedDeliveryPartners')),
-);
 
-//Shopping
-const ShoppingCategories = Loadable(lazy(() => import('../views/Shopping/ShoppingCategories')));
-const ShoppingSubCategories = Loadable(
-  lazy(() => import('../views/Shopping/ShoppingSubCategories')),
-);
-const AddShoppingItem = Loadable(lazy(() => import('../views/Shopping/AddShoppingItem')));
-const EditShoppingItem = Loadable(lazy(() => import('../views/Shopping/EditShoppingItem')));
-const ShoppingItem = Loadable(lazy(() => import('../views/Shopping/ShoppingItem')));
-const ShoppingItemRequest = Loadable(lazy(() => import('../views/Shopping/ShoppingItemRequest')));
-const ViewShoppingItem = Loadable(lazy(() => import('../views/Shopping/ViewShoppingItem')));
-const CountryOriginType = Loadable(lazy(() => import('../views/Shopping/CountryOriginType')));
-const NeckType = Loadable(lazy(() => import('../views/Shopping/NeckType')));
-const FitType = Loadable(lazy(() => import('../views/Shopping/FitType')));
-const MaterialType = Loadable(lazy(() => import('../views/Shopping/MaterialType')));
-const ProductTypes = Loadable(lazy(() => import('../views/Shopping/ProductTypes')));
-const RamType = Loadable(lazy(() => import('../views/Shopping/RamType')));
-const ShoppingColor = Loadable(lazy(() => import('../views/Shopping/ShoppingColor')));
-const SizeType = Loadable(lazy(() => import('../views/Shopping/SizeType')));
-const SleeveType = Loadable(lazy(() => import('../views/Shopping/SleeveTypes')));
-const StorageType = Loadable(lazy(() => import('../views/Shopping/StorageType')));
-const OperatingSystem = Loadable(lazy(() => import('../views/Shopping/OperatingSystem')));
-const Shoppingbrand = Loadable(lazy(() => import('../views/Shopping/Shoppingbrand')));
-const ShoppingWeight = Loadable(lazy(() => import('../views/Shopping/ShoppingWeight')));
-const ShoppingChildCategories = Loadable(
-  lazy(() => import('../views/Shopping/ShoppingChildCategories')),
-);
+
 
 const SaleCategory = Loadable(lazy(() => import('../views/OnDemandService/BuySale/SaleCategory')));
 const SaleSubCategory = Loadable(
@@ -192,26 +151,6 @@ const SaleSubCategory = Loadable(
 );
 const SaleRequest = Loadable(lazy(() => import('../views/OnDemandService/BuySale/SaleRequest')));
 
-//Medicine
-const MedicineCategories = Loadable(lazy(() => import('../views/Medicine/MedicineCategories')));
-const MedicineSubCategories = Loadable(
-  lazy(() => import('../views/Medicine/MedicineSubCategories')),
-);
-const AddMedicineItem = Loadable(lazy(() => import('../views/Medicine/AddMedicineItem')));
-const EditMedicineItem = Loadable(lazy(() => import('../views/Medicine/EditMedicineItem')));
-const MedicineItem = Loadable(lazy(() => import('../views/Medicine/MedicineItem')));
-const MedicineItemRequest = Loadable(lazy(() => import('../views/Medicine/MedicineItemRequest')));
-const ViewMedicineItem = Loadable(lazy(() => import('../views/Medicine/ViewMedicineItem')));
-const MedicineForm = Loadable(lazy(() => import('../views/Medicine/MedicineForm')));
-const PackingTypes = Loadable(lazy(() => import('../views/Medicine/PackingTypes')));
-const TherapeuticClass = Loadable(lazy(() => import('../views/Medicine/TherapeuticClass')));
-const DrugCategories = Loadable(lazy(() => import('../views/Medicine/DrugCategories')));
-const MedicineBrands = Loadable(lazy(() => import('../views/Medicine/MedicineBrands')));
-const MedicineUnits = Loadable(lazy(() => import('../views/Medicine/MedicineUnits')));
-const MedicineWeight = Loadable(lazy(() => import('../views/Medicine/MedicineWeight')));
-const MedicineChildCategories = Loadable(
-  lazy(() => import('../views/Medicine/MedicineChildCategories')),
-);
 
 
 //banners
@@ -221,66 +160,9 @@ const categorybanners = Loadable(lazy(() => import('../views/banners/categoryban
 
 const Offers = Loadable(lazy(() => import('../views/banners/Offers')));
 
-//Grocery
-const GroceryCategories = Loadable(lazy(() => import('../views/Grocerys/GrocerysCategories')));
-const GrocerySubCategories = Loadable(
-  lazy(() => import('../views/Grocerys/GrocerysSubCategories')),
-);
-const AddGrocerysItem = Loadable(lazy(() => import('../views/Grocerys/AddGrocerysItem')));
-const EditGrocerysItem = Loadable(lazy(() => import('../views/Grocerys/EditGrocerysItem')));
-const GrocerysItem = Loadable(lazy(() => import('../views/Grocerys/GrocerysItem')));
-const ViewGrocerysItem = Loadable(lazy(() => import('../views/Grocerys/ViewGrocerysItem')));
-const GrocerysItemRequest = Loadable(lazy(() => import('../views/Grocerys/GrocerysItemRequest')));
-const GrocerysBrand = Loadable(lazy(() => import('../views/Grocerys/GrocerysBrand')));
-const GrocerysWeight = Loadable(lazy(() => import('../views/Grocerys/GrocerysWeight')));
-const GrocerysUnits = Loadable(lazy(() => import('../views/Grocerys/GrocerysUnits')));
-const GrocerysChildCategories = Loadable(
-  lazy(() => import('../views/Grocerys/GrocerysChildCategories')),
-);
-const Flavour = Loadable(lazy(() => import('../views/Grocerys/Flavour')));
-const GrocerysCategoriesRequest = Loadable(
-  lazy(() => import('../views/Grocerys/GrocerysCategoriesRequest')),
-);
-const GrocerysSubCategoriesRequest = Loadable(
-  lazy(() => import('../views/Grocerys/GrocerysSubCategoriesRequest')),
-);
 
-const ShoppingCategoriesRequest = Loadable(
-  lazy(() => import('../views/Shopping/ShoppingCategoriesRequest')),
-);
-const ShoppingSubCategoriesRequest = Loadable(
-  lazy(() => import('../views/Shopping/ShoppingSubCategoriesRequest')),
-);
 
-const FoodCategoriesRquest = Loadable(lazy(() => import('../views/Food/FoodCategoriesRquest')));
-const FoodSubCategoriesRequest = Loadable(
-  lazy(() => import('../views/Food/FoodSubCategoriesRequest')),
-);
 
-const MedicineCategoriesRequest = Loadable(
-  lazy(() => import('../views/Medicine/MedicineCategoriesRequest')),
-);
-const MedicineSubCategoriesRequest = Loadable(
-  lazy(() => import('../views/Medicine/MedicineSubCategoriesRequest')),
-);
-
-//Food
-const FoodCategories = Loadable(lazy(() => import('../views/Food/FoodCategories')));
-const FoodSubCategories = Loadable(lazy(() => import('../views/Food/FoodSubCategories')));
-const AddFoodItem = Loadable(lazy(() => import('../views/Food/AddFoodItem')));
-const EditFoodItem = Loadable(lazy(() => import('../views/Food/EditFoodItem')));
-const FoodItem = Loadable(lazy(() => import('../views/Food/FoodItem')));
-const FoodItemRequest = Loadable(lazy(() => import('../views/Food/FoodItemRequest')));
-const ViewFoodItem = Loadable(lazy(() => import('../views/Food/ViewFoodItem')));
-const CuisineType = Loadable(lazy(() => import('../views/Food/CuisineType')));
-const FoodChildCategory = Loadable(lazy(() => import('../views/Food/FoodChildCategory')));
-
-//Ecommerce Complaints
-const EcommerceComplaints = Loadable(lazy(() => import('../views/Categories/Complaints')));
-const ViewComplaints = Loadable(lazy(() => import('../views/Categories/ViewComplaints')));
-const ViewProviderComplaints = Loadable(
-  lazy(() => import('../views/OnDemandService/ViewProviderComplaints')),
-);
 
 //Categories
 const Categories = Loadable(lazy(() => import('../views/Categories/Categories')));
@@ -290,106 +172,15 @@ const PendingSubCategories = Loadable(
   lazy(() => import('../views/Categories/PendingSubCategories')),
 );
 const SubCategories = Loadable(lazy(() => import('../views/Categories/SubCategories')));
-const Attributes = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/Attributes')),
-);
-const AttributesValues = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/AttributesValues')),
-);
-const Prices = Loadable(lazy(() => import('../views/EcommerceOrders/ProductManagement/Prices')));
-const PricesValues = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/PriceValues')),
-);
 
-//Brands
-const Units = Loadable(lazy(() => import('../views/EcommerceOrders/ProductManagement/Units')));
-const Brands = Loadable(lazy(() => import('../views/EcommerceOrders/ProductManagement/Brands')));
-const AddProduct = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/AddProduct')),
-);
-const Products = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/Products')),
-);
-const EditProduct = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/EditProduct')),
-);
-const ViewProduct = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/ViewProduct')),
-);
-const Specifications = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/Specifications')),
-);
-const SpecificationValues = Loadable(
-  lazy(() => import('../views/EcommerceOrders/ProductManagement/SpecificationValues')),
-);
 
-//PopularDestinations
-const PopularDestinations = Loadable(
-  lazy(() => import('../views/PopularDestination/PopularDestinations')),
-);
 
-//Attributes
-const Itemattribute = Loadable(lazy(() => import('../views/Attributes/Itemattribute')));
-const ReviewAttributes = Loadable(lazy(() => import('../views/Attributes/ReviewAttributes')));
 
-//Reports
-const SalesReport = Loadable(lazy(() => import('../views/Reports/SalesReport')));
 
-//Items
-const AddItem = Loadable(lazy(() => import('../views/Items/AddItem')));
-const Items = Loadable(lazy(() => import('../views/Items/Items')));
-const EditItem = Loadable(lazy(() => import('../views/Items/EditItem')));
 
 //Orders - Updated with all 28 components we created + 14 new components for OnDemand services
 
-//E-Commerce (7 components)
-const ECommercePending = Loadable(lazy(() => import('../views/EcommerceOrders/Ecommerce/Pending')));
-const ECommerceAccepted = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Ecommerce/Accepted')),
-);
-const ECommerceWorkInProgress = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Ecommerce/InProgress')),
-);
-const ECommerceCompleted = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Ecommerce/Completed')),
-);
-const ECommerceCancelled = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Ecommerce/Cancelled')),
-);
-const ECommerceRejected = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Ecommerce/Rejected')),
-);
-const ECommerceMissed = Loadable(lazy(() => import('../views/EcommerceOrders/Ecommerce/Missed')));
 
-//Medicines (7 components)
-const MedicinesPending = Loadable(lazy(() => import('../views/EcommerceOrders/Medicine/Pending')));
-const MedicinesAccepted = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Medicine/Accepted')),
-);
-const MedicinesWorkInProgress = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Medicine/InProgress')),
-);
-const MedicinesCompleted = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Medicine/Completed')),
-);
-const MedicinesCancelled = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Medicine/Cancelled')),
-);
-const MedicinesRejected = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Medicine/Rejected')),
-);
-const MedicinesMissed = Loadable(lazy(() => import('../views/EcommerceOrders/Medicine/Missed')));
-
-//Grocery (7 components)
-const GroceryPending = Loadable(lazy(() => import('../views/EcommerceOrders/Grocery/Pending')));
-const GroceryAccepted = Loadable(lazy(() => import('../views/EcommerceOrders/Grocery/Accepted')));
-const GroceryWorkInProgress = Loadable(
-  lazy(() => import('../views/EcommerceOrders/Grocery/InProgress')),
-);
-const GroceryCompleted = Loadable(lazy(() => import('../views/EcommerceOrders/Grocery/Completed')));
-const GroceryCancelled = Loadable(lazy(() => import('../views/EcommerceOrders/Grocery/Cancelled')));
-const GroceryRejected = Loadable(lazy(() => import('../views/EcommerceOrders/Grocery/Rejected')));
-const GroceryMissed = Loadable(lazy(() => import('../views/EcommerceOrders/Grocery/Missed')));
 
 const AddCrmBooking = Loadable(
   lazy(() => import('../views/OnDemandService/CrmBookings/AddCrmBooking')),
@@ -442,14 +233,7 @@ const VerifiedPartnerRescheduled = Loadable(lazy(() => import('../views/OnDemand
 const OfllineverifiedPartnersCrmAccepted = Loadable(
   lazy(() => import('../views/OnDemandService/OfflineCrmbookings/Accepted')),
 );
-//Food (7 components)
-const FoodPending = Loadable(lazy(() => import('../views/EcommerceOrders/Food/Pending')));
-const FoodAccepted = Loadable(lazy(() => import('../views/EcommerceOrders/Food/Accepted')));
-const FoodWorkInProgress = Loadable(lazy(() => import('../views/EcommerceOrders/Food/InProgress')));
-const FoodCompleted = Loadable(lazy(() => import('../views/EcommerceOrders/Food/Completed')));
-const FoodCancelled = Loadable(lazy(() => import('../views/EcommerceOrders/Food/Cancelled')));
-const FoodRejected = Loadable(lazy(() => import('../views/EcommerceOrders/Food/Rejected')));
-const FoodMissed = Loadable(lazy(() => import('../views/EcommerceOrders/Food/Missed')));
+
 
 //Others Services
 // On Demand Service
@@ -477,41 +261,14 @@ const VerifiedPartnersMissed = Loadable(
   lazy(() => import('../views/OnDemandService/VerifiedPartnersBookings/Missed')),
 );
 
-//Near By Shops (7 components) - FIXED
-const NearbyShopsPending = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/Pending')),
-);
-const NearbyShopsAccepted = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/Accepted')),
-);
-const NearbyShopsWorkInProgress = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/InProgress')),
-);
-const NearbyShopsCompleted = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/Completed')),
-);
-const NearbyShopsCancelled = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/Cancelled')),
-);
-const NearbyShopsRejected = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/Rejected')),
-);
-const NearbyShopsMissed = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/Missed')),
-);
+
 
 //View Orders
 const ViewVerifiedPartnersBookings = Loadable(
   lazy(() => import('../views/OnDemandService/VerifiedPartnersBookings/ViewOrder')),
 );
 
-const ViewNearByShopBookings = Loadable(
-  lazy(() => import('../views/OnDemandService/NearByShops/ViewOrder')),
-);
 
-const OnDemandBookingsShop = Loadable(
-  lazy(() => import('../views/OnDemandService/OnDemandBookingsShop')),
-);
 const ProviderComplaints = Loadable(
   lazy(() => import('../views/OnDemandService/ProviderComplaints')),
 );
@@ -550,32 +307,7 @@ const EditOnDemandWorkers = Loadable(
   lazy(() => import('../views/OnDemandService/EditOnDemandWorkers')),
 );
 
-//ParcelService
-const ParcelGoodsEye = Loadable(lazy(() => import('../views/ParcelServices/ParcelGoodsEye')));
-const ParcelCategory = Loadable(lazy(() => import('../views/ParcelServices/ParcelCategory')));
-const ParcelWeight = Loadable(lazy(() => import('../views/ParcelServices/ParcelWeight')));
-const ParcelOrder = Loadable(lazy(() => import('../views/ParcelServices/ParcelOrder')));
-const ParcelCoupon = Loadable(lazy(() => import('../views/ParcelServices/ParcelCoupon')));
 
-// Cab Service
-const CabPromo = Loadable(lazy(() => import('../views/CabService/CabPromo')));
-const CabVehicleType = Loadable(lazy(() => import('../views/CabService/CabVehicleType')));
-const CabGoodsEye = Loadable(lazy(() => import('../views/CabService/CabGoodsEye')));
-const CabComplaints = Loadable(lazy(() => import('../views/CabService/CabComplaints')));
-const CabSosRiders = Loadable(lazy(() => import('../views/CabService/CabSosRiders')));
-const CabRiders = Loadable(lazy(() => import('../views/CabService/CabRiders')));
-
-//Rental Service
-const RentalGoodsEye = Loadable(lazy(() => import('../views/RentalServices/RentalGoodsEye')));
-const RentalVehicleType = Loadable(lazy(() => import('../views/RentalServices/RentalVehicleType')));
-const RentalType = Loadable(lazy(() => import('../views/RentalServices/RentalType')));
-const RentalDiscount = Loadable(lazy(() => import('../views/RentalServices/RentalDiscount')));
-const RentalOrders = Loadable(lazy(() => import('../views/RentalServices/RentalOrders')));
-const RentalVehicles = Loadable(lazy(() => import('../views/RentalServices/RentalVehicles')));
-
-//Vehicle Settings
-const Make = Loadable(lazy(() => import('../views/VechileSettings/Make')));
-const Model = Loadable(lazy(() => import('../views/VechileSettings/Model')));
 
 // Website Management
 const UrlStructure = Loadable(lazy(() => import('../views/WebsiteManagement/UrlStructure')));
@@ -609,9 +341,8 @@ const FinanceOverview = Loadable(lazy(() => import('../views/Payments/FinanceOve
 const BookingPayments = Loadable(lazy(() => import('../views/Payments/BookingPayments')));
 const Withdrawals = Loadable(lazy(() => import('../views/Payments/Withdrawals')));
 const Subscriptions = Loadable(lazy(() => import('../views/Payments/Subscriptions')));
-const StorePayments = Loadable(lazy(() => import('../views/Payments/StorePayments')));
-const StorePayouts = Loadable(lazy(() => import('../views/Payments/StorePayouts')));
 const WalletLedger = Loadable(lazy(() => import('../views/Payments/WalletLedger')));
+const AdminWalletLedger = Loadable(lazy(() => import('../views/Payments/AdminWalletLedger')));
 
 //Website
 const HomePage = Loadable(lazy(() => import('../views/Website/HomePage')));
@@ -705,14 +436,7 @@ const SubscriptionHistory = Loadable(
 
 );
 
-const ShopVariationG = Loadable(lazy(() => import('../views/Grocerys/shopVariation')));
-const SubShopVariationG = Loadable(lazy(() => import('../views/Grocerys/SubShopVariation')));
 
-//Shop Vairations
-const ShopVariation = Loadable(lazy(() => import('../views/Shopping/shopVariation')));
-const SubShopVariation = Loadable(lazy(() => import('../views/Shopping/SubShopVariation')));
-const AddShoppingProduct = Loadable(lazy(() => import('../views/Shopping/AddShoppingProduct')));
-const EditShoppingProduct = Loadable(lazy(() => import('../views/Shopping/EditShoppingProduct')));
 
 
 //UserProfile
@@ -872,110 +596,17 @@ const Router = [
       { path: '/edit-provider', element: <EditProvider /> },
       { path: '/view-provider', element: <ViewProvider /> },
 
-      //Store
-      { path: '/addstore', element: <AddStore /> },
-      { path: '/stores', element: <Store /> },
-      { path: '/editstore', element: <EditStore /> },
-      { path: '/viewstore', element: <ViewStore /> },
-      { path: '/blocked-stores', element: <BlockedStores /> },
-      { path: '/pending-stores', element: <PendingStores /> },
-
-      //Drivers
-      { path: '/add-driver', element: <AddDriver /> },
-      { path: '/drivers', element: <Drivers /> },
-      { path: '/edit-driver/:id', element: <EditDriver /> },
-      { path: '/view-driver/:id', element: <ViewDriver /> },
-      { path: '/blocked-delivery-partners', element: <BlockedDeliveryPartners /> },
-
-      { path: '/specifications', element: <Specifications /> },
-      { path: '/specification-values', element: <SpecificationValues /> },
-
-
-      { path: '/shop-variation-grocery', element: <ShopVariationG /> },
-      { path: '/sub-shop-variation-grocery', element: <SubShopVariationG /> },
-      //Shopping
-      { path: '/shopping-categories', element: <ShoppingCategories /> },
-      { path: '/shopping-subcategories', element: <ShoppingSubCategories /> },
-      { path: '/add-shopping-item', element: <AddShoppingItem /> },
-      { path: '/edit-shopping-item', element: <EditShoppingItem /> },
-      { path: '/shopping-item', element: <ShoppingItem /> },
-      { path: '/view-shopping-item', element: <ViewShoppingItem /> },
-      { path: '/country-origin-type', element: <CountryOriginType /> },
-      { path: '/neck-type', element: <NeckType /> },
-      { path: '/fit-type', element: <FitType /> },
-      { path: '/material-type', element: <MaterialType /> },
-      { path: '/product-types', element: <ProductTypes /> },
-      { path: '/ram-type', element: <RamType /> },
-      { path: '/shopping-color', element: <ShoppingColor /> },
-      { path: '/size-type', element: <SizeType /> },
-      { path: '/sleeve-type', element: <SleeveType /> },
-      { path: '/storage-type', element: <StorageType /> },
-      { path: '/operating-system', element: <OperatingSystem /> },
-      { path: '/shopping-brand', element: <Shoppingbrand /> },
-      { path: '/shopping-weight', element: <ShoppingWeight /> },
-      { path: '/shopping-child-categories', element: <ShoppingChildCategories /> },
-      { path: '/shopping-categories-request', element: <ShoppingCategoriesRequest /> },
-      { path: '/shopping-sub-categories-request', element: <ShoppingSubCategoriesRequest /> },
-      { path: '/shopping-item-request', element: <ShoppingItemRequest /> },
-      { path: '/sale-sub-category', element: <SaleSubCategory /> },
-      { path: '/sale-category', element: <SaleCategory /> },
-      { path: '/sale-request', element: <SaleRequest /> },
-
-      //ShoppingVairations
-      { path: '/shop-variation', element: <ShopVariation /> },
-      { path: '/sub-shop-variation', element: <SubShopVariation /> },
-      { path: '/add-shopping-product', element: <AddShoppingProduct /> },
-      { path: '/Edit-shopping-product', element: <EditShoppingProduct /> },
 
 
 
-      //Medicine
-      { path: '/medicine-categories', element: <MedicineCategories /> },
-      { path: '/medicine-subcategories', element: <MedicineSubCategories /> },
-      { path: '/add-medicine-item', element: <AddMedicineItem /> },
-      { path: '/edit-medicine-item', element: <EditMedicineItem /> },
-      { path: '/medicine-item', element: <MedicineItem /> },
-      { path: '/view-medicine-Item', element: <ViewMedicineItem /> },
-      { path: '/medicine-form', element: <MedicineForm /> },
-      { path: '/packing-types', element: <PackingTypes /> },
-      { path: '/therapeutic-class', element: <TherapeuticClass /> },
-      { path: '/drug-categories', element: <DrugCategories /> },
-      { path: '/medicine-brands', element: <MedicineBrands /> },
-      { path: '/medicine-units', element: <MedicineUnits /> },
-      { path: '/medicine-weight', element: <MedicineWeight /> },
-      { path: '/medicine-child-categories', element: <MedicineChildCategories /> },
-      { path: '/medicine-categories-request', element: <MedicineCategoriesRequest /> },
-      { path: '/medicine-sub-categories-request', element: <MedicineSubCategoriesRequest /> },
-      { path: '/medicine-item-request', element: <MedicineItemRequest /> },
 
-      //Grocery
-      { path: '/grocery-categories', element: <GroceryCategories /> },
-      { path: '/grocery-subcategories', element: <GrocerySubCategories /> },
-      { path: '/add-grocerys-Item', element: <AddGrocerysItem /> },
-      { path: '/edit-grocerys-Item', element: <EditGrocerysItem /> },
-      { path: '/grocerys-item', element: <GrocerysItem /> },
-      { path: '/view-grocery-item', element: <ViewGrocerysItem /> },
-      { path: '/grocerys-brand', element: <GrocerysBrand /> },
-      { path: '/grocerys-weight', element: <GrocerysWeight /> },
-      { path: '/grocery-units', element: <GrocerysUnits /> },
-      { path: '/grocerys-child-categories', element: <GrocerysChildCategories /> },
-      { path: '/grocerys-categories-request', element: <GrocerysCategoriesRequest /> },
-      { path: '/flavour', element: <Flavour /> },
-      { path: '/grocerys-sub-categories-request', element: <GrocerysSubCategoriesRequest /> },
-      { path: '/grocerys-item-request', element: <GrocerysItemRequest /> },
 
-      //Food
-      { path: '/food-categories', element: <FoodCategories /> },
-      { path: '/food-subcategories', element: <FoodSubCategories /> },
-      { path: '/food-child-category', element: <FoodChildCategory /> },
-      { path: '/add-food-item', element: <AddFoodItem /> },
-      { path: '/edit-food-item', element: <EditFoodItem /> },
-      { path: '/food-item', element: <FoodItem /> },
-      { path: '/view-food-item', element: <ViewFoodItem /> },
-      { path: '/cuisine-type', element: <CuisineType /> },
-      { path: '/food-categories-request', element: <FoodCategoriesRquest /> },
-      { path: '/food-sub-categories-request', element: <FoodSubCategoriesRequest /> },
-      { path: '/food-item-request', element: <FoodItemRequest /> },
+
+
+
+
+
+
 
       //Categories
       { path: '/categories', element: <Categories /> },
@@ -984,82 +615,9 @@ const Router = [
       { path: '/sub-categories', element: <SubCategories /> },
       { path: '/pending-sub-categories', element: <PendingSubCategories /> },
 
-      { path: '/categories', element: <Categories /> },
-      { path: '/pending-categories', element: <PendingCategories /> },
 
-      { path: '/sub-categories', element: <SubCategories /> },
-      { path: '/pending-sub-categories', element: <PendingSubCategories /> },
 
-      { path: '/units', element: <Units /> },
-      { path: '/addproduct', element: <AddProduct /> },
-      { path: '/editproduct', element: <EditProduct /> },
-      { path: '/viewproduct', element: <ViewProduct /> },
 
-      { path: '/products', element: <Products /> },
-      { path: '/specifications', element: <Specifications /> },
-      { path: '/specification-values', element: <SpecificationValues /> },
-
-      { path: '/attributes', element: <Attributes /> },
-      { path: '/attributes-values', element: <AttributesValues /> },
-
-      { path: '/prices', element: <Prices /> },
-      { path: '/prices-values', element: <PricesValues /> },
-
-      //Brands
-      { path: '/brand', element: <Brands /> },
-
-      //EcommerceComplaints
-      { path: '/ecommerce-complaints', element: <EcommerceComplaints /> },
-
-      // View complaints
-      { path: '/view-complaints', element: <ViewComplaints /> },
-      { path: '/view-provider-complaints', element: <ViewProviderComplaints /> },
-
-      //Brands
-      { path: '/brands', element: <Brands /> },
-
-      //PopularDestinations
-      { path: '/populardestinations', element: <PopularDestinations /> },
-
-      //Attributions
-      { path: '/itemattribute', element: <Itemattribute /> },
-      { path: '/reviewattributes', element: <ReviewAttributes /> },
-
-      //Reports
-      { path: '/salesreport', element: <SalesReport /> },
-
-      //Items
-      { path: '/add-item', element: <AddItem /> },
-      { path: '/items', element: <Items /> },
-      { path: '/edit-item', element: <EditItem /> },
-
-      //Orders - Updated with all our new components
-      //E-commerce (7 complete workflow components)
-      { path: '/e-commerce/pending', element: <ECommercePending /> },
-      { path: '/e-commerce/accepted', element: <ECommerceAccepted /> },
-      { path: '/e-commerce/work-in-progress', element: <ECommerceWorkInProgress /> },
-      { path: '/e-commerce/completed', element: <ECommerceCompleted /> },
-      { path: '/e-commerce/cancelled', element: <ECommerceCancelled /> },
-      { path: '/e-commerce/rejected', element: <ECommerceRejected /> },
-      { path: '/e-commerce/missed', element: <ECommerceMissed /> },
-
-      //Medicines (7 complete workflow components)
-      { path: '/medicines/pending', element: <MedicinesPending /> },
-      { path: '/medicines/accepted', element: <MedicinesAccepted /> },
-      { path: '/medicines/work-in-progress', element: <MedicinesWorkInProgress /> },
-      { path: '/medicines/completed', element: <MedicinesCompleted /> },
-      { path: '/medicines/cancelled', element: <MedicinesCancelled /> },
-      { path: '/medicines/rejected', element: <MedicinesRejected /> },
-      { path: '/medicines/missed', element: <MedicinesMissed /> },
-
-      //Grocery (7 complete workflow components)
-      { path: '/grocery/pending', element: <GroceryPending /> },
-      { path: '/grocery/accepted', element: <GroceryAccepted /> },
-      { path: '/grocery/work-in-progress', element: <GroceryWorkInProgress /> },
-      { path: '/grocery/completed', element: <GroceryCompleted /> },
-      { path: '/grocery/cancelled', element: <GroceryCancelled /> },
-      { path: '/grocery/rejected', element: <GroceryRejected /> },
-      { path: '/grocery/missed', element: <GroceryMissed /> },
       { path: '/add-crm-booking', element: <AddCrmBooking /> },
       { path: '/crm-booking', element: <CrmBooking /> },
 
@@ -1082,8 +640,6 @@ const Router = [
         path: '/ondemandservice/verified-partners-crm/appointmentrescheduled',
         element: <VerifiedPartnerRescheduled />,
       },
-      ,
-      ,
 
       {
         path: '/ondemandservice/verified-partners-crm/work-in-progress',
@@ -1121,14 +677,7 @@ const Router = [
       { path: '/offlineverifiedpartnercrmbookings/accepted', element: < OfllineverifiedPartnersCrmAccepted /> },
 
 
-      //Food (7 complete workflow components)
-      { path: '/food/pending', element: <FoodPending /> },
-      { path: '/food/accepted', element: <FoodAccepted /> },
-      { path: '/food/work-in-progress', element: <FoodWorkInProgress /> },
-      { path: '/food/completed', element: <FoodCompleted /> },
-      { path: '/food/cancelled', element: <FoodCancelled /> },
-      { path: '/food/rejected', element: <FoodRejected /> },
-      { path: '/food/missed', element: <FoodMissed /> },
+
 
       //GiftCards
       { path: '/giftcards', element: <GiftCards /> },
@@ -1165,16 +714,7 @@ const Router = [
       },
       { path: '/ondemandservice/verified-partners/missed', element: <VerifiedPartnersMissed /> },
 
-      { path: '/ondemandservice/near-by-shops/pending', element: <NearbyShopsPending /> },
-      { path: '/ondemandservice/near-by-shops/accepted', element: <NearbyShopsAccepted /> },
-      {
-        path: '/ondemandservice/near-by-shops/work-in-progress',
-        element: <NearbyShopsWorkInProgress />,
-      },
-      { path: '/ondemandservice/near-by-shops/completed', element: <NearbyShopsCompleted /> },
-      { path: '/ondemandservice/near-by-shops/cancelled', element: <NearbyShopsCancelled /> },
-      { path: '/ondemandservice/near-by-shops/rejected', element: <NearbyShopsRejected /> },
-      { path: '/ondemandservice/near-by-shops/missed', element: <NearbyShopsMissed /> },
+
 
       {
         path: '/verified-partners-crm/assign-providers',
@@ -1184,10 +724,9 @@ const Router = [
       // View verified-partners bookings
       { path: '/verified-partners/view-order/:orderId', element: <ViewVerifiedPartnersBookings /> },
 
-      // View Near By Shops bookings
-      { path: '/near-by-shops/view-order/:orderId', element: <ViewNearByShopBookings /> },
 
-      { path: '/ondemandservice/ondemandbookingsshop', element: <OnDemandBookingsShop /> },
+
+
       { path: '/ondemandservice/ondemandsubcategories', element: <OnDemandSubCategories /> },
       { path: '/ondemandservice/ondemandchildcategories', element: <OnDemandChildCategories /> },
       { path: '/ondemandservice/demandcategories', element: <DemandCategories /> },
@@ -1226,32 +765,7 @@ const Router = [
         element: <ViewHomeScreenManagement />,
       }
       ,
-      //Parcel Service
-      { path: '/parcelservice/parcelgoodseye', element: <ParcelGoodsEye /> },
-      { path: '/parcelservice/parcelcategory', element: <ParcelCategory /> },
-      { path: '/parcelservice/parcelweight', element: <ParcelWeight /> },
-      { path: '/parcelservice/parcelorder', element: <ParcelOrder /> },
-      { path: '/parcelservice/parcelcoupon', element: <ParcelCoupon /> },
 
-      // Cab Service
-      { path: '/cabservice/cab-promo', element: <CabPromo /> },
-      { path: '/cabservice/cab-vehicle-type', element: <CabVehicleType /> },
-      { path: '/cabservice/cab-goods-eye', element: <CabGoodsEye /> },
-      { path: '/cabservice/cab-complaints', element: <CabComplaints /> },
-      { path: '/cabservice/cab-sos-riders', element: <CabSosRiders /> },
-      { path: '/cabservice/cab-riders', element: <CabRiders /> },
-
-      //Rental Service
-      { path: '/rentalservice/rental-goods-eye', element: <RentalGoodsEye /> },
-      { path: '/rentalservice/rental-vehicle-type', element: <RentalVehicleType /> },
-      { path: '/rentalservice/rental-type', element: <RentalType /> },
-      { path: '/rentalservice/rental-discount', element: <RentalDiscount /> },
-      { path: '/rentalservice/rental-orders', element: <RentalOrders /> },
-      { path: '/rentalservice/rental-vehicles', element: <RentalVehicles /> },
-
-      //Vehicle Settings
-      { path: '/vehicle/make', element: <Make /> },
-      { path: '/vehicle/model', element: <Model /> },
 
       // Website Management
       { path: '/website-management/url-structure', element: <UrlStructure /> },
@@ -1279,13 +793,11 @@ const Router = [
       { path: '/cms-pages', element: <CMSPages /> },
 
       //Payments
-      { path: '/payments/store-paymensts', element: <StorePayments /> },
-      { path: '/payments/store-payouts', element: <StorePayouts /> },
-      { path: '/payments/drivers-payments', element: <DriversPayments /> },
-      { path: '/payments/drivers-payouts', element: <DriversPayouts /> },
+
       { path: '/payments/overview', element: <FinanceOverview /> },
       { path: '/payments/booking-payments', element: <BookingPayments /> },
       { path: '/payments/wallet-ledger', element: <WalletLedger /> },
+      { path: '/payments/admin-wallet', element: <AdminWalletLedger /> },
       { path: '/payments/withdrawals', element: <Withdrawals /> },
       { path: '/payments/subscriptions', element: <Subscriptions /> },
       { path: '/payments/providers-payments', element: <BookingPayments /> },

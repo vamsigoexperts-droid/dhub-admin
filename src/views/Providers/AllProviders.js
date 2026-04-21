@@ -473,9 +473,9 @@ const Providers = () => {
             autoHeight
             sx={{
               '& .MuiDataGrid-row': {
-                backgroundColor: 'white',
-                borderBottom: '1px solid #f0f0f0',
-                '&:hover': { backgroundColor: '#f8f9fa' }
+                backgroundColor: 'background.paper',
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                '&:hover': { backgroundColor: 'rgba(0, 115, 103, 0.15)' }
               },
               '& .MuiDataGrid-cell': {
                 display: 'flex',
@@ -507,12 +507,10 @@ const Providers = () => {
             <ListItemText>Edit</ListItemText>
           </MenuItem>
         )}
-        {selectedRow?.childcategoryId !== '683dbbfbb62d2a241de0f7e3' && (
-          <MenuItem onClick={() => handleServiceRequests(selectedRow)}>
-            <ListItemIcon><IconTablePlus size={18} color={theme.palette.success.main} /></ListItemIcon>
-            <ListItemText>Service Rates</ListItemText>
-          </MenuItem>
-        )}
+        <MenuItem onClick={() => handleServiceRequests(selectedRow)}>
+          <ListItemIcon><IconTablePlus size={18} color={theme.palette.success.main} /></ListItemIcon>
+          <ListItemText>Service Rates</ListItemText>
+        </MenuItem>
         <MenuItem onClick={() => handleViewPopUp(selectedRow)}>
           <ListItemIcon><IconEye size={18} color={theme.palette.secondary.main} /></ListItemIcon>
           <ListItemText>View Details</ListItemText>
@@ -627,3 +625,4 @@ const Providers = () => {
 };
 
 export default Providers;
+

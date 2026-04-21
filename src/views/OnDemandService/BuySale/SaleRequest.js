@@ -437,7 +437,7 @@ const SaleRequest = () => {
               placeholder="Search requests..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search requests"
             />
           </Box>
@@ -618,3 +618,4 @@ const SaleRequest = () => {
 };
 
 export default SaleRequest;
+

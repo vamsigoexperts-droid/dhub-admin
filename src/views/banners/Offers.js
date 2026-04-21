@@ -29,7 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../Url';
 import axios from 'axios';
 
-const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Offers Management' }];
+const BCrumb = [{ to: '/', title: 'Home' }, { title: 'Coupons Management' }];
 
 // Main Offers Component
 const OffersManagement = () => {
@@ -118,8 +118,8 @@ const OffersManagement = () => {
     } else {
       const filtered = data.filter((item) => {
         const title = item.title?.toLowerCase() || '';
-        const serviceName = item.serviceName?.toLowerCase() || '';
-        const categoryName = item.categoryName?.toLowerCase() || '';
+        const serviceName = getServiceDisplayName(item).toLowerCase();
+        const categoryName = getCategoryDisplayName(item).toLowerCase();
         const couponCode = item.couponCode?.toLowerCase() || '';
         const description = item.description?.toLowerCase() || '';
 
@@ -200,6 +200,29 @@ const OffersManagement = () => {
 
   const getStatusText = (status) => {
     return status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Unknown';
+  };
+
+  const getServiceDisplayName = (item) => {
+    if (item?.serviceName) return item.serviceName;
+    if (item?.service?.name) return item.service.name;
+    if (item?.serviceId && typeof item.serviceId === 'object') {
+      return item.serviceId.name || item.serviceId.serviceName || 'N/A';
+    }
+    return 'N/A';
+  };
+
+  const getCategoryDisplayName = (item) => {
+    if (item?.categoryName) return item.categoryName;
+    if (item?.category?.name) return item.category.name;
+    if (item?.categoryId && typeof item.categoryId === 'object') {
+      return item.categoryId.name || item.categoryId.categoryName || 'N/A';
+    }
+    return 'N/A';
+  };
+
+  const formatCurrency = (value) => {
+    if (value === null || value === undefined || value === '') return 'N/A';
+    return `Rs. ${value}`;
   };
 
   // Format Date
@@ -303,7 +326,7 @@ const OffersManagement = () => {
             <Typography variant="body2" fontWeight={600} color="primary">
               {params.row.discountType === 'percentage'
                 ? `${params.row.discountValue}%`
-                : `ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹${params.row.discountValue}`}
+                : formatCurrency(params.row.discountValue)}
             </Typography>
             <Typography variant="caption" color="textSecondary">
               {params.row.discountType}
@@ -404,13 +427,19 @@ const OffersManagement = () => {
   );
 
   const rows = useMemo(
-    () => filteredData?.map((item, index) => ({ id: item._id || index, ...item })) || [],
+    () =>
+      filteredData?.map((item, index) => ({
+        id: item._id || index,
+        ...item,
+        serviceName: getServiceDisplayName(item),
+        categoryName: getCategoryDisplayName(item),
+      })) || [],
     [filteredData]
   );
 
   return (
-    <PageContainer title="Offers Management Page" description="Manage Offers for your platform">
-      <Breadcrumb title="Offers Management" items={BCrumb} />
+    <PageContainer title="Coupon Management Page" description="Manage coupons for your platform">
+      <Breadcrumb title="Coupon Management" items={BCrumb} />
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Paper
@@ -430,15 +459,15 @@ const OffersManagement = () => {
           flexWrap="wrap"
           gap={2}
         >
-          <Typography variant="h6">Offers List ({pagination.totalCount})</Typography>
+          <Typography variant="h6">Coupons List ({pagination.totalCount})</Typography>
           <Box display="flex" gap={2} alignItems="center">
             <TextField
               size="small"
               placeholder="Search by title, service, category, coupon..."
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 200, sm: 350 }, bgcolor: 'white' }}
-              aria-label="Search Offers"
+              sx={{ minWidth: { xs: 200, sm: 350 }, bgcolor: 'background.paper' }}
+              aria-label="Search Coupons"
             />
             {(rolesAndPermission.offers_add === true || rolesAndPermission.accessAll === true) && (
               <Button
@@ -447,7 +476,7 @@ const OffersManagement = () => {
                 startIcon={<IconPlus />}
                 onClick={() => navigate('/advertisments/addoffer')}
               >
-                Add Offer
+                Add Coupon
               </Button>
             )}
           </Box>
@@ -481,7 +510,7 @@ const OffersManagement = () => {
 
       {/* View Details Modal */}
       <Dialog open={openDetailsModal} onClose={handleCloseDetailsModal} maxWidth="md" fullWidth>
-        <DialogTitle>Offer Details</DialogTitle>
+        <DialogTitle>Coupon Details</DialogTitle>
         <DialogContent>
           {selectedOffer && (
             <Grid container spacing={3} sx={{ mt: 1 }}>
@@ -489,7 +518,7 @@ const OffersManagement = () => {
               {selectedOffer.image && (
                 <Grid item xs={12} md={6}>
                   <Typography variant="caption" color="textSecondary">
-                    Offer Image
+                    Coupon Image
                   </Typography>
                   <Box mt={1}>
                     <img
@@ -583,7 +612,7 @@ const OffersManagement = () => {
                 <Typography variant="h6" color="primary" fontWeight={600} mt={1}>
                   {selectedOffer.discountType === 'percentage'
                     ? `${selectedOffer.discountValue}%`
-                    : `ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹${selectedOffer.discountValue}`}
+                    : formatCurrency(selectedOffer.discountValue)}
                 </Typography>
               </Grid>
 
@@ -592,7 +621,7 @@ const OffersManagement = () => {
                   Max Discount Amount
                 </Typography>
                 <Typography variant="body1" mt={1}>
-                  ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹{selectedOffer.maxDiscountAmount || 'N/A'}
+                  {formatCurrency(selectedOffer.maxDiscountAmount)}
                 </Typography>
               </Grid>
 
@@ -601,7 +630,7 @@ const OffersManagement = () => {
                   Min Order Amount
                 </Typography>
                 <Typography variant="body1" mt={1}>
-                  ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹{selectedOffer.minOrderAmount || 'N/A'}
+                  {formatCurrency(selectedOffer.minOrderAmount)}
                 </Typography>
               </Grid>
 
@@ -676,4 +705,5 @@ const OffersManagement = () => {
 };
 
 export default OffersManagement;
+
 

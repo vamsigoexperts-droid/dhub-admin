@@ -60,6 +60,7 @@ const Customizer = () => {
     display: "flex",
     transition: "0.1s ease-in",
     border: "1px solid rgba(145, 158, 171, 0.12)",
+    backgroundColor: theme.palette.background.paper,
     "&:hover": {
       transform: "scale(1.05)",
     },
@@ -127,6 +128,7 @@ const Customizer = () => {
         PaperProps={{
           sx: {
             width: SidebarWidth,
+            backgroundColor: 'background.paper',
           },
         }}
       >
@@ -232,7 +234,7 @@ const Customizer = () => {
                           alignItems: "center",
                           justifyContent: "center",
                           display: "flex",
-                          color: "white",
+                          color: "#e7fffb",
                         }}
                         aria-label={`${thcolor.bgColor}`}
                         onClick={() => setActiveTheme(thcolor.disp)}

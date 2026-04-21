@@ -684,7 +684,7 @@ const BlockedServiceProvider = () => {
                 placeholder="Search by name"
                 value={search}
                 onChange={handleSearch}
-                sx={{ minWidth: { xs: '100%', sm: 250 }, bgcolor: 'white' }}
+                sx={{ minWidth: { xs: '100%', sm: 250 }, bgcolor: 'background.paper' }}
               />
 
               <Box display="flex" gap={1} flexWrap="wrap">
@@ -980,3 +980,4 @@ const BlockedServiceProvider = () => {
 };
 
 export default BlockedServiceProvider;
+

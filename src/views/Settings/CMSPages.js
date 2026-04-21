@@ -16,7 +16,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import axios from 'axios';
 import PageContainer from 'src/components/container/PageContainer';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
@@ -107,7 +107,7 @@ const AddCMSPagesForm = ({ onClose, onSubmit, loading }) => {
             <Grid item xs={12}>
               <CustomFormLabel required>Page Description</CustomFormLabel>
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomCKEditor}
                 data={data}
                 onChange={(event, editor) => setData(editor.getData())}
                 config={CKEDITOR_CONFIG}
@@ -192,7 +192,7 @@ const EditCMSPagesForm = ({ onClose, onSubmit, initialData, loading }) => {
             <Grid item xs={12}>
               <CustomFormLabel required>Page Description</CustomFormLabel>
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomCKEditor}
                 data={data}
                 onChange={(event, editor) => setData(editor.getData())}
                 config={CKEDITOR_CONFIG}

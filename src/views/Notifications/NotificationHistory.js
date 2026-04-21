@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
     Box,
     Button,
+    Card,
+    CardContent,
+    CardHeader,
+    Alert,
+    CircularProgress,
     Table,
     TableBody,
     TableCell,
@@ -12,16 +17,17 @@ import {
     TablePagination,
     TextField,
     InputAdornment,
+    Stack,
+    Avatar,
 } from '@mui/material';
 import { IconPlus, IconTrash, IconSearch } from '@tabler/icons-react';
-import PageContainer from 'src/components/container/PageContainer';
-import ParentCard from 'src/components/shared/ParentCard';
-import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { URLS } from 'src/Url';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import PageContainer from 'src/components/container/PageContainer';
+import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 
 const BCrumb = [
     { to: '/', title: 'Home' },
@@ -37,6 +43,7 @@ const NotificationHistory = () => {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [totalCount, setTotalCount] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
+    const [loadError, setLoadError] = useState('');
 
     const getToken = () => {
         const user = localStorage.getItem('user');
@@ -49,31 +56,39 @@ const NotificationHistory = () => {
 
     const fetchNotifications = async () => {
         setLoading(true);
+        setLoadError('');
         try {
             const token = getToken();
-            const response = await axios.get(URLS.NotificationHistory, {
+            const response = await axios.get(URLS.NotificationHistory || '', {
                 headers: { Authorization: `Bearer ${token}` },
                 params: {
-                    page: page + 1, // API uses 1-based indexing
+                    page: page + 1,
                     limit: rowsPerPage,
                 },
             });
 
             const responseData = response.data;
-
-            // Handle nested structure: response.data.data.notifications
             const dataObj = responseData?.data || responseData;
-            const notificationsList = Array.isArray(dataObj?.notifications)
-                ? dataObj.notifications
-                : (Array.isArray(dataObj?.data)
-                    ? dataObj.data
-                    : (Array.isArray(dataObj) ? dataObj : []));
+            
+            let notificationsList = [];
+            if (Array.isArray(dataObj?.notifications)) {
+                notificationsList = dataObj.notifications;
+            } else if (Array.isArray(dataObj?.data)) {
+                notificationsList = dataObj.data;
+            } else if (Array.isArray(dataObj)) {
+                notificationsList = dataObj;
+            } else if (Array.isArray(responseData?.notifications)) {
+                notificationsList = responseData.notifications;
+            }
 
-            setNotifications(notificationsList);
-            setTotalCount(dataObj?.totalCount || dataObj?.total || dataObj?.count || notificationsList.length);
+            // Sanitize list to remove any nulls
+            const sanitizedList = notificationsList.filter(n => n && typeof n === 'object');
+            
+            setNotifications(sanitizedList);
+            setTotalCount(dataObj?.totalCount || dataObj?.total || dataObj?.count || sanitizedList.length);
         } catch (error) {
             console.error('Error fetching notifications:', error);
-            toast.error('Failed to load notification history');
+            setLoadError('Failed to load notification history');
             setNotifications([]);
         } finally {
             setLoading(false);
@@ -81,6 +96,7 @@ const NotificationHistory = () => {
     };
 
     const handleDelete = async (id) => {
+        if (!id) return;
         if (!window.confirm('Are you sure you want to delete this notification?')) return;
 
         try {
@@ -108,7 +124,9 @@ const NotificationHistory = () => {
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A';
         try {
-            return format(new Date(dateString), 'MMM dd, yyyy');
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            return format(date, 'MMM dd, yyyy');
         } catch (error) {
             return dateString;
         }
@@ -117,184 +135,211 @@ const NotificationHistory = () => {
     const formatTime = (dateString) => {
         if (!dateString) return 'N/A';
         try {
-            return format(new Date(dateString), 'hh:mm a');
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            return format(date, 'hh:mm a');
         } catch (error) {
             return dateString;
         }
     };
 
-    const filteredNotifications = notifications.filter((notification) => {
-        if (!searchQuery) return true;
-        const query = searchQuery.toLowerCase();
-        return (
-            notification.title?.toLowerCase().includes(query) ||
-            notification.target?.toLowerCase().includes(query) ||
-            notification.description?.toLowerCase().includes(query)
-        );
-    });
+    const filteredNotifications = (Array.isArray(notifications) ? notifications : [])
+        .filter((notification) => {
+            if (!notification) return false;
+            if (!searchQuery) return true;
+            const query = searchQuery.toLowerCase();
+            return (
+                String(notification?.title || '').toLowerCase().includes(query) ||
+                String(notification?.target || notification?.sendTo || '').toLowerCase().includes(query) ||
+                String(notification?.description || notification?.message || '').toLowerCase().includes(query)
+            );
+        });
 
     return (
         <PageContainer title="Notification History" description="View sent notifications">
             <Breadcrumb title="Notification History" items={BCrumb} />
-            <ToastContainer />
-
-            <ParentCard title="Notification History">
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, gap: 2 }}>
-                    <TextField
-                        size="small"
-                        placeholder="Search notifications..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <IconSearch size={20} />
-                                </InputAdornment>
-                            ),
-                        }}
-                        sx={{ minWidth: 300 }}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<IconPlus />}
-                        onClick={() => navigate('/notifications/send')}
+            <Box sx={{ mt: 3 }}>
+                <Card
+                    sx={{
+                        background: 'linear-gradient(180deg, rgba(7, 27, 34, 0.95) 0%, rgba(10, 24, 31, 0.98) 100%)',
+                        border: '1px solid rgba(24, 197, 188, 0.18)',
+                        boxShadow: '0 18px 50px rgba(0,0,0,0.22)',
+                        overflow: 'hidden',
+                        color: '#d9f5f1',
+                    }}
+                >
+                    <CardHeader
+                        title="Sent Notifications"
+                        subheader="View push notifications sent to apps and website."
+                        titleTypographyProps={{ color: '#e8fffb', fontWeight: 700 }}
+                        subheaderTypographyProps={{ color: 'rgba(233, 255, 251, 0.7)' }}
                         sx={{
-                            backgroundColor: '#0d5959',
-                            '&:hover': { backgroundColor: '#084040' }
+                            borderBottom: '1px solid rgba(24, 197, 188, 0.12)',
+                            '& .MuiCardHeader-content': { minWidth: 0 },
                         }}
-                    >
-                        Send New Notification
-                    </Button>
-                </Box>
+                    />
 
-                <Box sx={{ overflow: 'auto' }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}>
-                                    Date
-                                </TableCell>
-                                <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}>
-                                    Time
-                                </TableCell>
-                                <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}>
-                                    Title
-                                </TableCell>
-                                <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}>
-                                    Message
-                                </TableCell>
-                                <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}>
-                                    Image
-                                </TableCell>
-                                <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}>
-                                    Target
-                                </TableCell>
-                                <TableCell
-                                    align="right"
-                                    sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 'bold' }}
-                                >
-                                    Actions
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {loading ? (
-                                <TableRow>
-                                    <TableCell colSpan={7} align="center">
-                                        Loading...
-                                    </TableCell>
-                                </TableRow>
-                            ) : filteredNotifications.length > 0 ? (
-                                filteredNotifications.map((notification) => (
-                                    <TableRow key={notification._id || notification.id}>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {notification.date || formatDate(notification.createdAt || notification.sentAt)}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {notification.time || formatTime(notification.createdAt || notification.sentAt)}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="subtitle2" fontWeight={600}>
-                                                {notification.title}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    maxWidth: 300,
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap'
-                                                }}
-                                            >
-                                                {notification.description || notification.message}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            {notification.image ? (
-                                                <Box
-                                                    component="img"
-                                                    src={`https://api.doorstephub.com${notification.image}`}
-                                                    alt="Notification"
-                                                    sx={{
-                                                        width: 50,
-                                                        height: 50,
-                                                        objectFit: 'cover',
-                                                        borderRadius: 1,
-                                                        cursor: 'pointer',
-                                                        border: '1px solid #eee'
-                                                    }}
-                                                    onClick={() => window.open(`https://api.doorstephub.com${notification.image}`, '_blank')}
-                                                />
-                                            ) : (
-                                                <Typography variant="caption" color="textSecondary">No Image</Typography>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
-                                                {notification.sendTo || notification.target || 'All'}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <IconButton
-                                                onClick={() => handleDelete(notification._id || notification.id)}
-                                                color="error"
-                                                size="small"
-                                            >
-                                                <IconTrash size={20} />
-                                            </IconButton>
-                                        </TableCell>
+                    <CardContent>
+                        <Stack
+                            direction={{ xs: 'column', md: 'row' }}
+                            justifyContent="space-between"
+                            alignItems={{ xs: 'stretch', md: 'center' }}
+                            gap={2}
+                            sx={{ mb: 3 }}
+                        >
+                            <TextField
+                                size="small"
+                                placeholder="Search notifications..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <IconSearch size={20} color="#18c5bc" />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                sx={{ 
+                                    minWidth: { xs: '100%', md: 350 },
+                                    '& .MuiOutlinedInput-root': {
+                                        color: 'white',
+                                        '& fieldset': { borderColor: 'rgba(24, 197, 188, 0.2)' },
+                                        '&:hover fieldset': { borderColor: 'rgba(24, 197, 188, 0.4)' },
+                                    }
+                                }}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                startIcon={<IconPlus />}
+                                onClick={() => navigate('/notifications/send')}
+                                sx={{
+                                    backgroundColor: '#0d5959',
+                                    '&:hover': { backgroundColor: '#084040' },
+                                    minWidth: 220,
+                                }}
+                            >
+                                Send New Notification
+                            </Button>
+                        </Stack>
+
+                        {loadError && (
+                            <Alert severity="error" sx={{ mb: 3, backgroundColor: 'rgba(211, 47, 47, 0.1)', color: '#ff8a80' }}>
+                                {loadError}
+                            </Alert>
+                        )}
+
+                        <Box sx={{ overflow: 'auto', borderRadius: 2, border: '1px solid rgba(24, 197, 188, 0.12)' }}>
+                            <Table sx={{ minWidth: 900 }}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Date</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Time</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Title</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Message</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Image</TableCell>
+                                        <TableCell sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Target</TableCell>
+                                        <TableCell align="right" sx={{ backgroundColor: '#0d5959', color: 'white', fontWeight: 700 }}>Actions</TableCell>
                                     </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={7} align="center">
-                                        <Typography variant="body2" color="textSecondary">
-                                            No notifications found
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </Box>
+                                </TableHead>
+                                <TableBody>
+                                    {loading ? (
+                                        <TableRow>
+                                            <TableCell colSpan={7} align="center" sx={{ py: 10 }}>
+                                                <CircularProgress size={35} sx={{ color: '#18c5bc' }} />
+                                                <Typography sx={{ mt: 2, color: 'rgba(233, 255, 251, 0.7)' }}>Loading history...</Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : filteredNotifications.length > 0 ? (
+                                        filteredNotifications.map((notification) => (
+                                            <TableRow 
+                                                key={notification._id || notification.id || Math.random()}
+                                                sx={{ '&:hover': { backgroundColor: 'rgba(24, 197, 188, 0.05)' } }}
+                                            >
+                                                <TableCell sx={{ color: 'rgba(233, 255, 251, 0.9)' }}>
+                                                    {notification.date || formatDate(notification.createdAt || notification.sentAt)}
+                                                </TableCell>
+                                                <TableCell sx={{ color: 'rgba(233, 255, 251, 0.9)' }}>
+                                                    {notification.time || formatTime(notification.createdAt || notification.sentAt)}
+                                                </TableCell>
+                                                <TableCell sx={{ color: '#e8fffb', fontWeight: 600 }}>
+                                                    {notification.title || 'Untitled'}
+                                                </TableCell>
+                                                <TableCell sx={{ color: 'rgba(233, 255, 251, 0.8)' }}>
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                            maxWidth: 350,
+                                                            overflow: 'hidden',
+                                                            textOverflow: 'ellipsis',
+                                                            whiteSpace: 'nowrap'
+                                                        }}
+                                                    >
+                                                        {notification.description || notification.message || 'No description provided'}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell>
+                                                    {notification.image ? (
+                                                        <Avatar
+                                                            src={notification.image.startsWith('http') ? notification.image : `https://api.doorstephub.com${notification.image}`}
+                                                            variant="rounded"
+                                                            sx={{ width: 45, height: 45, border: '1px solid rgba(24, 197, 188, 0.2)', cursor: 'pointer' }}
+                                                            onClick={() => window.open(notification.image.startsWith('http') ? notification.image : `https://api.doorstephub.com${notification.image}`, '_blank')}
+                                                        />
+                                                    ) : (
+                                                        <Typography variant="caption" color="textSecondary">None</Typography>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell sx={{ color: 'rgba(233, 255, 251, 0.8)', textTransform: 'capitalize' }}>
+                                                    {notification.sendTo || notification.target || 'All'}
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    <IconButton
+                                                        onClick={() => handleDelete(notification._id || notification.id)}
+                                                        sx={{ color: '#ff4d4d', '&:hover': { backgroundColor: 'rgba(255, 77, 77, 0.1)' } }}
+                                                        size="small"
+                                                    >
+                                                        <IconTrash size={20} />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    ) : (
+                                        <TableRow>
+                                            <TableCell colSpan={7} align="center" sx={{ py: 10 }}>
+                                                <Box sx={{ opacity: 0.6 }}>
+                                                    <IconSearch size={48} color="rgba(24, 197, 188, 0.3)" />
+                                                    <Typography variant="h6" sx={{ mt: 2, color: '#e8fffb' }}>
+                                                        No results found
+                                                    </Typography>
+                                                    <Typography variant="body2" color="rgba(233, 255, 251, 0.6)">
+                                                        Try adjusting your search query or send a new notification.
+                                                    </Typography>
+                                                </Box>
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </Box>
 
-                <TablePagination
-                    component="div"
-                    count={totalCount}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[10, 20, 50, 100]}
-                />
-            </ParentCard>
+                        <TablePagination
+                            component="div"
+                            count={totalCount}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            rowsPerPage={rowsPerPage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            rowsPerPageOptions={[10, 20, 50, 100]}
+                            sx={{
+                                color: 'rgba(233, 255, 251, 0.7)',
+                                '& .MuiIconButton-root': { color: 'rgba(233, 255, 251, 0.7)' },
+                                borderTop: '1px solid rgba(24, 197, 188, 0.12)'
+                            }}
+                        />
+                    </CardContent>
+                </Card>
+            </Box>
         </PageContainer>
     );
 };

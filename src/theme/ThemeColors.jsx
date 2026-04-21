@@ -4,7 +4,7 @@ const ThemeColors = [
     palette: {
       primary: {
         main: '#0074BA',
-        light: '#ffffff',
+        light: '#dff6f2',
         dark: '#006DAF',
       },
       secondary: {
@@ -28,9 +28,9 @@ const ThemeColors = [
         dark: '#C3D046',
       },
       background: {
-        default: '#f8fffc',
-        dark: '#ffffff',
-        paper: '#ffffff',
+        default: '#e4f1ed',
+        dark: '#d2e4df',
+        paper: '#edf7f4',
       },
     },
   },

@@ -489,7 +489,7 @@ const Users = () => {
               placeholder="Search users..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -788,3 +788,4 @@ const Users = () => {
 };
 
 export default Users;
+

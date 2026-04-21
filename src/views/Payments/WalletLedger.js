@@ -204,7 +204,7 @@ const WalletLedger = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by owner, reference, remark"
-            sx={{ minWidth: 300, bgcolor: 'white' }}
+            sx={{ minWidth: 300, bgcolor: 'background.paper' }}
           />
           <Select size="small" value={role} onChange={(e) => setRole(e.target.value)} displayEmpty>
             <MenuItem value="">All roles</MenuItem>
@@ -282,3 +282,4 @@ const WalletLedger = () => {
 };
 
 export default WalletLedger;
+

@@ -770,225 +770,11 @@ const Menuitems = [
     title: 'Provider Complaints',
     permissions: ['view'],
   },
-  {
-    id: 'grocery',
-    title: 'Grocery',
-    permissions: ['view'],
-    children: [
-      {
-        id: 'grocery_categories',
-        title: 'Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'grocery_cat_request', title: 'Categories Request', permissions: ['edit', 'view'] },
-      {
-        id: 'grocery_subcategories',
-        title: 'Sub-Categories',
-        permissions: ['edit', 'delete', 'view'],
-      },
-      {
-        id: 'grocery_subcat_request',
-        title: 'Sub-Categories Request',
-        permissions: ['edit', 'delete', 'view'],
-      },
-      { id: 'grocery_brands', title: 'Brands', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'grocery_units', title: 'Units', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'grocery_weight', title: 'Weight', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'grocery_flavour', title: 'Flavour', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'add_grocery', title: 'Add Product', permissions: ['add'] },
-      { id: 'grocery_list', title: 'Groceries List', permissions: ['edit', 'delete', 'view'] },
-      {
-        id: 'grocery_request_list',
-        title: 'Groceries Request List',
-        permissions: ['edit', 'delete', 'view'],
-      },
-      { id: 'grocery_orders', title: 'Grocery Orders', permissions: ['edit', 'view'] },
-    ],
-  },
-  {
-    id: 'food',
-    title: 'Food',
-    permissions: ['view'],
-    children: [
-      {
-        id: 'food_categories',
-        title: 'Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'food_cat_request', title: 'Categories Request', permissions: ['edit', 'view'] },
-      {
-        id: 'food_subcategories',
-        title: 'Sub-Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'food_subcat_request', title: 'Sub-Categories Request', permissions: ['edit', 'view'] },
-      { id: 'cuisine_type', title: 'Cuisine Type', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'add_food_item', title: 'Add Food Item', permissions: ['add'] },
-      { id: 'food_items', title: 'Food Items', permissions: ['edit', 'delete', 'view'] },
-      { id: 'food_items_request', title: 'Food Items Request', permissions: ['edit', 'view'] },
-      { id: 'food_orders', title: 'Food Orders', permissions: ['edit', 'view'] },
-    ],
-  },
-  {
-    id: 'shopping',
-    title: 'Shopping',
-    permissions: ['view'],
-    children: [
-      {
-        id: 'shopping_categories',
-        title: 'Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'shopping_cat_request',
-        title: 'Categories Request',
-        permissions: ['edit', 'view'],
-      },
-      {
-        id: 'shopping_subcategories',
-        title: 'Sub-Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'shopping_subcat_request',
-        title: 'Sub-Categories Request',
-        permissions: ['edit', 'view'],
-      },
-      {
-        id: 'shopping_child_categories',
-        title: 'Child-Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'shop_variations',
-        title: 'shop-variations',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'sub_shop_variations',
-        title: 'sub-shop-variations',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'size', title: 'Size', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'weight', title: 'Weight', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'color', title: 'Color', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'ram', title: 'Ram', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'brand', title: 'Brand', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'storage', title: 'Storage', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'fit_type', title: 'Fit Type', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'neck_type', title: 'Neck Type', permissions: ['add', 'edit', 'delete', 'view'] },
-      {
-        id: 'material_type',
-        title: 'Type Of Material',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'product_type',
-        title: 'Type Of Product',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'sleeve_type', title: 'Sleeve Type', permissions: ['add', 'edit', 'delete', 'view'] },
-      {
-        id: 'operating_system',
-        title: 'Operating System',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'country_origin',
-        title: 'Country Origin Type',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'add_shopping_item', title: 'Add Shopping Item', permissions: ['add'] },
-      {
-        id: 'shopping_items_list',
-        title: 'Shopping Items List',
-        permissions: ['edit', 'delete', 'view'],
-      },
-      {
-        id: 'shopping_items_request',
-        title: 'Shopping Items Request',
-        permissions: ['edit', 'view'],
-      },
-      { id: 'shopping_orders', title: 'Shopping Orders', permissions: ['edit', 'view'] },
-    ],
-  },
-  {
-    id: 'medicine',
-    title: 'Medicine',
-    permissions: ['view'],
-    children: [
-      {
-        id: 'medicine_categories',
-        title: 'Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'medicine_cat_request',
-        title: 'Categories Request ',
-        permissions: ['edit', 'view'],
-      },
-      {
-        id: 'medicine_subcategories',
-        title: 'Sub-Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'medicine_subcat_request',
-        title: 'Sub-Categories Request',
-        permissions: ['edit', 'view'],
-      },
-      {
-        id: 'medicine_child_categories',
-        title: 'Child-Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'medicine_brands', title: 'Brands', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'medicine_units', title: 'Units', permissions: ['add', 'edit', 'delete', 'view'] },
-      {
-        id: 'medicine_weight',
-        title: 'Medicine Weight',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'medicine_form',
-        title: 'Medicine Form',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'packing_types',
-        title: 'Packing Types',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'therapeutic_class',
-        title: 'Therapeutic Class',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      {
-        id: 'drug_categories',
-        title: 'Drug Categories',
-        permissions: ['add', 'edit', 'delete', 'view'],
-      },
-      { id: 'add_medicine', title: 'Add Medicine', permissions: ['add'] },
-      { id: 'medicines', title: 'Medicines', permissions: ['edit', 'delete', 'view'] },
-      { id: 'medicines_request', title: 'Medicines Request', permissions: ['edit', 'view'] },
-      { id: 'medicines_orders', title: 'Medicines Orders', permissions: ['edit', 'view'] },
-    ],
-  },
-  {
-    id: 'stores',
-    title: 'Stores',
-    permissions: ['view'],
-    children: [
-      {
-        id: 'pending_stores',
-        title: 'Pending Stores Request',
-        permissions: ['edit', 'view'],
-      },
-      { id: 'stores_list', title: 'Stores List', permissions: ['add', 'edit', 'delete', 'view'] },
-      { id: 'blocked_stores', title: 'Blocked Stores', permissions: ['edit', 'view'] },
-    ],
-  },
+  
+  
+  
+  
+  
   {
     id: 'delivery_partners',
     title: 'Delivery Partners',
@@ -1006,11 +792,7 @@ const Menuitems = [
       },
     ],
   },
-  {
-    id: 'ecommerce_complaints',
-    title: 'ECommerce-Complaints',
-    permissions: ['view', 'edit'],
-  },
+  
   {
     id: 'subscription_plan',
     title: 'Subscription Plan',
@@ -1054,8 +836,6 @@ const Menuitems = [
     title: 'Payments',
     permissions: ['view'],
     children: [
-      { id: 'stores_payments', title: 'Stores Payments', permissions: ['view', 'edit'] },
-      { id: 'stores_payouts', title: 'Stores Payouts', permissions: ['view', 'edit'] },
       { id: 'drives_payments', title: 'Drives Payments', permissions: ['view', 'edit'] },
       { id: 'drives_payouts', title: 'Drives Payouts', permissions: ['view', 'edit'] },
       { id: 'providers_payments', title: 'Providers Payments', permissions: ['view', 'edit'] },

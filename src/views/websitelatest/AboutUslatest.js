@@ -3,7 +3,7 @@ import { Avatar, Box, Typography, Grid, Divider, Paper, CardContent, Card } from
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../components/forms/theme-elements/CustomFormLabel';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import { IconEdit, IconUsers, IconShoppingCart, IconBuilding } from '@tabler/icons-react';
+import { IconChartBar, IconEdit, IconUsers, IconBuilding } from '@tabler/icons-react';
 import PageContainer from 'src/components/container/PageContainer';
 import ParentCard from '../../components/shared/ParentCard';
 import { ToastContainer, toast } from 'react-toastify';
@@ -233,7 +233,7 @@ const EditAboutUsForm = ({ onClose, onSubmit, initialData }) => {
             <Grid item xs={12} sm={4}>
               <CustomFormLabel htmlFor="totalSales">
                 <Box display="flex" alignItems="center" gap={1}>
-                  <IconShoppingCart size={18} />
+                  <IconChartBar size={18} />
                   Total Sales
                 </Box>
               </CustomFormLabel>
@@ -416,7 +416,7 @@ const AboutUs = () => {
     {
       label: 'Total Sales',
       value: aboutData.totalSales,
-      icon: <IconShoppingCart size={32} />,
+      icon: <IconChartBar size={32} />,
       color: '#E4405F',
     },
     {

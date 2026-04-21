@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomCKEditor from '../../components/theme-elements/CustomCKEditor';
 import ParentCard from 'src/components/shared/ParentCard';
 import { toast, ToastContainer } from 'react-toastify';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -33,14 +33,8 @@ const Terms = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [data, setData] = useState({
-    shopping: '<p>No content available</p>',
     services: '<p>No content available</p>',
-    parcel: '<p>No content available</p>',
     ride: '<p>No content available</p>',
-    cab: '<p>No content available</p>',
-    medicine: '<p>No content available</p>',
-    grocery: '<p>No content available</p>',
-    food: '<p>No content available</p>',
   });
 
   const token = getAuthToken();
@@ -48,17 +42,8 @@ const Terms = () => {
   const authData = JSON.parse(localStorage.getItem('user'));
   const rolesAndPermission = authData.rolesAndPermission[0];
 
-  const tabLabels = [
-    'Shopping',
-    'Services',
-    'Parcel',
-    'Ride',
-    'Cab',
-    'Medicine',
-    'Grocery',
-    'Food',
-  ];
-  const tabTypes = ['shopping', 'services', 'parcel', 'ride', 'cab', 'medicine', 'grocery', 'food'];
+  const tabLabels = ['Services', 'Ride'];
+  const tabTypes = ['services', 'ride'];
 
   const getCurrentType = () => tabTypes[activeTab];
 
@@ -83,7 +68,7 @@ const Terms = () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          `Failed to fetch ${tabLabels[activeTab]} Service Privacy Policy`,
+        `Failed to fetch ${tabLabels[activeTab]} Service Privacy Policy`,
       );
     } finally {
       setLoading(false);
@@ -154,7 +139,7 @@ const Terms = () => {
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
-          `Failed to update ${tabLabels[activeTab]} Service Privacy Policy`,
+        `Failed to update ${tabLabels[activeTab]} Service Privacy Policy`,
       );
     } finally {
       setSaving(false);
@@ -261,7 +246,7 @@ const Terms = () => {
               </Box>
             ) : (
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomCKEditor}
                 data={data[type]}
                 onChange={(event, editor) => handleEditorChange(editor.getData())}
                 config={{
@@ -292,7 +277,7 @@ const Terms = () => {
         {/* Action Buttons */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2, mt: 2 }}>
           {rolesAndPermission.service_privacy_policy_edit === true ||
-          rolesAndPermission.accessAll === true ? (
+            rolesAndPermission.accessAll === true ? (
             <>
               <Button
                 variant="outlined"
@@ -318,7 +303,7 @@ const Terms = () => {
               {loading ? 'Refreshing...' : 'Refresh Current'}
             </Button>
             {rolesAndPermission.service_privacy_policy_edit === true ||
-            rolesAndPermission.accessAll === true ? (
+              rolesAndPermission.accessAll === true ? (
               <>
                 <Button
                   variant="contained"

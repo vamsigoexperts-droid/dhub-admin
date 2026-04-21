@@ -510,7 +510,7 @@ const EcommerceQueries = () => {
                 label="Status Filter"
                 onChange={handleStatusFilter}
                 sx={{
-                  bgcolor: 'white',
+                  bgcolor: 'background.paper',
                   borderRadius: '6px',
                 }}
               >
@@ -527,7 +527,7 @@ const EcommerceQueries = () => {
               placeholder="Search by ticket ID, store, title, subject..."
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 200, sm: 300 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 200, sm: 300 }, bgcolor: 'background.paper' }}
               aria-label="Search Ecommerce Queries"
             />
 
@@ -575,3 +575,4 @@ const EcommerceQueries = () => {
 };
 
 export default EcommerceQueries;
+

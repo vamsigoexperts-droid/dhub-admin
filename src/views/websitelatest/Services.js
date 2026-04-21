@@ -545,7 +545,7 @@ const Services = () => {
               placeholder="Search by title or description"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 250 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 250 }, bgcolor: 'background.paper' }}
             />
             <Button
               variant="contained"
@@ -583,3 +583,4 @@ const Services = () => {
 };
 
 export default Services;
+

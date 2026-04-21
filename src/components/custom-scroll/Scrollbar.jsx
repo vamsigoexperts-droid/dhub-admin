@@ -4,6 +4,25 @@ import { Box, styled } from '@mui/material';
 
 const SimpleBarStyle = styled(SimpleBar)(() => ({
   maxHeight: '100%',
+  '& .simplebar-track': {
+    opacity: 0,
+    visibility: 'hidden',
+    pointerEvents: 'none',
+  },
+  '& .simplebar-scrollbar': {
+    display: 'none',
+  },
+  '& .simplebar-scrollbar:before': {
+    display: 'none',
+  },
+  '& .simplebar-content-wrapper': {
+    scrollbarWidth: 'none',
+    msOverflowStyle: 'none',
+  },
+  '& .simplebar-content-wrapper::-webkit-scrollbar': {
+    width: 0,
+    height: 0,
+  },
 }));
 
 

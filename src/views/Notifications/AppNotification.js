@@ -447,7 +447,7 @@ const Notification = () => {
               placeholder="Search by subject"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 220 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 220 }, bgcolor: 'background.paper' }}
               aria-label="Search Push Notification"
             />{' '}
             {rolesAndPermission.app_notification_add === true ||
@@ -489,3 +489,4 @@ const Notification = () => {
 };
 
 export default Notification;
+

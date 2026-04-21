@@ -180,7 +180,7 @@ const ReferralTracking = () => {
               placeholder="Search by name, code, phone..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ minWidth: { xs: 220, sm: 320 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 220, sm: 320 }, bgcolor: 'background.paper' }}
             />
             <Button variant="contained" onClick={() => fetchReferrals(1)} disabled={loading}>
               Refresh
@@ -213,3 +213,4 @@ const ReferralTracking = () => {
 };
 
 export default ReferralTracking;
+

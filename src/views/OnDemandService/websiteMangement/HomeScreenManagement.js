@@ -319,7 +319,7 @@ const mappedData = res.data.data.map((item) => {
               placeholder="Search by ID or Title"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
             />
             {(rolesAndPermission.home_screen_add ||
               rolesAndPermission.accessAll) && (
@@ -384,3 +384,4 @@ const mappedData = res.data.data.map((item) => {
 };
 
 export default HomeScreenManagement;
+

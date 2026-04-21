@@ -228,11 +228,11 @@ const ServiceRequestViewDialog = ({ open, onClose, serviceData }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>Purchase Price</Typography>
-                  <Typography variant="h6" fontWeight={700}>ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{serviceData.purchasePrice || 0}</Typography>
+                  <Typography variant="h6" fontWeight={700}>Rs {serviceData.purchasePrice || 0}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>Sale Price</Typography>
-                  <Typography variant="h6" fontWeight={700} color="primary.main">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{serviceData.salePrice || serviceData.price}</Typography>
+                  <Typography variant="h6" fontWeight={700} color="primary.main">Rs {serviceData.salePrice || serviceData.price}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>Warranty</Typography>
@@ -591,7 +591,7 @@ const ServiceRequestForm = ({
                 </Box>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6} md={3}>
-                    <CustomFormLabel required>Purchase Price (ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹)</CustomFormLabel>
+                    <CustomFormLabel required>Purchase Price (Rs)</CustomFormLabel>
                     <CustomTextField
                       type="number"
                       name="purchasePrice"
@@ -606,7 +606,7 @@ const ServiceRequestForm = ({
                   </Grid>
 
                   <Grid item xs={12} sm={6} md={3}>
-                    <CustomFormLabel required>Sale Price (ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹)*</CustomFormLabel>
+                    <CustomFormLabel required>Sale Price (Rs)*</CustomFormLabel>
                     <CustomTextField
                       type="number"
                       name="salePrice"
@@ -641,7 +641,7 @@ const ServiceRequestForm = ({
                         component="label"
                         fullWidth
                         size="small"
-                        sx={{ py: 0.8, borderStyle: 'dashed', bgcolor: 'white' }}
+                        sx={{ py: 0.8, borderStyle: 'dashed', bgcolor: 'background.paper' }}
                       >
                         {images.purchasePriceBillDocument ?
                           (images.purchasePriceBillDocument.name.length > 15 ? images.purchasePriceBillDocument.name.substring(0, 12) + '...' : images.purchasePriceBillDocument.name) :
@@ -757,7 +757,7 @@ const ServiceRequestForm = ({
                           display: 'flex',
                           flexDirection: 'column',
                           gap: 0.5,
-                          bgcolor: 'white',
+                          bgcolor: 'background.paper',
                         }}
                       >
                         <IconPlus size={28} />
@@ -829,7 +829,7 @@ const ServiceRequestForm = ({
                           display: 'flex',
                           flexDirection: 'column',
                           gap: 1,
-                          bgcolor: 'white'
+                          bgcolor: 'background.paper'
                         }}
                       >
                         <IconPlus size={32} />
@@ -1106,7 +1106,7 @@ const ServiceRequests = () => {
       renderCell: (params) => (
         <Box display="flex" flexDirection="column" justifyContent="center">
           <Typography variant="subtitle2" fontWeight={700} color="primary.main" sx={{ lineHeight: 1.2 }}>
-            ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¹{params.row.price}
+            Rs {params.row.price}
           </Typography>
           <Typography variant="caption" color="text.secondary" sx={{ lineHeight: 1 }}>
             {params.row.priceUnit}
@@ -1323,4 +1323,5 @@ const ServiceRequests = () => {
 };
 
 export default ServiceRequests;
+
 

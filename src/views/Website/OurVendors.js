@@ -570,7 +570,7 @@ const OurVendors = () => {
               placeholder="Search by name, description"
               value={search}
               onChange={handleSearch}
-              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'white' }}
+              sx={{ minWidth: { xs: 150, sm: 200 }, bgcolor: 'background.paper' }}
               aria-label="Search OurVendors"
             />
             <Button
@@ -610,3 +610,4 @@ const OurVendors = () => {
 };
 
 export default OurVendors;
+

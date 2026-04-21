@@ -4,7 +4,6 @@ import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack } from '
 import { IconMenu2, IconMoon, IconSun } from '@tabler/icons-react';
 import Notifications from './Notification';
 import Profile from './Profile';
-import Cart from './Cart';
 import Search from './Search';
 import Language from './Language';
 
@@ -30,7 +29,7 @@ const Header = () => {
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
     boxShadow: 'none',
-     background: '#007367',
+    background: '#007367',
     justifyContent: 'center',
     backdropFilter: 'blur(4px)',
     [theme.breakpoints.up('lg')]: {
@@ -49,7 +48,7 @@ const Header = () => {
         {/* Toggle Button Sidebar */}
         {/* ------------------------------------------- */}
         <IconButton
-          style={{ color: 'white' }}
+          style={{ color: '#e7fffb' }}
           color="inherit"
           aria-label="menu"
           onClick={() => {
@@ -81,14 +80,6 @@ const Header = () => {
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
           {/* <Language /> */}
-          {/* ------------------------------------------- */}
-          {/* Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-          {/* <Cart /> */}
-          {/* ------------------------------------------- */}
-          {/* End Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-
           {/* <IconButton size="large" color="inherit"  style={{ color: 'white' }}>
             {activeMode === 'light' ? (
               <IconMoon size="21" stroke="1.5" onClick={() => setActiveMode('dark')} />
@@ -97,7 +88,7 @@ const Header = () => {
             )}
           </IconButton> */}
 
-          {/* <Notifications /> */}
+          <Notifications />
           {/* ------------------------------------------- */}
           {/* Toggle Right Sidebar for mobile */}
           {/* ------------------------------------------- */}
